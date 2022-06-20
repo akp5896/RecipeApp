@@ -36,15 +36,15 @@ App that allows user to search recipes.
   * User can register
   * User can update preferences(like "never include certain ingridient") in the profile
   * User can enter what ingridients they currently have, and get recipe suggestions
-  * User can add recipe
   * User can write review
   * User can update profile picture
   * User can view other people profiles
-  * User can view published recipes
   * User can view average rating
 * ...
 
 **Optional Nice-to-have Stories**
+ * User can view published recipes
+ * User can add recipe
  * Search includes the rating
  * User can take a photo of the result and share in the social networks
  * User can get recommendations based on likes
