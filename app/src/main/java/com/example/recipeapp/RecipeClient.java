@@ -1,0 +1,30 @@
+package com.example.recipeapp;
+
+import android.content.Context;
+
+import com.codepath.oauth.OAuthBaseClient;
+import com.github.scribejava.apis.TwitterApi;
+import com.github.scribejava.core.builder.api.BaseApi;
+
+public class RecipeClient extends OAuthBaseClient {
+    public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
+    public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
+    public static final String REST_CONSUMER_KEY = BuildConfig.CONSUMER_KEY;       // Change this inside apikey.properties
+    public static final String REST_CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET; // Change this inside apikey.properties
+
+    // Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
+    public static final String FALLBACK_URL = "https://codepath.github.io/android-rest-client-template/success.html";
+
+    // See https://developer.chrome.com/multidevice/android/intents
+    public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
+
+    public RecipeClient(Context context) {
+        super(context, REST_API_INSTANCE,
+                REST_URL,
+                REST_CONSUMER_KEY,
+                REST_CONSUMER_SECRET,
+                null,  // OAuth2 scope, null for OAuth1
+                String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
+                        context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
+    }
+}
