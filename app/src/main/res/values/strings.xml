@@ -2,4 +2,7 @@
     <string name="app_name">RecipeApp</string>
     <string name="intent_host">cprest</string>
     <string name="intent_scheme">oauth</string>
+    <string name="recipes">Recipes</string>
+    <string name="suggest">suggest</string>
+    <string name="search">search</string>
 </resources>

@@ -1,14 +1,46 @@
 package com.example.recipeapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.example.recipeapp.databinding.ActivityMainBinding;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
+
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.feed:
+                        Toast.makeText(MainActivity.this, "Feed", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.search:
+                        Toast.makeText(MainActivity.this, "Search", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.suggest:
+                        Toast.makeText(MainActivity.this, "Suggest", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                        return true;
+                }
+            }
+        });
+        binding.bottomNavigation.setSelectedItemId(R.id.search);
     }
+
 }
