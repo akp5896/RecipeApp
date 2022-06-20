@@ -72,7 +72,18 @@ App that allows user to search recipes.
 ## Schema 
 [This section will be completed in Unit 9]
 ### Models
-[Add table of models]
+#### Recipe
+| Property | Type | Desciprtion|
+|----------|------|------------|
+| body | String | The text of the recipe |
+| ingridients | String[] | List of the ingridients |
+| votesSum | Number | sum of votes |
+| numVotes | Number | number of votes |
+| cuisine | String | cuisine to which recipe belongs to |
+| timeToCook | Number | time that recipe takes |
+| author | Pointer to user | User who submitted the recipe |
+| reviews | Relation to reviews | User reviews of recipe |
+| ratedBy | Relation to User | users who rated the recipe |
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
