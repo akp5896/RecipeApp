@@ -84,6 +84,20 @@ App that allows user to search recipes.
 | author | Pointer to user | User who submitted the recipe |
 | reviews | Relation to reviews | User reviews of recipe |
 | ratedBy | Relation to User | users who rated the recipe |
+#### Review
+| Property | Type | Desciprtion|
+|----------|------|------------|
+| body | String | Text of the review |
+| author | Pointer to user | User who submitted review |
+| media | Array | Attached photos |
+#### User
+| Property | Type | Desciprtion|
+|----------|------|------------|
+| preferences | Pointer to preferences | User settings |
+| profilePicture | File | User avatar |
+| bio | String | User bio |
+| recipes | Relation to recipes | Recipes submitted by user |
+| reviews | Relation to reviews | Reviews writeen by user |
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
