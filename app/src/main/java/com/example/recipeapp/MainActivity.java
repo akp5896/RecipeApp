@@ -2,6 +2,12 @@ package com.example.recipeapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+//import androidx.databinding.BindingAdapter;
+//import androidx.databinding.DataBindingUtil;
+import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.databinding.ActivityMainBinding;
+
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,13 +24,15 @@ import okhttp3.Headers;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    final FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());//DataBindingUtil.setContentView(this, R.layout.activity_main);
         setContentView(binding.getRoot());
+        //binding.setViewModel(new AppViewModel());
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -34,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Feed", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.search:
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SearchFragment()).commit();
                         Toast.makeText(MainActivity.this, "Search", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.suggest:
@@ -46,8 +55,9 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
-        RecipeClient client = new RecipeClient();
-        client.getAllRecipes(EmptyLineHandler());
+
+        //RecipeClient client = new RecipeClient();
+        //client.getAllRecipes(EmptyLineHandler());
     }
 
     @NonNull

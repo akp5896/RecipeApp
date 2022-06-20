@@ -5,4 +5,36 @@
     <string name="recipes">Recipes</string>
     <string name="suggest">suggest</string>
     <string name="search">search</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="recipe_name">Enter the name of the recipe...</string>
+    <string name="search_text">Search:</string>
+    <string-array name="cuisines">
+        <item>African</item>
+        <item>American</item>
+        <item>British</item>
+        <item>Cajun</item>
+        <item>Caribbean</item>
+        <item>Chinese</item>
+        <item>Eastern European</item>
+        <item>European</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Greek</item>
+        <item>Indian</item>
+        <item>Irish</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Jewish</item>
+        <item>Korean</item>
+        <item>Latin American</item>
+        <item>Mediterranean</item>
+        <item>Mexican</item>
+        <item>Middle Eastern</item>
+        <item>Nordic</item>
+        <item>Southern</item>
+        <item>Spanish</item>
+        <item>Thai</item>
+        <item>Vietnamese</item>
+    </string-array>
 </resources>
