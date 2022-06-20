@@ -28,12 +28,30 @@ App that allows user to search recipes.
 
 **Required Must-have Stories**
 
-* [fill in your required user stories here]
+    * User can view recipe
+    * User can rate the recipe
+    * User can search among the recipes in the db
+		* User can use various filters, like rating, exclude certain ingrindients, time etc.
+		* User can get hints when searhing		
+    * User can login
+    * User can register
+    * User can update preferences(like "never include certain ingridient") in the profile
+    * User can enter what ingridients they currently have, and get recipe suggestions
+    * User can add recipe
+    * Search includes the rating
+    * User can write review
+    * User can update profile picture
+    * User can view other people profiles
+    * User can view published recipes
+    * User can view average rating
 * ...
 
 **Optional Nice-to-have Stories**
 
-* [fill in your required user stories here]
+    * User can take a photo of the result and share in the social networks
+    * User can get recommendations based on likes
+    * User can get pushes with recommendations
+    * Gather recipes from the other sources, and parse them into application format
 * ...
 
 ### 2. Screen Archetypes
