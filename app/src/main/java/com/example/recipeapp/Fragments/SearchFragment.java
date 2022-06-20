@@ -5,14 +5,19 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.example.recipeapp.ItemsAdapter;
 import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,12 +46,31 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
+        ArrayAdapter<CharSequence> cuisineAdapter = ArrayAdapter
                 .createFromResource(getContext(), R.array.cuisines,
                         android.R.layout.simple_spinner_item);
-        staticAdapter
+        cuisineAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerCuisine.setAdapter(staticAdapter);
+        binding.spinnerCuisine.setAdapter(cuisineAdapter);
+        ArrayAdapter<CharSequence> typesAdapter = ArrayAdapter
+                .createFromResource(getContext(), R.array.types,
+                        android.R.layout.simple_spinner_item);
+        typesAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerType.setAdapter(typesAdapter);
+
+        List items;
+        items = new ArrayList<String>();
+        items.add("Tomato");
+        items.add("Cheese");
+        items.add("Milk");
+        items.add("Potato");
+        items.add("Cucumber");
+        items.add("Beer");
+
+        ItemsAdapter adapter = new ItemsAdapter(items);
+        binding.rvInclude.setAdapter(adapter);
+        binding.rvInclude.setLayoutManager(new GridLayoutManager(getContext(), 4));
     }
 
     @Override
