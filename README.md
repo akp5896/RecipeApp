@@ -38,7 +38,6 @@ App that allows user to search recipes.
     * User can update preferences(like "never include certain ingridient") in the profile
     * User can enter what ingridients they currently have, and get recipe suggestions
     * User can add recipe
-    * Search includes the rating
     * User can write review
     * User can update profile picture
     * User can view other people profiles
@@ -47,7 +46,7 @@ App that allows user to search recipes.
 * ...
 
 **Optional Nice-to-have Stories**
-
+    * Search includes the rating
     * User can take a photo of the result and share in the social networks
     * User can get recommendations based on likes
     * User can get pushes with recommendations
@@ -56,29 +55,35 @@ App that allows user to search recipes.
 
 ### 2. Screen Archetypes
 
-* [list first screen here]
-   * [list associated required story here]
-   * ...
-* [list second screen here]
-   * [list associated required story here]
-   * ...
-
+* Login screen
+* Stream
+   * Recipes feed screen
+   * Search screen
+   * Get suggestiongs from what I have
+* Detail
+   * Recipe details screen
+* Creation
+   * Create recipes screen
+   * Write review screen 
+   * Profile details
+* Profile
+* Settings
+   * Preferences screen
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
-* [fill out your first tab]
-* [fill out your second tab]
-* [fill out your third tab]
+* Search screen
+* Recipes feed screen
+* Get recipes rom what I have
 
 **Flow Navigation** (Screen to Screen)
 
-* [list first screen here]
-   * [list screen navigation here]
-   * ...
-* [list second screen here]
-   * [list screen navigation here]
-   * ...
+* Login -> search screen, register screen
+* Search, Feed -> details screen
+* Details -> create review screen
+* Profile from top tab
+* Profile -> update preferences, add recipes, compose post
 
 ## Wireframes
 <img src="https://github.com/akp5896/RecipeApp/blob/main/PXL_20220614_171340617.jpg" width=600>
