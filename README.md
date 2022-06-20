@@ -108,6 +108,7 @@ App that allows user to search recipes.
 | wouldLikeToExlude | Array | ingridients user don't  like |
 | ratedRecipes | relation to recipes | recipes user rated |
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+Base uri https://spoonacular.com/
+| HTTP VERB | Endpoint | Desciprtion|
+|----------|------|------------|
+| GET | complex-search | search |
