@@ -63,8 +63,7 @@ App that allows user to search recipes.
    * ...
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="https://github.com/akp5896/RecipeApp/blob/main/PXL_20220614_171340617.jpg" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
