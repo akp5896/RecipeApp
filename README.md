@@ -98,6 +98,15 @@ App that allows user to search recipes.
 | bio | String | User bio |
 | recipes | Relation to recipes | Recipes submitted by user |
 | reviews | Relation to reviews | Reviews writeen by user |
+#### Preferences 
+| Property | Type | Desciprtion|
+|----------|------|------------|
+| exclude | Array | ingridients to exclude from search |
+| cuisine | String[] | cuisine user prefer |
+| bannedRecipes | Relation to recipes | recipes to exclude from search |
+| wouldLike | Array | ingridients user like |
+| wouldLikeToExlude | Array | ingridients user don't  like |
+| ratedRecipes | relation to recipes | recipes user rated |
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
