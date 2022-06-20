@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,10 @@ import android.widget.ArrayAdapter;
 import com.example.recipeapp.ItemsAdapter;
 import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +64,17 @@ public class SearchFragment extends Fragment {
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerType.setAdapter(typesAdapter);
 
-        List items;
+        List<String> items;
         items = new ArrayList<String>();
+        items.add("CucumberCucumber");
+        items.add("Cucumber");
+        items.add("Cucumber");
+        items.add("Tomato");
+        items.add("Cheese");
+        items.add("Milk");
+        items.add("Potato");
+        items.add("Cucumber");
+        items.add("Beer");
         items.add("Tomato");
         items.add("Cheese");
         items.add("Milk");
@@ -70,7 +84,11 @@ public class SearchFragment extends Fragment {
 
         ItemsAdapter adapter = new ItemsAdapter(items);
         binding.rvInclude.setAdapter(adapter);
-        binding.rvInclude.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        binding.rvInclude.setLayoutManager(layoutManager);
+
     }
 
     @Override
