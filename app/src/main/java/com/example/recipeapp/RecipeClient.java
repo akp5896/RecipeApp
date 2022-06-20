@@ -14,14 +14,40 @@ import okhttp3.Headers;
 public class RecipeClient {
     public static final String BASE_URL = "https://api.spoonacular.com";
     public static final String API_KEY = BuildConfig.API_KEY;
+    public static final AsyncHttpClient client = new AsyncHttpClient();
 
     public void getAllRecipes(JsonHttpResponseHandler handler) {
         String apiUrl = BASE_URL + "/recipes/complexSearch";
         RequestParams params = new RequestParams();
         params.put("apiKey", API_KEY);
-        AsyncHttpClient client = new AsyncHttpClient();
-
         client.get(apiUrl, params, handler);
+    }
+
+    public void getRecipesWithFilters(JsonHttpResponseHandler handler,
+                                      String title,
+                                      String cuisine,
+                                      String excludeCuisine,
+                                      String includeIngridients,
+                                      String excludeIngredients,
+                                      String type,
+                                      Integer maxReadyTime) {
+        String apiUrl = BASE_URL + "/recipes/complexSearch";
+        RequestParams params = new RequestParams();
+        params.put("apiKey", API_KEY);
+        putWithEmptyCheck(params, "titleMatch", title);
+        putWithEmptyCheck(params, "cuisine", cuisine);
+        putWithEmptyCheck(params, "excludeCuisine", excludeCuisine);
+        putWithEmptyCheck(params, "includeIngredients", includeIngridients);
+        putWithEmptyCheck(params, "excludeIngredients", excludeIngredients);
+        putWithEmptyCheck(params, "type", type);
+        putWithEmptyCheck(params, "maxReadyTime", maxReadyTime.toString());
+        client.get(apiUrl, params, handler);
+    }
+
+    private void putWithEmptyCheck(RequestParams params, String key, String value) {
+        if(value != null && !value.equals("")) {
+            params.put(key, value);
+        }
     }
 
     public void getRecipeById(Long id, JsonHttpResponseHandler handler) {
