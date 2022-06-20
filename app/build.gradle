@@ -16,8 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "CONSUMER_KEY", apikeyProperties['CONSUMER_KEY'])
-        buildConfigField("String", "CONSUMER_SECRET", apikeyProperties['CONSUMER_SECRET'])
+        buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,7 +38,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.codepath.libraries:android-oauth-handler:2.4.0'
+    implementation 'com.codepath.libraries:asynchttpclient:2.2.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

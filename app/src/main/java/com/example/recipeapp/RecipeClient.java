@@ -1,30 +1,29 @@
 package com.example.recipeapp;
 
-import android.content.Context;
+import android.util.Log;
 
-import com.codepath.oauth.OAuthBaseClient;
-import com.github.scribejava.apis.TwitterApi;
-import com.github.scribejava.core.builder.api.BaseApi;
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.RequestParams;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
-public class RecipeClient extends OAuthBaseClient {
-    public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
-    public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
-    public static final String REST_CONSUMER_KEY = BuildConfig.CONSUMER_KEY;       // Change this inside apikey.properties
-    public static final String REST_CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET; // Change this inside apikey.properties
+import okhttp3.Headers;
 
-    // Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
-    public static final String FALLBACK_URL = "https://codepath.github.io/android-rest-client-template/success.html";
+public class RecipeClient {
+    public static final String BASE_URL = "https://api.spoonacular.com";
+    public static final String API_KEY = BuildConfig.API_KEY;
 
-    // See https://developer.chrome.com/multidevice/android/intents
-    public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
+    public void getAllRecipes(JsonHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("recipes/complexSearch");
+        RequestParams params = new RequestParams();
+        params.put("apiKey", API_KEY);
+        AsyncHttpClient client = new AsyncHttpClient();
 
-    public RecipeClient(Context context) {
-        super(context, REST_API_INSTANCE,
-                REST_URL,
-                REST_CONSUMER_KEY,
-                REST_CONSUMER_SECRET,
-                null,  // OAuth2 scope, null for OAuth1
-                String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
-                        context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
+        client.get(apiUrl, params, handler);
     }
+
+
+    private String getApiUrl(String path) {
+        return BASE_URL + "/" + path;
+    }
+
 }
