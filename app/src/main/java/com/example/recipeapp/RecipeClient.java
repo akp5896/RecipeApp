@@ -57,8 +57,6 @@ public class RecipeClient {
         String apiUrl = String.format(BASE_URL + "/recipes/{%d}/information", id);
         RequestParams params = new RequestParams();
         params.put("apiKey", API_KEY);
-        AsyncHttpClient client = new AsyncHttpClient();
-
         client.get(apiUrl, params, handler);
     }
 
