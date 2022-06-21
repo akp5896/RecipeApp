@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.ItemsAdapter;
 import com.example.recipeapp.MainActivity;
+import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.RecipeClient;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
@@ -24,6 +25,8 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +123,13 @@ public class SearchFragment extends Fragment {
         RecipeClient.getInstance().getRecipesWithFilters(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "success: " + json.toString());
+                try {
+                    List<Recipe> result = Recipe.fromJsonArray(json.jsonObject.getJSONArray("results"));
+                    Log.i(TAG, "success: " + json.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

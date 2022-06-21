@@ -42,6 +42,7 @@ public class RecipeClient {
         putWithEmptyCheck(params, "excludeIngredients", excludeIngredients);
         putWithEmptyCheck(params, "type", type);
         putWithEmptyCheck(params, "maxReadyTime", maxReadyTime);
+        params.put("addRecipeInformation", true);
         client.get(apiUrl, params, handler);
     }
 
