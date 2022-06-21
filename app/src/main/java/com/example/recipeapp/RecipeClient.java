@@ -15,6 +15,7 @@ public class RecipeClient {
     public static final String BASE_URL = "https://api.spoonacular.com";
     public static final String API_KEY = BuildConfig.API_KEY;
     public static final AsyncHttpClient client = new AsyncHttpClient();
+    public static RecipeClient recipeClient;
 
     public void getAllRecipes(JsonHttpResponseHandler handler) {
         String apiUrl = BASE_URL + "/recipes/complexSearch";
@@ -30,7 +31,7 @@ public class RecipeClient {
                                       String includeIngridients,
                                       String excludeIngredients,
                                       String type,
-                                      Integer maxReadyTime) {
+                                      String maxReadyTime) {
         String apiUrl = BASE_URL + "/recipes/complexSearch";
         RequestParams params = new RequestParams();
         params.put("apiKey", API_KEY);
@@ -40,7 +41,7 @@ public class RecipeClient {
         putWithEmptyCheck(params, "includeIngredients", includeIngridients);
         putWithEmptyCheck(params, "excludeIngredients", excludeIngredients);
         putWithEmptyCheck(params, "type", type);
-        putWithEmptyCheck(params, "maxReadyTime", maxReadyTime.toString());
+        putWithEmptyCheck(params, "maxReadyTime", maxReadyTime);
         client.get(apiUrl, params, handler);
     }
 
@@ -60,6 +61,11 @@ public class RecipeClient {
         client.get(apiUrl, params, handler);
     }
 
-
+    public static RecipeClient getInstance() {
+        if(recipeClient == null) {
+            recipeClient = new RecipeClient();
+        }
+        return recipeClient;
+    }
 
 }

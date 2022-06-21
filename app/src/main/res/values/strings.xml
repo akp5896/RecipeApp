@@ -11,6 +11,7 @@
     <string name="search_text">Search:</string>
     <string name="include">Include:</string>
     <string-array name="cuisines">
+        <item></item>
         <item>African</item>
         <item>American</item>
         <item>British</item>
@@ -39,6 +40,7 @@
         <item>Vietnamese</item>
     </string-array>
     <string-array name="types">
+        <item></item>
         <item>main course</item>
         <item>side dish</item>
         <item>dessert</item>

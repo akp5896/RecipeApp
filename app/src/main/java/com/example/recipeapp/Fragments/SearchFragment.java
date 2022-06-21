@@ -8,13 +8,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.ItemsAdapter;
+import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.R;
+import com.example.recipeapp.RecipeClient;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -24,6 +28,8 @@ import com.google.android.flexbox.JustifyContent;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Headers;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SearchFragment#newInstance} factory method to
@@ -31,6 +37,7 @@ import java.util.List;
  */
 public class SearchFragment extends Fragment {
 
+    private static final String TAG = "Search fragment";
     FragmentSearchBinding binding;
     List<String> included = new ArrayList<>();
     List<String> excluded = new ArrayList<>();
@@ -103,7 +110,27 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchListener() {
-        
+        String cuisine = null;
+        String excludeCuisine = null;
+        if(binding.checkboxExcludeCuisine.isChecked()) {
+            excludeCuisine = binding.spinnerCuisine.getSelectedItem().toString();
+        } else {
+            cuisine = binding.spinnerCuisine.getSelectedItem().toString();
+        }
+        RecipeClient.getInstance().getRecipesWithFilters(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "success: " + json.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                
+                Log.e(TAG, "Recipies search failed: " + response);
+            }
+        }, binding.etTitle.getText().toString(), cuisine, excludeCuisine,
+                String.join(",", included),String.join(",", excluded),
+                binding.spinnerType.getSelectedItem().toString(), binding.edTime.getText().toString());
     }
 
     @NonNull
