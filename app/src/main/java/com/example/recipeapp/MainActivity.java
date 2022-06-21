@@ -55,24 +55,6 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
-
-        //RecipeClient client = new RecipeClient();
-        //client.getAllRecipes(EmptyLineHandler());
-    }
-
-    @NonNull
-    private JsonHttpResponseHandler EmptyLineHandler() {
-        return new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i("Callback", json.toString());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.i("Callback", "FAil: " + response);
-            }
-        };
     }
 
 }

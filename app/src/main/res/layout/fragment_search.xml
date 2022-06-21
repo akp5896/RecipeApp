@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.SearchFragment">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -91,7 +93,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvInclude"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/edInclude"
             app:layout_constraintBottom_toTopOf="@+id/edExclude"
             />
@@ -119,7 +121,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvExclude"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/edExclude"
             app:layout_constraintBottom_toTopOf="@id/btnSearch"
             />
@@ -129,7 +131,9 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="Search"
+            app:layout_constraintTop_toBottomOf="@id/rvExclude"
             app:layout_constraintBottom_toBottomOf="parent"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </FrameLayout>

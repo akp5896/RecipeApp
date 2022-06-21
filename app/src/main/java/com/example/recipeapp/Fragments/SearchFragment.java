@@ -89,6 +89,12 @@ public class SearchFragment extends Fragment {
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         binding.rvInclude.setLayoutManager(layoutManager);
 
+        ItemsAdapter adapter2 = new ItemsAdapter(items);
+        binding.rvExclude.setAdapter(adapter2);
+        FlexboxLayoutManager layoutManager2 = new FlexboxLayoutManager(getContext());
+        layoutManager2.setFlexDirection(FlexDirection.ROW);
+        layoutManager2.setFlexWrap(FlexWrap.WRAP);
+        binding.rvExclude.setLayoutManager(layoutManager2);
     }
 
     @Override
