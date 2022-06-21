@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recipeapp.databinding.ItemBinding;
+
 import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
@@ -43,15 +45,24 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvItem;
+        ItemBinding binding;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvItem = itemView.findViewById(R.id.text);
+            binding = ItemBinding.bind(itemView);
         }
 
         public void bind(String item) {
-            tvItem.setText(item);
+            binding.text.setText(item);
+            binding.layout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int i = getAdapterPosition();
+                    items.remove(i);
+                    notifyItemRemoved(i);
+                    return true;
+                }
+            });
         }
     }
 }

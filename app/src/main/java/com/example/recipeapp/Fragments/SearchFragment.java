@@ -32,6 +32,10 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     FragmentSearchBinding binding;
+    List<String> included = new ArrayList<>();
+    List<String> excluded = new ArrayList<>();
+    ItemsAdapter includedAdapter;
+    ItemsAdapter excludedAdapter;
 
     public SearchFragment() {
     }
@@ -64,37 +68,50 @@ public class SearchFragment extends Fragment {
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerType.setAdapter(typesAdapter);
 
-        List<String> items;
-        items = new ArrayList<String>();
-        items.add("CucumberCucumber");
-        items.add("Cucumber");
-        items.add("Cucumber");
-        items.add("Tomato");
-        items.add("Cheese");
-        items.add("Milk");
-        items.add("Potato");
-        items.add("Cucumber");
-        items.add("Beer");
-        items.add("Tomato");
-        items.add("Cheese");
-        items.add("Milk");
-        items.add("Potato");
-        items.add("Cucumber");
-        items.add("Beer");
+        includedAdapter = new ItemsAdapter(included);
+        binding.rvInclude.setAdapter(includedAdapter);
+        binding.rvInclude.setLayoutManager(getFlexboxLayoutManager());
 
-        ItemsAdapter adapter = new ItemsAdapter(items);
-        binding.rvInclude.setAdapter(adapter);
+        excludedAdapter = new ItemsAdapter(excluded);
+        binding.rvExclude.setAdapter(excludedAdapter);
+        binding.rvExclude.setLayoutManager(getFlexboxLayoutManager());
+
+        binding.btnInclude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                included.add(binding.edInclude.getText().toString());
+                includedAdapter.notifyItemInserted(included.size() - 1);
+                binding.edInclude.setText(null);
+            }
+        });
+
+        binding.btnExclude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                excluded.add(binding.edExclude.getText().toString());
+                excludedAdapter.notifyItemInserted(excluded.size() - 1);
+                binding.edExclude.setText(null);
+            }
+        });
+
+        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchListener();
+            }
+        });
+    }
+
+    private void searchListener() {
+        
+    }
+
+    @NonNull
+    private FlexboxLayoutManager getFlexboxLayoutManager() {
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setFlexWrap(FlexWrap.WRAP);
-        binding.rvInclude.setLayoutManager(layoutManager);
-
-        ItemsAdapter adapter2 = new ItemsAdapter(items);
-        binding.rvExclude.setAdapter(adapter2);
-        FlexboxLayoutManager layoutManager2 = new FlexboxLayoutManager(getContext());
-        layoutManager2.setFlexDirection(FlexDirection.ROW);
-        layoutManager2.setFlexWrap(FlexWrap.WRAP);
-        binding.rvExclude.setLayoutManager(layoutManager2);
+        return layoutManager;
     }
 
     @Override
