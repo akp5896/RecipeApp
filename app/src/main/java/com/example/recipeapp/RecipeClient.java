@@ -54,7 +54,8 @@ public class RecipeClient {
 
     public void getRecipeById(Long id, JsonHttpResponseHandler handler) {
         @SuppressLint("DefaultLocale")
-        String apiUrl = String.format(BASE_URL + "/recipes/{%d}/information", id);
+        String apiUrl = String.format(BASE_URL + "/recipes/%d/information", id);
+        Log.i("", apiUrl);
         RequestParams params = new RequestParams();
         params.put("apiKey", API_KEY);
         client.get(apiUrl, params, handler);

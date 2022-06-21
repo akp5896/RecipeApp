@@ -3,17 +3,20 @@ package com.example.recipeapp.Models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel
 public class Recipe {
-    private String title;
-    private String image;
-    private Long id;
-    private Integer timeToCook;
-    private Integer servings;
-    private List<String> analyzedInstructions;
+    String title;
+    String image;
+    Long id;
+    Integer timeToCook;
+    Integer servings;
+    List<String> analyzedInstructions;
+    List<String> ingredients;
 
     public static Recipe fromJson(JSONObject object)
     {
@@ -24,24 +27,36 @@ public class Recipe {
             recipe.id = object.getLong("id");
             recipe.timeToCook = object.getInt("readyInMinutes");
             recipe.servings = object.getInt("servings");
-            Steps(recipe, object.getJSONArray("analyzedInstructions"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return recipe;
     }
 
-    private static void Steps(Recipe recipe, JSONArray json) {
+    public static void Steps(Recipe recipe, JSONObject json) {
         List<String> result = new ArrayList<>();
         try {
-            JSONArray steps = json.getJSONObject(0).getJSONArray("steps");
+            JSONArray steps = json.getJSONArray("analyzedInstructions").getJSONObject(0).getJSONArray("steps");
             for(int i = 0; i < steps.length(); i++) {
-                result.add(steps.getJSONObject(i).getString("step"));
+                result.add(String.valueOf(i + 1) + ". " + steps.getJSONObject(i).getString("step"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         recipe.setAnalyzedInstructions(result);
+    }
+
+    public static void Ingredients(Recipe recipe, JSONObject json) {
+        List<String> result = new ArrayList<>();
+        try {
+            JSONArray steps = json.getJSONArray("extendedIngredients");
+            for(int i = 0; i < steps.length(); i++) {
+                result.add(steps.getJSONObject(i).getString("original"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        recipe.ingredients = result;
     }
 
     public static List<Recipe> fromJsonArray(JSONArray array) {
@@ -61,24 +76,12 @@ public class Recipe {
         this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public String getTitle() {
         return title;
     }
 
     public String getImage() {
         return image;
-    }
-
-    public void setTimeToCook(Integer timeToCook) {
-        this.timeToCook = timeToCook;
     }
 
     public void setAnalyzedInstructions(List<String> analyzedInstructions) {
@@ -93,15 +96,15 @@ public class Recipe {
         return timeToCook;
     }
 
-    public List<String> getAnalyzedInstructions() {
-        return analyzedInstructions;
-    }
-
     public Integer getServings() {
         return servings;
     }
 
-    public void setServings(Integer servings) {
-        this.servings = servings;
+    public List<String> getAnalyzedInstructions() {
+        return analyzedInstructions;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
     }
 }

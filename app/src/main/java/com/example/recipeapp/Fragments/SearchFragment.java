@@ -75,11 +75,11 @@ public class SearchFragment extends Fragment {
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerType.setAdapter(typesAdapter);
 
-        includedAdapter = new ItemsAdapter(included);
+        includedAdapter = new ItemsAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
         binding.rvInclude.setLayoutManager(getFlexboxLayoutManager());
 
-        excludedAdapter = new ItemsAdapter(excluded);
+        excludedAdapter = new ItemsAdapter(excluded, R.layout.item);
         binding.rvExclude.setAdapter(excludedAdapter);
         binding.rvExclude.setLayoutManager(getFlexboxLayoutManager());
 
