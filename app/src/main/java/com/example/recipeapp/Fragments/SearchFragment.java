@@ -5,8 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.recipeapp.ItemsAdapter;
+import com.example.recipeapp.Adapters.ItemsAdapter;
 import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
@@ -24,7 +22,6 @@ import com.example.recipeapp.databinding.FragmentSearchBinding;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 
 import org.json.JSONException;
 
@@ -124,7 +121,15 @@ public class SearchFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 try {
+                    FeedFragment feedFragment = ((MainActivity) getActivity()).getFeedFragment();
                     List<Recipe> result = Recipe.fromJsonArray(json.jsonObject.getJSONArray("results"));
+                    feedFragment.getRecipes().clear();
+                    feedFragment.getRecipes().addAll(result);
+                    getActivity().
+                            getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentPlaceholder, feedFragment)
+                            .commit();
                     Log.i(TAG, "success: " + json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

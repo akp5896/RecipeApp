@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.BindingAdapter;
 //import androidx.databinding.DataBindingUtil;
+import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
+    FeedFragment feedFragment = new FeedFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
+    }
+
+    public FeedFragment getFeedFragment() {
+        return feedFragment;
     }
 
 }

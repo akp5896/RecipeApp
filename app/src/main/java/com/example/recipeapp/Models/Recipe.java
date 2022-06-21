@@ -43,4 +43,12 @@ public class Recipe {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getImage() {
+        return image;
+    }
 }

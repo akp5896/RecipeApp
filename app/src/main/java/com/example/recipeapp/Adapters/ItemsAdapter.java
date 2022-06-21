@@ -1,23 +1,19 @@
-package com.example.recipeapp;
+package com.example.recipeapp.Adapters;
 
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.ItemBinding;
 
 import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
-
-    public interface OnLongClickListener{
-        void onItemLongItemClicked(int position);
-    }
 
     List<String> items;
 
