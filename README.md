@@ -43,6 +43,7 @@ App that allows user to search recipes.
 * ...
 
 **Optional Nice-to-have Stories**
+ * User can view substitutes to the ingredients
  * User can view published recipes
  * User can add recipe
  * Search includes the rating
