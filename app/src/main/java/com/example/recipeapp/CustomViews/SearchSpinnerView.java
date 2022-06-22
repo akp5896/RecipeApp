@@ -20,6 +20,7 @@ import com.example.recipeapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchSpinnerView extends FrameLayout {
 
@@ -85,7 +86,11 @@ public class SearchSpinnerView extends FrameLayout {
             public boolean onQueryTextChange(String newText) {
                 current.clear();
                 List<String> newArray = new ArrayList<>(options);
-                newArray.removeIf(x -> !x.startsWith(newText));
+                newArray.removeIf(
+                        x -> !x.
+                                toUpperCase(Locale.ROOT)
+                                .startsWith(newText
+                                        .toUpperCase(Locale.ROOT)));
                 current.addAll(newArray);
                 adapter.notifyDataSetChanged();
                 return true;

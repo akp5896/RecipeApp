@@ -1,59 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
     tools:context=".Fragments.SearchFragment">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp">
+
         <TextView
             android:id="@+id/tvSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:text="@string/search_text"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:textSize="36sp"
-            android:layout_margin="10dp"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/recipe_name"
-            app:layout_constraintTop_toBottomOf="@+id/tvSearch"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/tvSearch" />
 
         <CheckBox
             android:id="@+id/checkboxExcludeCuisine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/spinnerCuisine"
-            />
-
+            app:layout_constraintTop_toTopOf="@+id/spinnerCuisine" />
 
 
         <EditText
             android:id="@+id/edTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minEms="3"
-            android:inputType="number"
             android:layout_margin="10dp"
-            android:maxLength="3"
             android:hint="20"
+            android:inputType="number"
+            android:maxLength="3"
+            android:minEms="3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/spinnerType"
-            />
+            app:layout_constraintTop_toTopOf="@+id/spinnerType" />
 
         <EditText
             android:id="@+id/edInclude"
@@ -61,66 +58,67 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:hint="@string/include"
+            app:layout_constraintBottom_toTopOf="@id/rvInclude"
             app:layout_constraintEnd_toStartOf="@id/btnInclude"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edTime"
-            app:layout_constraintBottom_toTopOf="@id/rvInclude"
-            />
+            app:layout_constraintTop_toBottomOf="@id/edTime" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnInclude"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:stateListAnimator="@null"
             android:text="Add"
             android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/edInclude"
             app:layout_constraintBottom_toBottomOf="@+id/edInclude"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edInclude" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvInclude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/edInclude"
             app:layout_constraintBottom_toTopOf="@+id/edExclude"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/edInclude" />
+
         <EditText
             android:id="@+id/edExclude"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:hint="Exclude: "
+            app:layout_constraintBottom_toTopOf="@id/rvExclude"
             app:layout_constraintEnd_toStartOf="@id/btnInclude"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvInclude"
-            app:layout_constraintBottom_toTopOf="@id/rvExclude"
-            />
+            app:layout_constraintTop_toBottomOf="@id/rvInclude" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnExclude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:stateListAnimator="@null"
             android:text="Add"
             android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/edExclude"
             app:layout_constraintBottom_toBottomOf="@+id/edExclude"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edExclude" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvExclude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/edExclude"
             app:layout_constraintBottom_toTopOf="@id/btnSearch"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/edExclude" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
             android:text="Search"
+            android:textAllCaps="false"
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
+
         <com.example.recipeapp.CustomViews.SearchSpinnerView
             android:id="@+id/spinnerType"
             android:layout_width="0dp"
@@ -131,16 +129,16 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/checkboxExcludeCuisine" />
+
         <com.example.recipeapp.CustomViews.SearchSpinnerView
             android:id="@+id/spinnerCuisine"
             android:layout_width="0dp"
-            android:maxHeight="200dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/etTitle"
-            app:layout_constraintStart_toStartOf="parent"
+            android:maxHeight="200dp"
             app:layout_constraintEnd_toStartOf="@id/checkboxExcludeCuisine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etTitle"
 
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</FrameLayout>
+</ScrollView>

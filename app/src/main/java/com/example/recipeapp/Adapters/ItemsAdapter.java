@@ -59,13 +59,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         public void bind(String item) {
             tvText.setText(item);
-            layout.setOnLongClickListener(new View.OnLongClickListener() {
+            layout.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public void onClick(View v) {
                     int i = getAdapterPosition();
                     items.remove(i);
                     notifyItemRemoved(i);
-                    return true;
                 }
             });
         }
