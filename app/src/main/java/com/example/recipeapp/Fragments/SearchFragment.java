@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.ItemsAdapter;
@@ -81,7 +82,7 @@ public class SearchFragment extends Fragment {
         binding.btnInclude.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                included.add(binding.edInclude.getText().toString());
+                included.add(binding.edInclude.getText());
                 includedAdapter.notifyItemInserted(included.size() - 1);
                 binding.edInclude.setText(null);
             }
@@ -90,7 +91,8 @@ public class SearchFragment extends Fragment {
         binding.btnExclude.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                excluded.add(binding.edExclude.getText().toString());
+                // TODO Add get text method
+                excluded.add(binding.edExclude.getText());
                 excludedAdapter.notifyItemInserted(excluded.size() - 1);
                 binding.edExclude.setText(null);
             }
@@ -132,7 +134,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 
-                Log.e(TAG, "Recipies search failed: " + response);
+                Log.e(TAG, "Recipes search failed: " + response);
             }
         }, binding.etTitle.getText().toString(), cuisine, excludeCuisine,
                 String.join(",", included),String.join(",", excluded),

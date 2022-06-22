@@ -52,25 +52,25 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/spinnerType" />
 
-        <EditText
+            <com.example.recipeapp.CustomViews.NetworkAutocompleteView
             android:id="@+id/edInclude"
             android:layout_width="0dp"
+            android:minHeight="25dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:hint="@string/include"
-            app:layout_constraintBottom_toTopOf="@id/rvInclude"
             app:layout_constraintEnd_toStartOf="@id/btnInclude"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edTime" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnInclude"
+
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:stateListAnimator="@null"
             android:text="Add"
             android:textAllCaps="false"
-            app:layout_constraintBottom_toBottomOf="@+id/edInclude"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edInclude" />
 
@@ -81,13 +81,13 @@
             app:layout_constraintBottom_toTopOf="@+id/edExclude"
             app:layout_constraintTop_toBottomOf="@+id/edInclude" />
 
-        <EditText
+        <com.example.recipeapp.CustomViews.NetworkAutocompleteView
             android:id="@+id/edExclude"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:minHeight="25dp"
             android:hint="Exclude: "
-            app:layout_constraintBottom_toTopOf="@id/rvExclude"
             app:layout_constraintEnd_toStartOf="@id/btnInclude"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rvInclude" />
@@ -99,7 +99,6 @@
             android:stateListAnimator="@null"
             android:text="Add"
             android:textAllCaps="false"
-            app:layout_constraintBottom_toBottomOf="@+id/edExclude"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edExclude" />
 

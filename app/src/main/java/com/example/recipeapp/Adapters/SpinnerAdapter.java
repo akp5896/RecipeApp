@@ -15,13 +15,16 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
 
     private int resourceLayout;
     private Context context;
+    List<String> items;
     SearchView search;
+    Boolean finished = false;
 
     public SpinnerAdapter(Context context, int resource, List<String> items, SearchView search) {
         super(context, resource, items);
         this.resourceLayout = resource;
         this.context = context;
         this.search = search;
+        this.items = items;
     }
 
     @Override
@@ -44,13 +47,22 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
                 tvPosition.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        finished = true;
                         search.setQuery(tvPosition.getText(), false);
+                        items.clear();
+                        notifyDataSetChanged();
                     }
                 });
             }
         }
 
         return v;
+    }
+
+    public Boolean getFinished() {
+        Boolean x = finished;
+        finished = false;
+        return  x;
     }
 
 }

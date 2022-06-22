@@ -6,14 +6,18 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.CompletionInfo;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.recipeapp.Adapters.SpinnerAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.RecipeClient;
@@ -26,34 +30,42 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class NetworkAutocomplete extends FrameLayout {
+public class NetworkAutocompleteView extends FrameLayout {
 
     private static final long NETWORK_TIME_DELTA = 1000;
     private static final String TAG = "AUTOCOMPLETE";
     long lastClickTime = 0;
 
-    private EditText search;
+    private SearchView search;
     private MyListView suggestions;
-    private ArrayAdapter adapter;
+    private SpinnerAdapter adapter;
     private List<String> response = new ArrayList<>();
 
-    public NetworkAutocomplete(@NonNull Context context) {
+    public NetworkAutocompleteView(@NonNull Context context) {
         super(context);
         initView(context);
     }
-    public NetworkAutocomplete(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public NetworkAutocompleteView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
 
-    public NetworkAutocomplete(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public NetworkAutocompleteView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
     }
 
-    public NetworkAutocomplete(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public NetworkAutocompleteView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context);
+    }
+
+    public String getText() {
+        return search.getQuery().toString();
+    }
+
+    public void setText(CharSequence seq) {
+        search.setQuery(seq, false);
     }
 
     private void initView(Context context) {
@@ -61,25 +73,22 @@ public class NetworkAutocomplete extends FrameLayout {
         search = v.findViewById(R.id.search_bar);
         suggestions = v.findViewById(R.id.suggestions);
 
-
-        search.addTextChangedListener(new TextWatcher() {
-
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public boolean onQueryTextSubmit(String query) {
+                response.clear();
+                adapter.notifyDataSetChanged();
+                return true;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public boolean onQueryTextChange(String newText) {
+                if(adapter != null && adapter.getFinished())
+                    return true;
                 long clickTime = System.currentTimeMillis();
                 if (clickTime - lastClickTime > NETWORK_TIME_DELTA){
                     RecipeClient.getInstance()
-                            .getIngredientAutocomplete(search.getText().toString(), new JsonHttpResponseHandler() {
+                            .getIngredientAutocomplete(search.getQuery().toString(), new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Headers headers, JSON json) {
                                     Log.i(TAG, "Autocomplete Success! " + json);
@@ -90,7 +99,7 @@ public class NetworkAutocomplete extends FrameLayout {
 
                                             response.add(results.getJSONObject(i).getString("name"));
                                         }
-                                        adapter = new ArrayAdapter(context,android.R.layout.simple_list_item_1, response);
+                                        adapter = new SpinnerAdapter(context,android.R.layout.simple_list_item_1, response, search);
                                         suggestions.setAdapter(adapter);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -104,7 +113,7 @@ public class NetworkAutocomplete extends FrameLayout {
                             });
                 }
                 lastClickTime = clickTime;
-
+                return true;
             }
         });
     }
