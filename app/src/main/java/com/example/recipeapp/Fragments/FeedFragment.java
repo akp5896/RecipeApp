@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,7 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         adapter = new RecipesAdapter(recipes, getContext());
         binding.rvRecipes.setAdapter(adapter);
-        binding.rvRecipes.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
