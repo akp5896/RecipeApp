@@ -10,15 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.ItemsAdapter;
+import com.example.recipeapp.CustomViews.NetworkAutocompleteView;
 import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
-import com.example.recipeapp.RecipeClient;
+import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -70,6 +69,11 @@ public class SearchFragment extends Fragment {
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
 
+        binding.edInclude.setCall((query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler));
+        binding.edExclude.setCall((query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler));
+
+        binding.etTitle.setCall((query, handler) -> RecipeClient.getInstance().getTitleAutocomplete(query, handler));
+
 
         includedAdapter = new ItemsAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
@@ -79,31 +83,18 @@ public class SearchFragment extends Fragment {
         binding.rvExclude.setAdapter(excludedAdapter);
         binding.rvExclude.setLayoutManager(getFlexboxLayoutManager());
 
-        binding.btnInclude.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                included.add(binding.edInclude.getText());
-                includedAdapter.notifyItemInserted(included.size() - 1);
-                binding.edInclude.setText(null);
-            }
+        binding.btnInclude.setOnClickListener(v -> {
+            included.add(binding.edInclude.getText());
+            includedAdapter.notifyItemInserted(included.size() - 1);
+            binding.edInclude.setText(null);
         });
 
-        binding.btnExclude.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Add get text method
-                excluded.add(binding.edExclude.getText());
-                excludedAdapter.notifyItemInserted(excluded.size() - 1);
-                binding.edExclude.setText(null);
-            }
+        binding.btnExclude.setOnClickListener(v -> {
+            excludedAdapter.notifyItemInserted(excluded.size() - 1);
+            binding.edExclude.setText(null);
         });
 
-        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchListener();
-            }
-        });
+        binding.btnSearch.setOnClickListener(v -> searchListener());
     }
 
     private void searchListener() {

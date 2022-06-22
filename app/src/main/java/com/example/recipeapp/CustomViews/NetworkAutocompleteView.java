@@ -1,15 +1,9 @@
 package com.example.recipeapp.CustomViews;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.CompletionInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 
@@ -18,9 +12,8 @@ import androidx.annotation.Nullable;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.SpinnerAdapter;
-import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
-import com.example.recipeapp.RecipeClient;
+import com.example.recipeapp.Network.RecipeClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +33,11 @@ public class NetworkAutocompleteView extends FrameLayout {
     private MyListView suggestions;
     private SpinnerAdapter adapter;
     private List<String> response = new ArrayList<>();
+    NetworkCall call;
+
+    public interface NetworkCall {
+        void makeCall(String query, JsonHttpResponseHandler handler);
+    }
 
     public NetworkAutocompleteView(@NonNull Context context) {
         super(context);
@@ -68,6 +66,10 @@ public class NetworkAutocompleteView extends FrameLayout {
         search.setQuery(seq, false);
     }
 
+    public void setCall(NetworkCall call) {
+        this.call = call;
+    }
+
     private void initView(Context context) {
         View v = inflate(getContext(), R.layout.network_automcomplete, this);
         search = v.findViewById(R.id.search_bar);
@@ -87,30 +89,29 @@ public class NetworkAutocompleteView extends FrameLayout {
                     return true;
                 long clickTime = System.currentTimeMillis();
                 if (clickTime - lastClickTime > NETWORK_TIME_DELTA){
-                    RecipeClient.getInstance()
-                            .getIngredientAutocomplete(search.getQuery().toString(), new JsonHttpResponseHandler() {
-                                @Override
-                                public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                    Log.i(TAG, "Autocomplete Success! " + json);
-                                    try {
-                                        JSONArray results = json.jsonArray;
-                                        response.clear();
-                                        for(int i = 0; i < results.length(); i++) {
+                    call.makeCall(search.getQuery().toString(), new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.i(TAG, "Autocomplete Success! " + json);
+                            try {
+                                JSONArray results = json.jsonArray;
+                                response.clear();
+                                for(int i = 0; i < results.length(); i++) {
 
-                                            response.add(results.getJSONObject(i).getString("name"));
-                                        }
-                                        adapter = new SpinnerAdapter(context,android.R.layout.simple_list_item_1, response, search);
-                                        suggestions.setAdapter(adapter);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                    response.add(results.getJSONObject(i).getString("name"));
                                 }
+                                adapter = new SpinnerAdapter(context,android.R.layout.simple_list_item_1, response, search);
+                                suggestions.setAdapter(adapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
-                                @Override
-                                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                    Log.i(TAG, "Automcomplete fail! " + response);
-                                }
-                            });
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.i(TAG, "Automcomplete fail! " + response);
+                        }
+                    });
                 }
                 lastClickTime = clickTime;
                 return true;

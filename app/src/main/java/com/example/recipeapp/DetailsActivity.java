@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.ItemsAdapter;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 
 import org.parceler.Parcels;
