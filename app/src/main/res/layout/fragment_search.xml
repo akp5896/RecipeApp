@@ -31,33 +31,17 @@
             android:hint="@string/recipe_name"
             app:layout_constraintTop_toBottomOf="@+id/tvSearch"
             />
-        <Spinner
-            android:id="@+id/spinnerCuisine"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            app:layout_constraintTop_toBottomOf="@id/etTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/checkboxExcludeCuisine"
-            android:spinnerMode="dropdown"
-            />
+
         <CheckBox
             android:id="@+id/checkboxExcludeCuisine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/spinnerCuisine"
-            app:layout_constraintBottom_toBottomOf="@+id/spinnerCuisine"
             />
-        <Spinner
-            android:id="@+id/spinnerType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:minHeight="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/checkboxExcludeCuisine"
-            app:layout_constraintEnd_toStartOf="@id/edTime"
-            android:layout_marginBottom="20dp"
-            />
+
+
+
         <EditText
             android:id="@+id/edTime"
             android:layout_width="wrap_content"
@@ -69,8 +53,8 @@
             android:hint="20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/spinnerType"
-            app:layout_constraintBottom_toBottomOf="@id/spinnerType"
             />
+
         <EditText
             android:id="@+id/edInclude"
             android:layout_width="0dp"
@@ -79,9 +63,10 @@
             android:hint="@string/include"
             app:layout_constraintEnd_toStartOf="@id/btnInclude"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinnerType"
+            app:layout_constraintTop_toBottomOf="@id/edTime"
             app:layout_constraintBottom_toTopOf="@id/rvInclude"
             />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnInclude"
             android:layout_width="wrap_content"
@@ -133,8 +118,28 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="Search"
-            app:layout_constraintTop_toBottomOf="@id/rvExclude"
+
             app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <com.example.recipeapp.CustomViews.SearchSpinnerView
+            android:id="@+id/spinnerType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            android:minHeight="20dp"
+            app:layout_constraintEnd_toStartOf="@id/edTime"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkboxExcludeCuisine" />
+        <com.example.recipeapp.CustomViews.SearchSpinnerView
+            android:id="@+id/spinnerCuisine"
+            android:layout_width="0dp"
+            android:maxHeight="200dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/etTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/checkboxExcludeCuisine"
+
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -26,6 +26,7 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -62,18 +63,12 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayAdapter<CharSequence> cuisineAdapter = ArrayAdapter
-                .createFromResource(getContext(), R.array.cuisines,
-                        android.R.layout.simple_spinner_item);
-        cuisineAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerCuisine.setAdapter(cuisineAdapter);
-        ArrayAdapter<CharSequence> typesAdapter = ArrayAdapter
-                .createFromResource(getContext(), R.array.types,
-                        android.R.layout.simple_spinner_item);
-        typesAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerType.setAdapter(typesAdapter);
+
+
+
+        binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
+        binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
+
 
         includedAdapter = new ItemsAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
@@ -112,11 +107,11 @@ public class SearchFragment extends Fragment {
     private void searchListener() {
         String cuisine = null;
         String excludeCuisine = null;
-        if(binding.checkboxExcludeCuisine.isChecked()) {
-            excludeCuisine = binding.spinnerCuisine.getSelectedItem().toString();
-        } else {
-            cuisine = binding.spinnerCuisine.getSelectedItem().toString();
-        }
+//        if(binding.checkboxExcludeCuisine.isChecked()) {
+//            excludeCuisine = binding.spinnerCuisine.getSelectedItem().toString();
+//        } else {
+//            cuisine = binding.spinnerCuisine.getSelectedItem().toString();
+//        }
         RecipeClient.getInstance().getRecipesWithFilters(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -125,11 +120,8 @@ public class SearchFragment extends Fragment {
                     List<Recipe> result = Recipe.fromJsonArray(json.jsonObject.getJSONArray("results"));
                     feedFragment.getRecipes().clear();
                     feedFragment.getRecipes().addAll(result);
-                    getActivity().
-                            getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragmentPlaceholder, feedFragment)
-                            .commit();
+                    ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
+
                     Log.i(TAG, "success: " + json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -144,7 +136,7 @@ public class SearchFragment extends Fragment {
             }
         }, binding.etTitle.getText().toString(), cuisine, excludeCuisine,
                 String.join(",", included),String.join(",", excluded),
-                binding.spinnerType.getSelectedItem().toString(), binding.edTime.getText().toString());
+                "", binding.edTime.getText().toString());
     }
 
     @NonNull

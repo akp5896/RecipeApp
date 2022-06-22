@@ -20,6 +20,9 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.feed:
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
                         Toast.makeText(MainActivity.this, "Feed", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.search:
@@ -63,4 +67,7 @@ public class MainActivity extends AppCompatActivity {
         return feedFragment;
     }
 
+    public ActivityMainBinding getBinding() {
+        return binding;
+    }
 }
