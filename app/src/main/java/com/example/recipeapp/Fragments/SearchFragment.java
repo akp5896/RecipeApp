@@ -107,11 +107,11 @@ public class SearchFragment extends Fragment {
     private void searchListener() {
         String cuisine = null;
         String excludeCuisine = null;
-//        if(binding.checkboxExcludeCuisine.isChecked()) {
-//            excludeCuisine = binding.spinnerCuisine.getSelectedItem().toString();
-//        } else {
-//            cuisine = binding.spinnerCuisine.getSelectedItem().toString();
-//        }
+        if(binding.checkboxExcludeCuisine.isChecked()) {
+            excludeCuisine = binding.spinnerCuisine.getSelectedItem();
+        } else {
+            cuisine = binding.spinnerCuisine.getSelectedItem();
+        }
         RecipeClient.getInstance().getRecipesWithFilters(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -136,7 +136,7 @@ public class SearchFragment extends Fragment {
             }
         }, binding.etTitle.getText().toString(), cuisine, excludeCuisine,
                 String.join(",", included),String.join(",", excluded),
-                "", binding.edTime.getText().toString());
+                binding.spinnerType.getSelectedItem(), binding.edTime.getText().toString());
     }
 
     @NonNull

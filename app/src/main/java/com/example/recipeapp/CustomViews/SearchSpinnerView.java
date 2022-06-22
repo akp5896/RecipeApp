@@ -2,20 +2,16 @@ package com.example.recipeapp.CustomViews;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.recipeapp.Adapters.ItemsAdapter;
+import com.example.recipeapp.Adapters.SpinnerAdapter;
 import com.example.recipeapp.R;
 
 import java.util.ArrayList;
@@ -59,7 +55,7 @@ public class SearchSpinnerView extends FrameLayout {
         options = new ArrayList<>();
 
         current = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, current);
+        adapter = new SpinnerAdapter(context, android.R.layout.simple_list_item_1, current, search);
         suggestions.setAdapter(adapter);
 
         search.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
@@ -70,8 +66,7 @@ public class SearchSpinnerView extends FrameLayout {
                     adapter.notifyDataSetChanged();
                 }
                 else {
-                    current.addAll(options);
-                    adapter.notifyDataSetChanged();
+                    newQueryTextHandler(search.getQuery().toString());
                 }
             }
         });
@@ -84,18 +79,30 @@ public class SearchSpinnerView extends FrameLayout {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                current.clear();
-                List<String> newArray = new ArrayList<>(options);
-                newArray.removeIf(
-                        x -> !x.
-                                toUpperCase(Locale.ROOT)
-                                .startsWith(newText
-                                        .toUpperCase(Locale.ROOT)));
-                current.addAll(newArray);
-                adapter.notifyDataSetChanged();
-                return true;
+                return newQueryTextHandler(newText);
             }
         });
+    }
+
+    public String getSelectedItem() {
+        return search.getQuery().toString();
+    }
+
+    private boolean newQueryTextHandler(String newText) {
+        current.clear();
+        List<String> newArray = new ArrayList<>(options);
+        newArray.removeIf(
+                x -> !x.
+                        toUpperCase(Locale.ROOT)
+                        .startsWith(newText
+                                .toUpperCase(Locale.ROOT)));
+        if(newArray.size() == 0) {
+            newArray = new ArrayList<>(options);
+            newArray.removeIf(x -> !x.toUpperCase(Locale.ROOT).contains(newText.toUpperCase(Locale.ROOT)));
+        }
+        current.addAll(newArray);
+        adapter.notifyDataSetChanged();
+        return true;
     }
 
 
