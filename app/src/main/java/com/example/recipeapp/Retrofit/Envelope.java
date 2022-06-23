@@ -1,4 +1,4 @@
-package com.example.flex3;
+package com.example.recipeapp.Retrofit;
 
 import com.google.gson.annotations.SerializedName;
 
