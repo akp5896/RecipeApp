@@ -29,9 +29,10 @@ public interface RecipeApi {
                                                  @Query("query") String query,
                                                  @Query("number") int number);
 
-    @GET("/recipes/{id}/information")
-    Call<Recipe> getIngredientSubstitute(@Query("apiKey") String apiKey,
-                                                 @Path("id") Long id);
+    @GET("/food/ingredients/{id}/substitutes")
+    Call<SubEnvelope<List<String>>> getIngredientSubstitute(@Path("id") Long id,
+                                                            @Query("apiKey") String apiKey
+                                                 );
 
     @GET("/recipes/complexSearch")
     Call<List<Recipe>> getRecipesWithFilters(@Query("apiKey") String apiKey,

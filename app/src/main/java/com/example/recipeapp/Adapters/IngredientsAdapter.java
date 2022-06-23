@@ -10,10 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.IngredientsActivity;
 import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Models.RecipeTitle;
 import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Retrofit.SubEnvelope;
 import com.example.recipeapp.databinding.ItemIngredientsBinding;
 import com.roughike.swipeselector.SwipeItem;
 
@@ -25,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder>{
 
@@ -62,32 +71,31 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         }
 
         public void binding(Ingredient s) {
-            RecipeClient.getInstance().getIngredientSubstitute(s.getId(), new JsonHttpResponseHandler() {
+            RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+            Call<SubEnvelope<List<String>>> call = service.getIngredientSubstitute(s.getId(), BuildConfig.API_KEY);
+            call.enqueue(new Callback<SubEnvelope<List<String>>>() {
                 @Override
-                public void onSuccess(int statusCode, Headers headers, JSON json) {
-                    JSONObject result = json.jsonObject;
-                    try {
-                        if(result.getString("status").equals("failure")) {
-                            binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
-                            return;
-                        }
-                        JSONArray subs = result.getJSONArray("substitutes");
-                        SwipeItem[] items = new SwipeItem[subs.length() + 1];
-                        items[0] = new SwipeItem(0, s.getName(), s.getName());
-                        for(int i = 0; i < subs.length(); i++) {
-                            items[i + 1] = new SwipeItem(i + 1, s.getName(), subs.getString(i));
-                        }
-                        binding.swipeSelector.setItems(items);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                public void onResponse(Call<SubEnvelope<List<String>>> call, Response<SubEnvelope<List<String>>> response) {
+                    SubEnvelope<List<String>> x = response.body();
+                    if(x.status.equals("failure")) {
+                        binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
+                        return;
                     }
+                    List<String> subs = x.results;
+                    SwipeItem[] items = new SwipeItem[subs.size() + 1];
+                    items[0] = new SwipeItem(0, s.getName(), s.getName());
+                    for(int i = 0; i < subs.size(); i++) {
+                        items[i + 1] = new SwipeItem(i + 1, s.getName(), subs.get(i));
+                    }
+                    binding.swipeSelector.setItems(items);
                 }
 
                 @Override
-                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                public void onFailure(Call<SubEnvelope<List<String>>> call, Throwable t) {
                     Log.i(TAG, "Couldn't retrieve substitutes");
                 }
             });
+
         }
     }
 }

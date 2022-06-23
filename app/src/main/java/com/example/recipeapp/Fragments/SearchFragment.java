@@ -19,6 +19,8 @@ import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Network.RecipeClient;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -84,7 +86,7 @@ public class SearchFragment extends Fragment {
                         (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
 
         //binding.etTitle.setCall((query, handler) -> RecipeClient.getInstance().getTitleAutocomplete(query, handler));
-
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         binding.etTitle.setAdapter(
                 new AutoCompleteAdapter(
                         getContext(),
