@@ -74,6 +74,14 @@ public class RecipeClient {
         client.get(apiUrl, params, handler);
     }
 
+    public void getIngredientSubstitute(Long id, JsonHttpResponseHandler handler) {
+        @SuppressLint("DefaultLocale")
+        String apiUrl = String.format(BASE_URL + "/recipes/%d/information", id);
+        RequestParams params = new RequestParams();
+        params.put("apiKey", API_KEY);
+        client.get(apiUrl, params, handler);
+    }
+
     public static RecipeClient getInstance() {
         if(recipeClient == null) {
             recipeClient = new RecipeClient();
