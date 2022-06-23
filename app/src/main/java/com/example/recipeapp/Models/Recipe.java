@@ -16,7 +16,7 @@ public class Recipe {
     Integer timeToCook;
     Integer servings;
     List<String> analyzedInstructions;
-    List<String> ingredients;
+    List<Ingredient> ingredients;
 
     public static Recipe fromJson(JSONObject object)
     {
@@ -47,11 +47,14 @@ public class Recipe {
     }
 
     public static void Ingredients(Recipe recipe, JSONObject json) {
-        List<String> result = new ArrayList<>();
+        List<Ingredient> result = new ArrayList<>();
         try {
             JSONArray steps = json.getJSONArray("extendedIngredients");
             for(int i = 0; i < steps.length(); i++) {
-                result.add(steps.getJSONObject(i).getString("original"));
+                result.add(
+                        new Ingredient(
+                                steps.getJSONObject(i).getString("original"),
+                                steps.getJSONObject(i).getLong("id")));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -104,7 +107,7 @@ public class Recipe {
         return analyzedInstructions;
     }
 
-    public List<String> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 }

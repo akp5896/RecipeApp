@@ -76,7 +76,7 @@ public class RecipeClient {
 
     public void getIngredientSubstitute(Long id, JsonHttpResponseHandler handler) {
         @SuppressLint("DefaultLocale")
-        String apiUrl = String.format(BASE_URL + "/recipes/%d/information", id);
+        String apiUrl = String.format(BASE_URL + "/food/ingredients/%d/substitutes", id);
         RequestParams params = new RequestParams();
         params.put("apiKey", API_KEY);
         client.get(apiUrl, params, handler);

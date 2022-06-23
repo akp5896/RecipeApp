@@ -1,5 +1,6 @@
 package com.example.recipeapp.Retrofit;
 
+import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public interface RecipeApi {
 
     @GET("/food/ingredients/autocomplete")
     Call<List<Ingredient>> getIngredientAutocomplete(@Query("apiKey") String apiKey,
-                                           @Query("query") String query,
-                                           @Query("number") int number);
+                                                     @Query("query") String query,
+                                                     @Query("number") int number);
 
 
 

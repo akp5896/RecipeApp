@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         binding.bottomNavigation.setSelectedItemId(R.id.search);
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
