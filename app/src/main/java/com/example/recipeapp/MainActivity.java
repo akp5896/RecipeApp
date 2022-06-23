@@ -19,6 +19,9 @@ import android.widget.Toast;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MAIN ACTIVITY";
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     FeedFragment feedFragment = new FeedFragment();
@@ -61,6 +65,28 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.logout) {
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e != null) {
+                        Log.i(TAG, "Logout failed");
+                        return;
+                    }
+                    finish();
+                }
+            });
+        }
+        return true;
     }
 
     public FeedFragment getFeedFragment() {

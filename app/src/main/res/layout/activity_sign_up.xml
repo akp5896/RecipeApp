@@ -11,7 +11,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/etLogin"
         android:inputType="text"
-        android:hint="Login"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         />
@@ -21,7 +20,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/etLogin"
         android:id="@+id/etPass"
-        android:hint="Password"
         android:inputType="textPassword"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -31,21 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:id="@+id/btnLogin"
-        android:backgroundTint="@color/blue"
+        android:id="@+id/btnSignUp"
         app:layout_constraintTop_toBottomOf="@+id/etPass"
-        android:text="@string/login"
+        android:text="@string/sign_up"
+        android:background="@color/blue"
         />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        android:id="@+id/tvSignUp"
-        android:text="@string/sign_up"
-        android:gravity="center"
-        android:textColor="@color/blue"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>
