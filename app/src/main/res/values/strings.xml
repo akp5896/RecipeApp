@@ -10,7 +10,9 @@
     <string name="recipe_name">Enter the name of the recipe...</string>
     <string name="search_text">Search:</string>
     <string name="include">Include:</string>
-    <string name="ingredients">Ingredients:</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="ingredients_title">Ingredients:</string>
+    <string name="instructions">Instructions:</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

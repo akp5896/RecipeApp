@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
@@ -27,6 +28,7 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MAIN ACTIVITY";
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     FeedFragment feedFragment = new FeedFragment();
@@ -60,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         binding.bottomNavigation.setSelectedItemId(R.id.search);
-
     }
 
     public FeedFragment getFeedFragment() {
