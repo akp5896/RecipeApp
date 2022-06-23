@@ -1,5 +1,7 @@
 package com.example.recipeapp.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,10 +12,15 @@ import java.util.List;
 
 @Parcel
 public class Recipe {
+    @SerializedName("title")
     String title;
+    @SerializedName("image")
     String image;
+    @SerializedName("id")
     Long id;
-    Integer timeToCook;
+    @SerializedName("readyInMinutes")
+    Integer readyInMinutes;
+    @SerializedName("servings")
     Integer servings;
     List<String> analyzedInstructions;
     List<Ingredient> ingredients;
@@ -25,7 +32,7 @@ public class Recipe {
             recipe.title = object.getString("title");
             recipe.image = object.getString("image");
             recipe.id = object.getLong("id");
-            recipe.timeToCook = object.getInt("readyInMinutes");
+            recipe.readyInMinutes = object.getInt("readyInMinutes");
             recipe.servings = object.getInt("servings");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -96,7 +103,7 @@ public class Recipe {
     }
 
     public Integer getTimeToCook() {
-        return timeToCook;
+        return readyInMinutes;
     }
 
     public Integer getServings() {

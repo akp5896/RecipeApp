@@ -2,6 +2,7 @@ package com.example.recipeapp.Retrofit;
 
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Models.RecipeTitle;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface RecipeApi {
     @GET("/recipes/complexSearch")
     Call<Envelope<List<Recipe>>> getAllRecipes(@Query("apiKey") String apiKey);
 
-    @GET("/recipes/%d/information")
+    @GET("/recipes/{id}/information")
     Call<Recipe> getRecipeById(@Query("apiKey") String apiKey,
                                                @Path("id") long id);
 
@@ -23,6 +24,25 @@ public interface RecipeApi {
                                                      @Query("query") String query,
                                                      @Query("number") int number);
 
+    @GET("/food/recipes/autocomplete")
+    Call<List<RecipeTitle>> getTitleAutocomplete(@Query("apiKey") String apiKey,
+                                                 @Query("query") String query,
+                                                 @Query("number") int number);
 
+    @GET("/recipes/{id}/information")
+    Call<Recipe> getIngredientSubstitute(@Query("apiKey") String apiKey,
+                                                 @Path("id") Long id);
+
+    @GET("/recipes/complexSearch")
+    Call<List<Recipe>> getRecipesWithFilters(@Query("apiKey") String apiKey,
+                                             @Query("titleMatch") String titleMatch,
+                                             @Query("cuisine") String cuisine,
+                                             @Query("excludeCuisine") String excludeCuisine,
+                                             @Query("includeIngredients") String includeIngredients,
+                                             @Query("excludeIngredients") String excludeIngredients,
+                                             @Query("type") String type,
+                                             @Query("maxReadyTime") String maxReadyTime,
+                                             @Query("addRecipeInformation") String addRecipeInformation
+                                             );
 
 }

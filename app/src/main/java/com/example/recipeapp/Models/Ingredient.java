@@ -1,10 +1,14 @@
 package com.example.recipeapp.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.parceler.Parcel;
 
 @Parcel
 public class Ingredient {
+    @SerializedName("name")
     String name;
+    @SerializedName("title")
     Long id;
 
     public Ingredient(String name, Long id) {
