@@ -4,17 +4,19 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-public class MyListView extends ListView {
 
-    public MyListView(Context context, AttributeSet attrs) {
+// Since ListView has won't work correctly with "wrap_content" property, here is custom list to fix it
+public class WrappingListView extends ListView {
+
+    public WrappingListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyListView(Context context) {
+    public WrappingListView(Context context) {
         super(context);
     }
 
-    public MyListView(Context context, AttributeSet attrs, int defStyle) {
+    public WrappingListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

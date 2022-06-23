@@ -16,17 +16,17 @@ import com.example.recipeapp.databinding.ItemListBinding;
 
 import java.util.List;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
+public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.StringViewHolder> {
 
     List<String> items;
     int layoutId = R.layout.item;
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public StringViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View todoView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        return new ViewHolder(todoView);
+        return new StringViewHolder(todoView);
     }
 
     public ItemsAdapter(List<String> items, int layoutId)
@@ -36,7 +36,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StringViewHolder holder, int position) {
         String item = items.get(position);
         holder.bind(item);
     }
@@ -46,12 +46,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         return items.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+
+    // General ViewHolder used to display simple string lists, for example, in autocomplete
+    class StringViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvText;
         ConstraintLayout layout;
 
-        public ViewHolder(@NonNull View itemView) {
+        public StringViewHolder(@NonNull View itemView) {
             super(itemView);
             tvText = itemView.findViewById(R.id.text);
             layout = itemView.findViewById(R.id.layout);

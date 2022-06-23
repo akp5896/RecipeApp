@@ -10,10 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.Adapters.ItemsAdapter;
-import com.example.recipeapp.CustomViews.NetworkAutocompleteView;
 import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
@@ -69,11 +70,26 @@ public class SearchFragment extends Fragment {
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
 
-        binding.edInclude.setCall((query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler));
-        binding.edExclude.setCall((query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler));
+        //binding.edInclude.setCall((query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler));
+        //binding.edExclude.setCall((query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler));
+        binding.edExclude.setAdapter(
+                new AutoCompleteAdapter(
+                        getContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
+        binding.edInclude.setAdapter(
+                new AutoCompleteAdapter(
+                        getContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
 
-        binding.etTitle.setCall((query, handler) -> RecipeClient.getInstance().getTitleAutocomplete(query, handler));
+        //binding.etTitle.setCall((query, handler) -> RecipeClient.getInstance().getTitleAutocomplete(query, handler));
 
+        binding.etTitle.setAdapter(
+                new AutoCompleteAdapter(
+                        getContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
 
         includedAdapter = new ItemsAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
@@ -84,12 +100,13 @@ public class SearchFragment extends Fragment {
         binding.rvExclude.setLayoutManager(getFlexboxLayoutManager());
 
         binding.btnInclude.setOnClickListener(v -> {
-            included.add(binding.edInclude.getText());
+            included.add(binding.edInclude.getText().toString());
             includedAdapter.notifyItemInserted(included.size() - 1);
             binding.edInclude.setText(null);
         });
 
         binding.btnExclude.setOnClickListener(v -> {
+            excluded.add(binding.edExclude.getText().toString());
             excludedAdapter.notifyItemInserted(excluded.size() - 1);
             binding.edExclude.setText(null);
         });
@@ -105,6 +122,7 @@ public class SearchFragment extends Fragment {
         } else {
             cuisine = binding.spinnerCuisine.getSelectedItem();
         }
+
         RecipeClient.getInstance().getRecipesWithFilters(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {

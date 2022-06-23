@@ -20,7 +20,7 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHolder> {
+public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder> {
 
     List<Recipe> recipes;
     Context context;
@@ -28,9 +28,9 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecipesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item, parent, false);
-        return new ViewHolder(view);
+        return new RecipesViewHolder(view);
     }
 
     public RecipesAdapter(List<Recipe> recipes, Context context) {
@@ -39,7 +39,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecipesViewHolder holder, int position) {
         holder.bind(recipes.get(position));
     }
 
@@ -48,11 +48,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
         return recipes.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class RecipesViewHolder extends RecyclerView.ViewHolder{
 
         RecipeItemBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
+        public RecipesViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = RecipeItemBinding.bind(itemView);
         }

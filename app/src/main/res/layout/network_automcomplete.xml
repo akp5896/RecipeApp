@@ -16,7 +16,7 @@
         android:background="#EEEEEE"
         />
 
-    <com.example.recipeapp.CustomViews.MyListView
+    <com.example.recipeapp.CustomViews.WrappingListView
         android:id="@+id/suggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
