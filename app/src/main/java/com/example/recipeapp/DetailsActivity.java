@@ -59,6 +59,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Recipe> call, Response<Recipe> response) {
                 recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
+                recipe.setIngredients(response.body().getIngredients());
                 for(Step item : recipe.getAnalyzedInstructions().get(0).results) {
                     steps.add(item.number + ". " + item.step);
                 }

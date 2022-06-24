@@ -46,7 +46,11 @@ public class Recipe {
         return recipe;
     }
 
-//    public static void Steps(Recipe recipe, JSONObject json) {
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    //    public static void Steps(Recipe recipe, JSONObject json) {
 //        List<String> result = new ArrayList<>();
 //        try {
 //            JSONArray steps = json.getJSONArray("analyzedInstructions").getJSONObject(0).getJSONArray("steps");
