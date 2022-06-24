@@ -30,8 +30,9 @@ public class Preferences extends ParseObject {
         updateAverage(KEY_AVG_TIME, (double)recipe.getTimeToCook());
         updateAverage(KEY_AVG_PRICE, recipe.getPricePerServing());
         updateAverage(KEY_AVG_HEALTH, recipe.getHealthScore());
-
-//        ((Taste)getParseObject(KEY_USER_TASTE)).updateTaste(recipe);
+        Taste taste = ((Taste)getParseObject(KEY_USER_TASTE));
+        taste.updateTaste(recipe, getInt(KEY_NUMBER_OF_VOTES));
+        taste.saveInBackground();
 //        ((Diet)getParseObject(KEY_USER_DIET)).updateDiet(recipe);
 //        ((Cuisine)getParseObject(KEY_USER_CUISINE)).updateRecipe(recipe);
     }

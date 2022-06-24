@@ -35,52 +35,13 @@ public class Recipe {
     List<InstructionEnvelope<List<Step>>> analyzedInstructions;
     @SerializedName("extendedIngredients")
     List<Ingredient> ingredients;
-
-    public static Recipe fromJson(JSONObject object)
-    {
-        Recipe recipe = new Recipe();
-        try {
-            recipe.title = object.getString("title");
-            recipe.image = object.getString("image");
-            recipe.id = object.getLong("id");
-            recipe.readyInMinutes = object.getInt("readyInMinutes");
-            recipe.servings = object.getInt("servings");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return recipe;
-    }
+    @SerializedName("cuisines")
+    List<String> cuisines;
+    @SerializedName("diets")
+    List<String> diets;
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
-    }
-
-    //    public static void Steps(Recipe recipe, JSONObject json) {
-//        List<String> result = new ArrayList<>();
-//        try {
-//            JSONArray steps = json.getJSONArray("analyzedInstructions").getJSONObject(0).getJSONArray("steps");
-//            for(int i = 0; i < steps.length(); i++) {
-//                result.add(String.valueOf(i + 1) + ". " + steps.getJSONObject(i).getString("step"));
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        recipe.setAnalyzedInstructions(result);
-//    }
-
-
-
-    public static List<Recipe> fromJsonArray(JSONArray array) {
-        List<Recipe> result = new ArrayList<>();
-
-        try {
-            for (int i = 0; i < array.length(); i++) {
-                result.add(fromJson(array.getJSONObject(i)));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
     public void setId(Long id) {
