@@ -44,6 +44,14 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+    public List<String> getCuisines() {
+        return cuisines;
+    }
+
+    public List<String> getDiets() {
+        return diets;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

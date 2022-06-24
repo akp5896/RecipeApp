@@ -33,8 +33,12 @@ public class Preferences extends ParseObject {
         Taste taste = ((Taste)getParseObject(KEY_USER_TASTE));
         taste.updateTaste(recipe, getInt(KEY_NUMBER_OF_VOTES));
         taste.saveInBackground();
-//        ((Diet)getParseObject(KEY_USER_DIET)).updateDiet(recipe);
-//        ((Cuisine)getParseObject(KEY_USER_CUISINE)).updateRecipe(recipe);
+        Diet diet = ((Diet)getParseObject(KEY_USER_DIET));
+        diet.updateDiet(recipe);
+        diet.saveInBackground();
+        Cuisine cuisine = ((Cuisine)getParseObject(KEY_USER_CUISINE));
+        cuisine.updateCuisine(recipe);
+        cuisine.saveInBackground();
     }
 
     private void updateStd(float newTime) {
