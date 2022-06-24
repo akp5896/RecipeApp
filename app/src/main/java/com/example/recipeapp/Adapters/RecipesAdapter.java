@@ -11,10 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.DetailsActivity;
 import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ItemBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
 import com.parse.ParseUser;
@@ -22,6 +26,10 @@ import com.parse.ParseUser;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder> {
 
@@ -76,9 +84,21 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "Liked", Toast.LENGTH_SHORT).show();
-                    Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
-                    preferences.updatePreferences(item);
-                    preferences.saveInBackground();
+                    RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+                    Call<Taste> call = service.getTasteById(item.getId(), BuildConfig.API_KEY);
+                    call.enqueue(new Callback<Taste>() {
+                        @Override
+                        public void onResponse(Call<Taste> call, Response<Taste> response) {
+                            Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
+                            preferences.updatePreferences(item, response.body());
+                            preferences.saveInBackground();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Taste> call, Throwable t) {
+
+                        }
+                    });
                 }
             });
         }

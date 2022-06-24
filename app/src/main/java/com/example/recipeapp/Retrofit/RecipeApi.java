@@ -1,6 +1,7 @@
 package com.example.recipeapp.Retrofit;
 
 import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.RecipeTitle;
 
@@ -44,5 +45,8 @@ public interface RecipeApi {
                                              @Query("maxReadyTime") String maxReadyTime,
                                              @Query("addRecipeInformation") String addRecipeInformation
                                              );
+
+    @GET("/recipes/{id}/tasteWidget.json")
+    Call<Taste> getTasteById(@Path("id") Long id,@Query("apiKey") String apiKey);
 
 }

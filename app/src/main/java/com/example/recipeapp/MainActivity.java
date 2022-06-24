@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.Models.Parse.Taste;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
@@ -21,6 +24,10 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -17,7 +17,7 @@ public class Preferences extends ParseObject {
     public static final String KEY_USER_DIET = "diet";
     public static final String KEY_USER_CUISINE = "cuisine";
 
-    public void updatePreferences(Recipe recipe) {
+    public void updatePreferences(Recipe recipe, Taste newTaste) {
         increment(KEY_NUMBER_OF_VOTES);
         try {
             fetchIfNeeded();
@@ -31,7 +31,7 @@ public class Preferences extends ParseObject {
         updateAverage(KEY_AVG_PRICE, recipe.getPricePerServing());
         updateAverage(KEY_AVG_HEALTH, recipe.getHealthScore());
         Taste taste = ((Taste)getParseObject(KEY_USER_TASTE));
-        taste.updateTaste(recipe, getInt(KEY_NUMBER_OF_VOTES));
+        taste.updateTaste(newTaste, getInt(KEY_NUMBER_OF_VOTES));
         taste.saveInBackground();
         Diet diet = ((Diet)getParseObject(KEY_USER_DIET));
         diet.updateDiet(recipe);
