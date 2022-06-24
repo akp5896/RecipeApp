@@ -40,6 +40,10 @@ public class Recipe {
     @SerializedName("diets")
     List<String> diets;
 
+    public void setCuisines(List<String> cuisines) {
+        this.cuisines = cuisines;
+    }
+
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
