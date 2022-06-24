@@ -56,6 +56,7 @@ public class FeedFragment extends Fragment {
         adapter = new RecipesAdapter(recipes, getContext());
         binding.rvRecipes.setAdapter(adapter);
         binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
+
     }
 
     @Override

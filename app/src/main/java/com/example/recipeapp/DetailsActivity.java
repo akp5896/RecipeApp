@@ -1,21 +1,18 @@
 package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.ItemsAdapter;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Models.Step;
-import com.example.recipeapp.Network.RecipeClient;
-import com.example.recipeapp.Retrofit.InstructionEnvelope;
+import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
@@ -25,7 +22,6 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
-import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
@@ -15,19 +14,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.recipeapp.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         binding.bottomNavigation.setSelectedItemId(R.id.search);
     }
     @Override

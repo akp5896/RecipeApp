@@ -1,5 +1,6 @@
 package com.example.recipeapp.Models;
 
+import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.InstructionEnvelope;
 import com.google.gson.annotations.SerializedName;
 
@@ -22,6 +23,10 @@ public class Recipe {
     Long id;
     @SerializedName("readyInMinutes")
     Integer readyInMinutes;
+    @SerializedName("healthScore")
+    Double healthScore;
+    @SerializedName("pricePerServing")
+    Double pricePerServing;
     @SerializedName("servings")
     Integer servings;
     //List<String> analyzedInstructions;
@@ -112,5 +117,13 @@ public class Recipe {
 
     public List<Ingredient> getIngredients() {
         return ingredients;
+    }
+
+    public Double getHealthScore() {
+        return healthScore;
+    }
+
+    public Double getPricePerServing() {
+        return pricePerServing;
     }
 }

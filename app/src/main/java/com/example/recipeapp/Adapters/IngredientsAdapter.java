@@ -9,13 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.IngredientsActivity;
 import com.example.recipeapp.Models.Ingredient;
-import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Models.RecipeTitle;
-import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
@@ -23,14 +18,8 @@ import com.example.recipeapp.Retrofit.SubEnvelope;
 import com.example.recipeapp.databinding.ItemIngredientsBinding;
 import com.roughike.swipeselector.SwipeItem;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

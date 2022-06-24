@@ -1,4 +1,4 @@
-package com.example.recipeapp.Models;
+package com.example.recipeapp.Models.API;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Retrofit.RetrofitAutocomplete;

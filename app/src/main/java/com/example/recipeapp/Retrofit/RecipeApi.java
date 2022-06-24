@@ -2,7 +2,7 @@ package com.example.recipeapp.Retrofit;
 
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Models.RecipeTitle;
+import com.example.recipeapp.Models.API.RecipeTitle;
 
 import java.util.List;
 

@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recipeapp.DetailsActivity;
+import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.ItemBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -66,6 +69,16 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                     Intent i = new Intent(context, DetailsActivity.class);
                     i.putExtra("recipe", Parcels.wrap(item));
                     context.startActivity(i);
+                }
+            });
+
+            binding.ivHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Liked", Toast.LENGTH_SHORT).show();
+                    Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
+                    preferences.updatePreferences(item);
+                    preferences.saveInBackground();
                 }
             });
         }
