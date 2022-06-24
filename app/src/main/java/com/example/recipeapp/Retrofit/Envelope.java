@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName;
 
 public class Envelope<T> {
     @SerializedName("results")
-    T results;
+    public T results;
 }

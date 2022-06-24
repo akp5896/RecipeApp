@@ -13,7 +13,11 @@ import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.ItemsAdapter;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Models.Step;
 import com.example.recipeapp.Network.RecipeClient;
+import com.example.recipeapp.Retrofit.InstructionEnvelope;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 
 import org.parceler.Parcels;
@@ -22,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -46,18 +53,22 @@ public class DetailsActivity extends AppCompatActivity {
         stepsAdapter = new ItemsAdapter(steps, R.layout.item_list);
         binding.rvSteps.setAdapter(stepsAdapter);
 
-        RecipeClient.getInstance().getRecipeById(recipe.getId(), new JsonHttpResponseHandler() {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        Call<Recipe> recipeById = service.getRecipeById(recipe.getId(), BuildConfig.API_KEY);
+        recipeById.enqueue(new Callback<Recipe>() {
             @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Recipe.Steps(recipe, json.jsonObject);
-                Recipe.Ingredients(recipe, json.jsonObject);
-                steps.addAll(recipe.getAnalyzedInstructions());
+            public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
+                for(Step item : recipe.getAnalyzedInstructions().get(0).results) {
+                    steps.add(item.number + ". " + item.step);
+                }
                 stepsAdapter.notifyItemRangeChanged(0, steps.size());
+
             }
 
             @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "Something went wrong: " + response);
+            public void onFailure(Call<Recipe> call, Throwable t) {
+                Log.e(TAG, "Something went wrong: " + t);
             }
         });
 

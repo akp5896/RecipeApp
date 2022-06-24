@@ -16,8 +16,7 @@ public interface RecipeApi {
     Call<Envelope<List<Recipe>>> getAllRecipes(@Query("apiKey") String apiKey);
 
     @GET("/recipes/{id}/information")
-    Call<Recipe> getRecipeById(@Query("apiKey") String apiKey,
-                                               @Path("id") long id);
+    Call<Recipe> getRecipeById(@Path("id") long id, @Query("apiKey") String apiKey);
 
     @GET("/food/ingredients/autocomplete")
     Call<List<Ingredient>> getIngredientAutocomplete(@Query("apiKey") String apiKey,
@@ -35,7 +34,7 @@ public interface RecipeApi {
                                                  );
 
     @GET("/recipes/complexSearch")
-    Call<List<Recipe>> getRecipesWithFilters(@Query("apiKey") String apiKey,
+    Call<Envelope<List<Recipe>>> getRecipesWithFilters(@Query("apiKey") String apiKey,
                                              @Query("titleMatch") String titleMatch,
                                              @Query("cuisine") String cuisine,
                                              @Query("excludeCuisine") String excludeCuisine,
