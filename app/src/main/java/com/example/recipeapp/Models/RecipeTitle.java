@@ -1,8 +1,15 @@
 package com.example.recipeapp.Models;
 
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.recipeapp.Retrofit.RetrofitAutocomplete;
 import com.google.gson.annotations.SerializedName;
 
-public class RecipeTitle {
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+
+public class RecipeTitle extends RetrofitAutocomplete {
     @SerializedName("title")
     String title;
 
@@ -10,7 +17,8 @@ public class RecipeTitle {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    @Override
+    public String getName() {
+        return title;
     }
 }

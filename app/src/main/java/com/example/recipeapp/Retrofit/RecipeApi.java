@@ -23,7 +23,7 @@ public interface RecipeApi {
                                                      @Query("query") String query,
                                                      @Query("number") int number);
 
-    @GET("/food/recipes/autocomplete")
+    @GET("/recipes/autocomplete")
     Call<List<RecipeTitle>> getTitleAutocomplete(@Query("apiKey") String apiKey,
                                                  @Query("query") String query,
                                                  @Query("number") int number);

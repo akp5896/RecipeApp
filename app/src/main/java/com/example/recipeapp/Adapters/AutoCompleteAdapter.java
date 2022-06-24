@@ -1,6 +1,5 @@
 package com.example.recipeapp.Adapters;
 
-import android.app.Notification;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -12,25 +11,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.recipeapp.Network.RecipeClient;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.example.recipeapp.Retrofit.RetrofitAutocomplete;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
-    public interface NetworkCall {
-        void makeCall(String query, JsonHttpResponseHandler handler);
+public class AutoCompleteAdapter<T extends RetrofitAutocomplete> extends ArrayAdapter<String> implements Filterable {
+    public interface NetworkCall<T extends RetrofitAutocomplete> {
+        void makeCall(String query, Callback<List<T>> callback);
     }
 
     private ArrayList<String> data;
-    private NetworkCall call;
+    private NetworkCall<T> call;
 
-    public AutoCompleteAdapter(@NonNull Context context, @LayoutRes int resource, NetworkCall call) {
+    public AutoCompleteAdapter(@NonNull Context context, @LayoutRes int resource, NetworkCall<T> call) {
         super(context, resource);
         this.data = new ArrayList<>();
         this.call = call;
@@ -56,26 +55,22 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                 FilterResults results = new FilterResults();
                 if (constraint != null) {
                     try {
-                        call.makeCall(constraint.toString(), new JsonHttpResponseHandler() {
+                        call.makeCall(constraint.toString(), new Callback<List<T>>() {
                             @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                try {
-                                    ArrayList<String> suggestions = new ArrayList<>();
-                                    JSONArray response = json.jsonArray;
-                                    for (int i = 0; i < response.length(); i++) {
-                                        suggestions.add(response.getJSONObject(i).getString("name"));
-                                    }
-                                    results.values = suggestions;
-                                    results.count = suggestions.size();
-                                    data = suggestions;
-                                    notifyDataSetChanged();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                            public void onResponse(Call<List<T>> call, Response<List<T>> response) {
+                                ArrayList<String> suggestions = new ArrayList<>();
+                                List<T> body = response.body();
+                                for(int i = 0; i < body.size(); i++) {
+                                    suggestions.add(body.get(i).getName());
                                 }
+                                results.values = suggestions;
+                                results.count = suggestions.size();
+                                data = suggestions;
+                                notifyDataSetChanged();
                             }
 
                             @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            public void onFailure(Call<List<T>> call, Throwable t) {
                                 Log.e("AutoAdapter", "query failed");
                             }
                         });

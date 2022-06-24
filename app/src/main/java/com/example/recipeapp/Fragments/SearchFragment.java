@@ -18,7 +18,9 @@ import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.Adapters.ItemsAdapter;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.MainActivity;
+import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Models.RecipeTitle;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.Retrofit.Envelope;
@@ -80,23 +82,32 @@ public class SearchFragment extends Fragment {
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
 
-
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         binding.edExclude.setAdapter(
-                new AutoCompleteAdapter(
+                new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
+                        (query, callback) -> {
+                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
+                            call.enqueue(callback);
+                        }));
         binding.edInclude.setAdapter(
-                new AutoCompleteAdapter(
+                new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
+                        (query, callback) -> {
+                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
+                            call.enqueue(callback);
+                        }));
 
         binding.etTitle.setAdapter(
-                new AutoCompleteAdapter(
+                new AutoCompleteAdapter<RecipeTitle>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
+                        (query, callback) -> {
+                            Call<List<RecipeTitle>> call = service.getTitleAutocomplete(BuildConfig.API_KEY, query, 5);
+                            call.enqueue(callback);
+                        }));
 
         includedAdapter = new ItemsAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
