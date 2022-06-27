@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.recipeapp.Adapters.ItemsAdapter;
+import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
@@ -29,7 +29,8 @@ public class DetailsActivity extends AppCompatActivity {
     ActivityDetailsBinding binding;
     Recipe recipe;
     List<String> steps = new ArrayList<>();
-    ItemsAdapter stepsAdapter;
+    StepsAdapter stepsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,8 @@ public class DetailsActivity extends AppCompatActivity {
         binding.tvServings.setText(recipe.getServings().toString() + "\nservings");
         binding.tvTime.setText(recipe.getTimeToCook().toString() + " minutes");
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
-        stepsAdapter = new ItemsAdapter(steps, R.layout.item_list);
+
+        stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
         binding.rvSteps.setAdapter(stepsAdapter);
 
         RecipeClient.getInstance().getRecipeById(recipe.getId(), new JsonHttpResponseHandler() {
