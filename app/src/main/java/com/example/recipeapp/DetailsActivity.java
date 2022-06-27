@@ -65,7 +65,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
-                i.putExtra("recipe", Parcels.wrap(recipe));
+                i.putExtra(IngredientsActivity.RECIPE, Parcels.wrap(recipe));
                 startActivity(i);
             }
         });
