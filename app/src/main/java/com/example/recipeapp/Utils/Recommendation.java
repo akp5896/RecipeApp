@@ -32,6 +32,6 @@ public class Recommendation {
     public static List<Recipe> recommend() {
 //        Preferences currentPreferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
 //        Preferences generalPreferences = Preferences.getGeneralPreferences();
-//
-;    }
+            return null;
+    }
 }

@@ -51,6 +51,11 @@ App that allows user to search recipes.
  * User can get recommendations based on likes
  * User can get pushes with recommendations
  * Gather recipes from the other sources, and parse them into application format
+ * User can share recipes with nearby users via bluetooth
+ * User can get recipes suggestions based on what users nearby like
+ * User can save some recipe offline
+ * User can select "read outloud" on menus (ScreenReader)
+ * User can search with voice
 * ...
 
 ### 2. Screen Archetypes

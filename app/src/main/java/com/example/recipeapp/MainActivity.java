@@ -68,15 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        Recipe recipe = new Recipe();
-        recipe.setCuisines(new ArrayList<String>() {
-            {
-                add("Jewish");
-                add("American");
-                add("Another");
-            }
-        });
-        ((Preferences)ParseUser.getCurrentUser().getParseObject("preferences")).updatePreferences(recipe, new Taste());
         binding.bottomNavigation.setSelectedItemId(R.id.search);
     }
     @Override
