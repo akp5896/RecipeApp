@@ -129,12 +129,34 @@ App that allows user to search recipes.
 #### Preferences 
 | Property | Type | Desciprtion|
 |----------|------|------------|
-| exclude | Array | ingridients to exclude from search |
-| cuisine | String[] | cuisine user prefer |
-| bannedRecipes | Relation to recipes | recipes to exclude from search |
-| wouldLike | Array | ingridients user like |
-| wouldLikeToExlude | Array | ingridients user don't  like |
-| ratedRecipes | relation to recipes | recipes user rated |
+| numberOfVotes | Array | ingridients to exclude from search |
+| avgTime | Number | average time of liked recipes |
+| avgPrice | Number | average price of liked recipes |
+| avgHealth | Number | average heathiness of liked recipes |
+| userTaste | Pointer to taste |  taste of user |
+| stdTime | Number | standart deviation of time of liked recipes |
+| diet | relation to dietCounter | diets, and how often they occur in user liked recipes |
+| cuisine | relation to cuisineCounter | cuisines, and how often they occur in user liked recipes |
+#### Taste
+| Property | Type | Desciprtion|
+|----------|------|------------|
+| sweetness | Number | average sweetness of liked recipes |
+| saltiness | Number | average saltiness of liked recipes |
+| sourness | Number | average sourness of liked recipes |
+| bitterness | Number | average bitterness of liked recipes |
+| savoriness | Number |  average savoriness of liked recipes |
+| fattiness | Number | average fattiness of liked recipes |
+| spiciness | Number | average spiciness of liked recipes |
+#### dietCounter
+| Property | Type | Desciprtion|
+|----------|------|------------|
+| name | String | name of the diet |
+| counter | Number | how often user used the diet |
+#### cuisineCounter
+| Property | Type | Desciprtion|
+|----------|------|------------|
+| name | String | name of the diet |
+| counter | Number | how often user used the cuisine |
 ### Networking
 Base uri https://spoonacular.com/
 | HTTP VERB | Endpoint | Desciprtion|
