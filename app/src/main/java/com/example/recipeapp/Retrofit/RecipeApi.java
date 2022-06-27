@@ -52,11 +52,10 @@ public interface RecipeApi {
     @GET("/recipes/complexSearch")
     Call<Envelope<List<Recipe>>> getSortedRecipes(@Query("apiKey") String apiKey,
                                                   @Query("cuisine") String cuisine,
-                                                  @Query("excludeCuisine") String excludeCuisine,
-                                                  @Query("maxReadyTime") String maxReadyTime,
-                                                  @Query("addRecipeInformation") String addRecipeInformation,
+                                                  @Query("diet") String diet,
                                                   @Query("sort") String sortOrder,
-                                                  @Query("diet") String diet
+                                                  @Query("maxReadyTime") String maxReadyTime,
+                                                  @Query("addRecipeInformation") String addRecipeInformation
     );
 
 }

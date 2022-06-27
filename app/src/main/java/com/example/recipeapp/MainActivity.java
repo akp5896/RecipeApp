@@ -12,6 +12,7 @@ import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.Recommendation;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Recommendation.recommend();
         binding.bottomNavigation.setSelectedItemId(R.id.search);
     }
     @Override

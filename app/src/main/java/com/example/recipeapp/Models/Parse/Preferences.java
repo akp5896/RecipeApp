@@ -3,6 +3,7 @@ package com.example.recipeapp.Models.Parse;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.Recipe;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -10,6 +11,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.SaveCallback;
 
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,22 @@ public class Preferences extends ParseObject {
 
     private static Preferences generalPreferences;
 
+    public Integer getVotesCount() {
+        return getInt(KEY_NUMBER_OF_VOTES);
+    }
+
+    public Double getMaxTime() {
+        return getAverageTime() + getStd();
+    }
+
+    public Double getAverageTime() {
+        return getDouble(KEY_AVG_TIME);
+    }
+
+    public Double getStd() {
+        return Math.sqrt(getDouble(KEY_STD_TIME));
+    }
+
     public static Preferences getGeneralPreferences() {
         try {
             if (generalPreferences == null) {
@@ -42,6 +60,26 @@ public class Preferences extends ParseObject {
             e.printStackTrace();
         }
         return generalPreferences;
+    }
+
+    public List<ParseObject> getDietsList() {
+        ParseQuery<ParseObject> query = getRelation(KEY_USER_DIET).getQuery();
+        try {
+            return query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<ParseObject> getRelationByKey(String key) {
+        ParseQuery<ParseObject> query = getRelation(key).getQuery();
+        try {
+            return query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void updatePreferences(Recipe recipe, Taste newTaste) {
