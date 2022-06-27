@@ -10,11 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
-import com.example.recipeapp.Adapters.ItemsAdapter;
+import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
@@ -43,8 +42,8 @@ public class SearchFragment extends Fragment {
     FragmentSearchBinding binding;
     List<String> included = new ArrayList<>();
     List<String> excluded = new ArrayList<>();
-    ItemsAdapter includedAdapter;
-    ItemsAdapter excludedAdapter;
+    StepsAdapter includedAdapter;
+    StepsAdapter excludedAdapter;
 
     public SearchFragment() {
     }
@@ -70,8 +69,6 @@ public class SearchFragment extends Fragment {
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
 
-        //binding.edInclude.setCall((query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler));
-        //binding.edExclude.setCall((query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler));
         binding.edExclude.setAdapter(
                 new AutoCompleteAdapter(
                         getContext(),
@@ -83,19 +80,17 @@ public class SearchFragment extends Fragment {
                         android.R.layout.simple_dropdown_item_1line,
                         (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
 
-        //binding.etTitle.setCall((query, handler) -> RecipeClient.getInstance().getTitleAutocomplete(query, handler));
-
         binding.etTitle.setAdapter(
                 new AutoCompleteAdapter(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
                         (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
 
-        includedAdapter = new ItemsAdapter(included, R.layout.item);
+        includedAdapter = new StepsAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
         binding.rvInclude.setLayoutManager(getFlexboxLayoutManager());
 
-        excludedAdapter = new ItemsAdapter(excluded, R.layout.item);
+        excludedAdapter = new StepsAdapter(excluded, R.layout.item);
         binding.rvExclude.setAdapter(excludedAdapter);
         binding.rvExclude.setLayoutManager(getFlexboxLayoutManager());
 

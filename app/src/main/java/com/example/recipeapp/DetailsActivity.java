@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.recipeapp.Adapters.ItemsAdapter;
+import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
@@ -28,8 +28,8 @@ public class DetailsActivity extends AppCompatActivity {
     Recipe recipe;
     List<String> steps = new ArrayList<>();
     List<String> ingredients = new ArrayList<>();
-    ItemsAdapter stepsAdapter;
-    ItemsAdapter ingredientsAdapter;
+    StepsAdapter stepsAdapter;
+    StepsAdapter ingredientsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,8 @@ public class DetailsActivity extends AppCompatActivity {
         binding.tvTime.setText(recipe.getTimeToCook().toString() + " minutes");
         binding.rvIngredients.setLayoutManager(new GridLayoutManager(this, 2));
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
-        stepsAdapter = new ItemsAdapter(steps, R.layout.item_list);
-        ingredientsAdapter = new ItemsAdapter(ingredients, R.layout.item_list);
+        stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
+        ingredientsAdapter = new StepsAdapter(ingredients, R.layout.item_list);
         binding.rvSteps.setAdapter(stepsAdapter);
         binding.rvIngredients.setAdapter(ingredientsAdapter);
 
