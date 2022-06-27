@@ -16,6 +16,9 @@
         android:theme="@style/Theme.RecipeApp"
         tools:targetApi="31">
         <activity
+            android:name=".IngredientsActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailsActivity"
             android:exported="false" />
         <activity

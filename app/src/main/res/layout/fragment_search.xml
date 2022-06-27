@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <com.example.recipeapp.CustomViews.NetworkAutocompleteView
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +57,6 @@
             android:layout_width="0dp"
             android:minHeight="25dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:hint="@string/include"
             app:layout_constraintEnd_toStartOf="@id/btnInclude"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +84,6 @@
             android:id="@+id/edExclude"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:minHeight="25dp"
             android:hint="Exclude: "
             app:layout_constraintEnd_toStartOf="@id/btnInclude"
@@ -130,6 +128,7 @@
             app:layout_constraintTop_toBottomOf="@id/checkboxExcludeCuisine" />
 
         <com.example.recipeapp.CustomViews.SearchSpinnerView
+            app:hasIcon="true"
             android:id="@+id/spinnerCuisine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

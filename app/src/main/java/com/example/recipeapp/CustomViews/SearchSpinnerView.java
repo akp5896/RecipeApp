@@ -1,16 +1,19 @@
 package com.example.recipeapp.CustomViews;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.appcompat.widget.SearchView;
 import com.example.recipeapp.Adapters.SpinnerAdapter;
 import com.example.recipeapp.R;
 

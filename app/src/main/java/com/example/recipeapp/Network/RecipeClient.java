@@ -1,17 +1,11 @@
-package com.example.recipeapp;
+package com.example.recipeapp.Network;
 
 import android.annotation.SuppressLint;
-import android.media.MediaCodec;
-import android.util.Log;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-
-import java.util.Queue;
-import java.util.function.ObjIntConsumer;
-
-import okhttp3.Headers;
+import com.example.recipeapp.BuildConfig;
 
 public class RecipeClient {
     public static final String BASE_URL = "https://api.spoonacular.com";
@@ -68,6 +62,23 @@ public class RecipeClient {
         params.put("apiKey", API_KEY);
         params.put("query", query);
         params.put("number", 5);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void getTitleAutocomplete(String query, JsonHttpResponseHandler handler) {
+        String apiUrl = BASE_URL + "/food/ingredients/autocomplete";
+        RequestParams params = new RequestParams();
+        params.put("apiKey", API_KEY);
+        params.put("query", query);
+        params.put("number", 5);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void getIngredientSubstitute(Long id, JsonHttpResponseHandler handler) {
+        @SuppressLint("DefaultLocale")
+        String apiUrl = String.format(BASE_URL + "/food/ingredients/%d/substitutes", id);
+        RequestParams params = new RequestParams();
+        params.put("apiKey", API_KEY);
         client.get(apiUrl, params, handler);
     }
 
