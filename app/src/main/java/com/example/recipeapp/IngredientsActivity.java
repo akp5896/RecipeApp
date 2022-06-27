@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class IngredientsActivity extends AppCompatActivity {
 
     private static final String TAG = "INGR ACTIVITY";
+    public static final String RECIPE = "recipe";
 
     List<Ingredient> ingredients;
 
@@ -31,10 +32,10 @@ public class IngredientsActivity extends AppCompatActivity {
         binding = ActivityIngridientsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra("recipe"));
+        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
         ingredients = recipe.getIngredients();
 
-        adapter = new IngredientsAdapter(this, ingredients);
+        adapter = new IngredientsAdapter(ingredients);
 
         binding.rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         binding.rvIngredients.setAdapter(adapter);
