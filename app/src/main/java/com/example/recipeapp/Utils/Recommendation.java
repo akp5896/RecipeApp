@@ -1,10 +1,16 @@
 package com.example.recipeapp.Utils;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.util.Printer;
+
+import androidx.annotation.NonNull;
 
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.Parse.ParseCounter;
 import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
@@ -13,28 +19,28 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-//        @Query("cuisine") String cuisine,
-//        @Query("excludeCuisine") String excludeCuisine,
-//        @Query("maxReadyTime") String maxReadyTime,
-//        @Query("diet") String diet
 public class Recommendation {
-//    @GET("/recipes/complexSearch")
-//    Call<Envelope<List<Recipe>>> getSortedRecipes(@Query("apiKey") String apiKey,
-//                                                  @Query("cuisine") String cuisine,
-//                                                  @Query("maxReadyTime") String maxReadyTime,
-//                                                  @Query("addRecipeInformation") String addRecipeInformation,
-//                                                  @Query("sort") String sortOrder,
-//                                                  @Query("diet") String diet
-//    );
-    public static List<Recipe> recommend() {
+
+    public static final int NUMBER_OF_SORTING_COMPONENTS = 3;
+    private static final String TAG = "RECOMMENDATION: ";
+    private static final int RECIPES_REQUESTED = 3;
+
+    public static void recommend(RecommendCallback callback) {
         Preferences currentPreferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
         Preferences generalPreferences = Preferences.getGeneralPreferences();
 
@@ -44,22 +50,33 @@ public class Recommendation {
                 getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_DIET),
                 "random",
                 String.valueOf(currentPreferences.getMaxTime().intValue()),
+                RECIPES_REQUESTED,
                 "true");
-        call.enqueue(new Callback<Envelope<List<Recipe>>>() {
+        call.enqueue(getSortingCallback(currentPreferences, callback));
+    }
+
+    @NonNull
+    private static Callback<Envelope<List<Recipe>>> getSortingCallback(Preferences current, RecommendCallback callback) {
+        return new Callback<Envelope<List<Recipe>>>() {
             @Override
             public void onResponse(Call<Envelope<List<Recipe>>> call, Response<Envelope<List<Recipe>>> response) {
-                List<Recipe> res = response.body().results;
-                for(Recipe item : res) {
-                    Log.i("RECOMMENDATION", item.getTitle());
+                List<Recipe> recipes = response.body().results;
+                Executor.Builder builder = new Executor.Builder();
+                for(Recipe recipe : recipes) {
+                    builder = builder.add(() -> recipe.getTaste(current));
                 }
+                builder = builder.callback(() -> {
+                    Collections.sort(recipes, Comparator.comparingDouble(Recipe::getUserRating));
+                    callback.OnRecommendationReturned(recipes);
+                });
+                builder.build().execute();
             }
 
             @Override
             public void onFailure(Call<Envelope<List<Recipe>>> call, Throwable t) {
                 Log.e("RECOMMENDATION", "Failed " + t);
             }
-        });
-        return null;
+        };
     }
 
     public static String getListRecommendation(Preferences current, Preferences general, String key) {
@@ -90,5 +107,17 @@ public class Recommendation {
             selector.add(currentProb - probabilities.getOrDefault(curCounter.getName(), 0.0), curCounter.getName());
         }
         return selector.next();
+    }
+
+    public static Double getRecipeDistance(Recipe recipe, Taste taste, Preferences current) {
+        double total = 0.0;
+        total += getNormalDistance(current.getHealth(), recipe.getHealthScore()) / NUMBER_OF_SORTING_COMPONENTS;
+        total += getNormalDistance(current.getPrice(), recipe.getPricePerServing()) / NUMBER_OF_SORTING_COMPONENTS;
+        total += current.getTaste().calculateTasteDistance(taste) / NUMBER_OF_SORTING_COMPONENTS;
+        return total;
+    }
+
+    public static double getNormalDistance(double primary, double secondary) {
+        return Math.abs(primary - secondary) / primary;
     }
 }

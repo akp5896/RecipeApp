@@ -55,6 +55,7 @@ public interface RecipeApi {
                                                   @Query("diet") String diet,
                                                   @Query("sort") String sortOrder,
                                                   @Query("maxReadyTime") String maxReadyTime,
+                                                  @Query("number") int numberOfResults,
                                                   @Query("addRecipeInformation") String addRecipeInformation
     );
 

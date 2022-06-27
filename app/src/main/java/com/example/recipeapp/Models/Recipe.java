@@ -1,8 +1,17 @@
 package com.example.recipeapp.Models;
 
+import android.util.Log;
+
+import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.Step;
+import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Retrofit.InstructionEnvelope;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.Recommendation;
 import com.google.gson.annotations.SerializedName;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,11 +19,17 @@ import org.json.JSONObject;
 import org.parceler.Parcel;
 import org.parceler.Transient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 @Parcel
 public class Recipe {
+    private static final String TAG = "TASTE";
     @SerializedName("title")
     String title;
     @SerializedName("image")
@@ -39,6 +54,9 @@ public class Recipe {
     List<String> cuisines;
     @SerializedName("diets")
     List<String> diets;
+
+    @Transient
+    double userRating = -3;
 
     public void setCuisines(List<String> cuisines) {
         this.cuisines = cuisines;
@@ -98,5 +116,30 @@ public class Recipe {
 
     public Double getPricePerServing() {
         return pricePerServing;
+    }
+
+    public void getTaste(Preferences current) {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        Call<Taste> call = service.getTasteById(id, BuildConfig.API_KEY);
+        try {
+            Response<Taste> response = call.execute();
+            setUserRating(Recommendation.getRecipeDistance(Recipe.this, response.body(), current));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getTaste(Callback<Taste> callback) {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        Call<Taste> call = service.getTasteById(id, BuildConfig.API_KEY);
+        call.enqueue(callback);
+    }
+
+    public double getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(double userRating) {
+        this.userRating = userRating;
     }
 }

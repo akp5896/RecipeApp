@@ -2,6 +2,7 @@ package com.example.recipeapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import retrofit2.Response;
 
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder> {
 
+    private static final String TAG = "RECIPES ADAPTER";
     List<Recipe> recipes;
     Context context;
 
@@ -84,9 +86,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "Liked", Toast.LENGTH_SHORT).show();
-                    RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-                    Call<Taste> call = service.getTasteById(item.getId(), BuildConfig.API_KEY);
-                    call.enqueue(new Callback<Taste>() {
+                    item.getTaste(new Callback<Taste>() {
                         @Override
                         public void onResponse(Call<Taste> call, Response<Taste> response) {
                             Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
@@ -96,7 +96,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
 
                         @Override
                         public void onFailure(Call<Taste> call, Throwable t) {
-
+                            Log.e(TAG, "Failure : " + t);
                         }
                     });
                 }

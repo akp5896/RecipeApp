@@ -33,6 +33,18 @@ public class Preferences extends ParseObject {
 
     private static Preferences generalPreferences;
 
+    public Taste getTaste() {
+        return (Taste) getParseObject(KEY_USER_TASTE);
+    }
+
+    public Double getHealth() {
+        return getDouble(KEY_AVG_HEALTH);
+    }
+
+    public Double getPrice() {
+        return getDouble(KEY_AVG_PRICE);
+    }
+
     public Integer getVotesCount() {
         return getInt(KEY_NUMBER_OF_VOTES);
     }
