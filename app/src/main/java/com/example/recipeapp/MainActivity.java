@@ -17,6 +17,7 @@ import com.example.recipeapp.Utils.Recommendation;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        startActivity(new Intent(this, EditPreferencesActivity.class));
         binding.bottomNavigation.setSelectedItemId(R.id.search);
     }
     @Override
