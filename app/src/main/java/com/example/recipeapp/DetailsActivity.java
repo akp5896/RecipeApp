@@ -7,10 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipeapp.Adapters.ItemsAdapter;
+import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RecipeApi;
@@ -32,7 +31,8 @@ public class DetailsActivity extends AppCompatActivity {
     ActivityDetailsBinding binding;
     Recipe recipe;
     List<String> steps = new ArrayList<>();
-    ItemsAdapter stepsAdapter;
+    StepsAdapter stepsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,8 @@ public class DetailsActivity extends AppCompatActivity {
         binding.tvServings.setText(recipe.getServings().toString() + "\nservings");
         binding.tvTime.setText(recipe.getTimeToCook().toString() + " minutes");
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
-        stepsAdapter = new ItemsAdapter(steps, R.layout.item_list);
+
+        stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
         binding.rvSteps.setAdapter(stepsAdapter);
 
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
