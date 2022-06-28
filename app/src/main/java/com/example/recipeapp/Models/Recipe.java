@@ -29,7 +29,6 @@ public class Recipe {
     Double pricePerServing;
     @SerializedName("servings")
     Integer servings;
-    //List<String> analyzedInstructions;
     @SerializedName("analyzedInstructions")
     @Transient
     List<InstructionEnvelope<List<Step>>> analyzedInstructions;
@@ -54,21 +53,6 @@ public class Recipe {
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
-
-    //    public static void Steps(Recipe recipe, JSONObject json) {
-//        List<String> result = new ArrayList<>();
-//        try {
-//            JSONArray steps = json.getJSONArray("analyzedInstructions").getJSONObject(0).getJSONArray("steps");
-//            for(int i = 0; i < steps.length(); i++) {
-//                result.add(String.valueOf(i + 1) + ". " + steps.getJSONObject(i).getString("step"));
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        recipe.setAnalyzedInstructions(result);
-//    }
-
-
 
     public static List<Recipe> fromJsonArray(JSONArray array) {
         List<Recipe> result = new ArrayList<>();

@@ -67,7 +67,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(context, DetailsActivity.class);
-                    i.putExtra("recipe", Parcels.wrap(item));
+                    i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(item));
                     context.startActivity(i);
                 }
             });

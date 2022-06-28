@@ -20,6 +20,8 @@ import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
     ActivitySignUpBinding binding;
 
     @Override
@@ -35,8 +37,8 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ParseUser user = new ParseUser();
 
-                user.put("username", binding.etLogin.getText().toString());
-                user.put("password", binding.etLogin.getText().toString());
+                user.put(USERNAME, binding.etLogin.getText().toString());
+                user.put(PASSWORD, binding.etLogin.getText().toString());
                 user.signUpInBackground((SignUpCallback) e -> {
                     if(e != null) {
                         Toast.makeText(SignUpActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
