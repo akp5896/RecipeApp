@@ -16,6 +16,8 @@
     <string name="ingredients">Ingredients</string>
     <string name="ingredients_title">Ingredients:</string>
     <string name="instructions">Instructions:</string>
+    <string name="Liked">Liked</string>
+    <string name="login_issue">Issue with login</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

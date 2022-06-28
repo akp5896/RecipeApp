@@ -1,6 +1,5 @@
 package com.example.recipeapp.Adapters;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,33 +8,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.IngredientsActivity;
 import com.example.recipeapp.Models.Ingredient;
-import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Models.RecipeTitle;
-import com.example.recipeapp.Network.RecipeClient;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Retrofit.SubEnvelope;
-import com.example.recipeapp.Models.Ingredient;
-import com.example.recipeapp.Network.RecipeClient;
-import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.ItemIngredientsBinding;
 import com.roughike.swipeselector.SwipeItem;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
-import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,7 +64,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
                 @Override
                 public void onResponse(Call<SubEnvelope<List<String>>> call, Response<SubEnvelope<List<String>>> response) {
                     SubEnvelope<List<String>> x = response.body();
-                    if(x.status.equals("failure")) {
+                    if(x.status.equals(RecipeApi.FAILURE)) {
                         binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
                         return;
                     }

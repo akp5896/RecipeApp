@@ -29,4 +29,13 @@
         android:textColor="@color/black"
         android:background="@color/transparent_white"
         />
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/heart_selector"
+        android:id="@+id/ivHeart"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

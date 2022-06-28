@@ -12,6 +12,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "LOGIN ACTIVITY";
     ActivityLoginBinding binding;
 
     @Override
@@ -40,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if(e != null) {
-                            Log.i("LOGIN ACTIVTY", "Issue with login" + e);
+                            Log.i(TAG, getString(R.string.login_issue) + e);
                             return;
                         }
                         toMainActivity();

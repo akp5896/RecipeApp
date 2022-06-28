@@ -1,21 +1,19 @@
 package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Models.Step;
-import com.example.recipeapp.Network.RecipeClient;
-import com.example.recipeapp.Retrofit.InstructionEnvelope;
+import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
@@ -25,7 +23,6 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,8 +46,8 @@ public class DetailsActivity extends AppCompatActivity {
         recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
 
         Glide.with(this).load(recipe.getImage()).into(binding.ivImage);
-        binding.tvServings.setText(recipe.getServings().toString() + "\nservings");
-        binding.tvTime.setText(recipe.getTimeToCook().toString() + " minutes");
+        binding.tvServings.setText(String.format("%s\nservings", recipe.getServings().toString()));
+        binding.tvTime.setText(String.format("%s minutes", recipe.getTimeToCook().toString()));
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -80,7 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
-                i.putExtra("recipe", Parcels.wrap(recipe));
+                i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
                 startActivity(i);
             }
         });
