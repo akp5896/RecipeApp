@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.recipeapp.Adapters.RecipesAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Utils.LeftSwipeListener;
 import com.example.recipeapp.databinding.FragmentFeedBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
 
@@ -63,6 +64,9 @@ public class FeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentFeedBinding.inflate(getLayoutInflater());
+        binding.getRoot().setOnTouchListener(new LeftSwipeListener(getContext()));
         return binding.getRoot();
     }
+
+
 }
