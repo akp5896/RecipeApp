@@ -13,6 +13,7 @@ import com.example.recipeapp.Adapters.CheckboxAdapter;
 import com.example.recipeapp.Adapters.ItemsAdapter;
 import com.example.recipeapp.CustomViews.StateVO;
 import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityEditPreferencesBinding;
@@ -21,6 +22,7 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -51,12 +53,14 @@ public class EditPreferencesActivity extends AppCompatActivity {
                 )
         );
 
+        binding.spinnerDiet.setSelection(getDietIndex());
+
         ArrayList<StateVO> cuisinesVO = new ArrayList<>();
         String[] cuisines = getResources().getStringArray(R.array.cuisines);
         for (String cuisine : cuisines) {
             StateVO stateVO = new StateVO();
             stateVO.setTitle(cuisine);
-            stateVO.setSelected(false);
+            stateVO.setSelected(Settings.getCuisines().contains(cuisine));
             cuisinesVO.add(stateVO);
         }
 
@@ -69,7 +73,7 @@ public class EditPreferencesActivity extends AppCompatActivity {
         for (String intolerance : intolerances) {
             StateVO stateVO = new StateVO();
             stateVO.setTitle(intolerance);
-            stateVO.setSelected(false);
+            stateVO.setSelected(Settings.containsIntolerance(intolerance));
             intoleranceVO.add(stateVO);
         }
 
@@ -85,7 +89,7 @@ public class EditPreferencesActivity extends AppCompatActivity {
                             Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
                             call.enqueue(callback);
                         }));
-
+        banned.addAll(Settings.getBanned());
         banAdapter = new ItemsAdapter(banned, R.layout.item);
         binding.rvBan.setAdapter(banAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
@@ -109,6 +113,18 @@ public class EditPreferencesActivity extends AppCompatActivity {
             edit.putStringSet(INTOLERANCES, intoleranceAdapter.getChecked());
             edit.putStringSet(BANNED, new HashSet<>(banned));
             edit.apply();
+            Settings.setDiet(binding.spinnerDiet.getSelectedItem().toString());
+            Settings.setCuisines(cuisineAdapter.getChecked());
+            Settings.setIntolerances(intoleranceAdapter.getChecked());
+            Settings.setBanned(new HashSet<>(banned));
+            finish();
         });
+    }
+
+    private int getDietIndex() {
+        if(Settings.getDiet() == null) {
+            return 0;
+        }
+        return Arrays.asList(getResources().getStringArray(R.array.diets)).indexOf(Settings.getDiet());
     }
 }

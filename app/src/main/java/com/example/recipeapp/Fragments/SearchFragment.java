@@ -18,6 +18,7 @@ import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.RecipeTitle;
+import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
@@ -68,7 +69,7 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        excluded.addAll(Settings.getBanned());
 
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
@@ -135,7 +136,8 @@ public class SearchFragment extends Fragment {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
-                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()), "true");
+                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()),
+                Settings.getIntolerances(), Settings.getDiet(), "true");
 
         call.enqueue(new Callback<Envelope<List<Recipe>>>() {
             @Override

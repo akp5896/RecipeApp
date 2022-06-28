@@ -43,6 +43,8 @@ public interface RecipeApi {
                                              @Query("excludeIngredients") String excludeIngredients,
                                              @Query("type") String type,
                                              @Query("maxReadyTime") String maxReadyTime,
+                                             @Query("intolerances") String intolerances,
+                                             @Query("diet") String diet,
                                              @Query("addRecipeInformation") String addRecipeInformation
                                              );
 
@@ -55,6 +57,7 @@ public interface RecipeApi {
                                                   @Query("diet") String diet,
                                                   @Query("sort") String sortOrder,
                                                   @Query("maxReadyTime") String maxReadyTime,
+                                                  @Query("intolerances") String intolerances,
                                                   @Query("number") int numberOfResults,
                                                   @Query("addRecipeInformation") String addRecipeInformation
     );

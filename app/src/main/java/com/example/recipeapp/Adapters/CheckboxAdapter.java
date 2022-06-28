@@ -63,6 +63,7 @@ public class CheckboxAdapter extends ArrayAdapter<StateVO> {
         holder.textView.setText(listState.get(position).getTitle());
 
         holder.checkBox.setTag(position);
+        holder.checkBox.setChecked(listState.get(position).isSelected());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override

@@ -65,6 +65,7 @@
         <item>drink</item>
     </string-array>
     <string-array name="diets">
+        <item></item>
         <item> Gluten Free</item>
         <item> Ketogenic</item>
         <item> Vegetarian</item>
@@ -79,6 +80,7 @@
     </string-array>
 
     <string-array name="intolerances">
+        <item></item>
         <item>Dairy</item>
         <item>Egg</item>
         <item>Gluten</item>

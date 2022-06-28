@@ -6,12 +6,14 @@ import android.util.Log;
 import android.util.Printer;
 
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
 
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.Parse.ParseCounter;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
@@ -25,6 +27,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -39,6 +43,7 @@ public class Recommendation {
     public static final int NUMBER_OF_SORTING_COMPONENTS = 3;
     private static final String TAG = "RECOMMENDATION: ";
     private static final int RECIPES_REQUESTED = 3;
+    private static Random random;
 
     public static void recommend(RecommendCallback callback) {
         Preferences currentPreferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
@@ -46,13 +51,31 @@ public class Recommendation {
 
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getSortedRecipes(BuildConfig.API_KEY,
-                getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_CUISINE),
-                getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_DIET),
+                getCuisine(currentPreferences, generalPreferences),
+                getDiet(currentPreferences, generalPreferences),
                 "random",
                 String.valueOf(currentPreferences.getMaxTime().intValue()),
+                Settings.getIntolerances(),
                 RECIPES_REQUESTED,
                 "true");
         call.enqueue(getSortingCallback(currentPreferences, callback));
+    }
+
+    private static String getCuisine(Preferences currentPreferences, Preferences generalPreferences) {
+        if(Settings.getCuisines() != null) {
+            if(random == null) {
+                random = new Random();
+            }
+            return Settings.getCuisines().get(random.nextInt());
+        }
+        return getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_CUISINE);
+    }
+
+    private static String getDiet(Preferences currentPreferences, Preferences generalPreferences){
+        if(Settings.getDiet() != null) {
+            return Settings.getDiet();
+        }
+        return getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_DIET);
     }
 
     @NonNull
