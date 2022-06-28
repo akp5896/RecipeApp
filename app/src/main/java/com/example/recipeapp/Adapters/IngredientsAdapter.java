@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.IngredientsActivity;
 import com.example.recipeapp.Models.Ingredient;
@@ -20,12 +21,16 @@ import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Retrofit.SubEnvelope;
+import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Network.RecipeClient;
+import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.ItemIngredientsBinding;
 import com.roughike.swipeselector.SwipeItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,27 +40,25 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder>{
+public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>{
 
     private static final String TAG = "INGR ADAPTER";
-    Context context;
     List<Ingredient> ingredients;
 
-    public IngredientsAdapter(Context context, List<Ingredient> ingredients) {
-        this.context = context;
+    public IngredientsAdapter(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public IngredientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredients, parent, false);
-        return new IngredientsAdapter.ViewHolder(view);
+        return new IngredientsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding(ingredients.get(position));
+    public void onBindViewHolder(@NonNull IngredientsViewHolder holder, int position) {
+        holder.bindIngredientsSubstitute(ingredients.get(position));
     }
 
     @Override
@@ -63,14 +66,15 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         return ingredients.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public class IngredientsViewHolder extends RecyclerView.ViewHolder{
         ItemIngredientsBinding binding;
-        public ViewHolder(@NonNull View itemView) {
+        public IngredientsViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemIngredientsBinding.bind(itemView);
         }
 
-        public void binding(Ingredient s) {
+        public void bindIngredientsSubstitute(Ingredient s) {
             RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
             Call<SubEnvelope<List<String>>> call = service.getIngredientSubstitute(s.getId(), BuildConfig.API_KEY);
             call.enqueue(new Callback<SubEnvelope<List<String>>>() {

@@ -10,13 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
-import com.example.recipeapp.Adapters.ItemsAdapter;
 import com.example.recipeapp.BuildConfig;
+import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
@@ -55,8 +54,8 @@ public class SearchFragment extends Fragment {
     FragmentSearchBinding binding;
     List<String> included = new ArrayList<>();
     List<String> excluded = new ArrayList<>();
-    ItemsAdapter includedAdapter;
-    ItemsAdapter excludedAdapter;
+    StepsAdapter includedAdapter;
+    StepsAdapter excludedAdapter;
 
     public SearchFragment() {
     }
@@ -81,6 +80,7 @@ public class SearchFragment extends Fragment {
 
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
+
 
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         binding.edExclude.setAdapter(
@@ -109,11 +109,11 @@ public class SearchFragment extends Fragment {
                             call.enqueue(callback);
                         }));
 
-        includedAdapter = new ItemsAdapter(included, R.layout.item);
+        includedAdapter = new StepsAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
         binding.rvInclude.setLayoutManager(getFlexboxLayoutManager());
 
-        excludedAdapter = new ItemsAdapter(excluded, R.layout.item);
+        excludedAdapter = new StepsAdapter(excluded, R.layout.item);
         binding.rvExclude.setAdapter(excludedAdapter);
         binding.rvExclude.setLayoutManager(getFlexboxLayoutManager());
 
