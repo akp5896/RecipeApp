@@ -27,6 +27,9 @@ public interface RecipeApi {
     String TYPE = "type";
     String MAX_READY_TIME = "maxReadyTime";
     String ADD_RECIPE_INFORMATION = "addRecipeInformation";
+    String RECIPE_INFORMATION_VALUE = "true";
+    String SORT = "sort";
+    String DIET = "diet";
 
     @GET("/recipes/complexSearch")
     Call<Envelope<List<Recipe>>> getAllRecipes(@Query(API_KEY) String apiKey);
@@ -62,16 +65,16 @@ public interface RecipeApi {
                                              );
 
     @GET("/recipes/{id}/tasteWidget.json")
-    Call<Taste> getTasteById(@Path("id") Long id,@Query("apiKey") String apiKey);
+    Call<Taste> getTasteById(@Path("id") Long id,@Query(API_KEY) String apiKey);
 
     @GET("/recipes/complexSearch")
-    Call<Envelope<List<Recipe>>> getSortedRecipes(@Query("apiKey") String apiKey,
-                                                  @Query("cuisine") String cuisine,
-                                                  @Query("diet") String diet,
-                                                  @Query("sort") String sortOrder,
-                                                  @Query("maxReadyTime") String maxReadyTime,
-                                                  @Query("number") int numberOfResults,
-                                                  @Query("addRecipeInformation") String addRecipeInformation
+    Call<Envelope<List<Recipe>>> getSortedRecipes(@Query(API_KEY) String apiKey,
+                                                  @Query(CUISINE) String cuisine,
+                                                  @Query(DIET) String diet,
+                                                  @Query(SORT) String sortOrder,
+                                                  @Query(MAX_READY_TIME) String maxReadyTime,
+                                                  @Query(NUMBER) int numberOfResults,
+                                                  @Query(ADD_RECIPE_INFORMATION) String addRecipeInformation
     );
 
 }

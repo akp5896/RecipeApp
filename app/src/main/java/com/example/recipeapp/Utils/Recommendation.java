@@ -51,7 +51,7 @@ public class Recommendation {
                 RecipeApi.RANDOM_ORDER,
                 String.valueOf(currentPreferences.getMaxTime().intValue()),
                 RECIPES_REQUESTED,
-                "true");
+                RecipeApi.RECIPE_INFORMATION_VALUE);
         call.enqueue(getSortingCallback(currentPreferences, callback));
     }
 

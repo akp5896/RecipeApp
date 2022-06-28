@@ -22,6 +22,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AutoCompleteAdapter<T extends RetrofitAutocomplete> extends ArrayAdapter<String> implements Filterable {
+    private static final String TAG = "AutoAdapter";
+
     public interface NetworkCall<T extends RetrofitAutocomplete> {
         void makeCall(String query, Callback<List<T>> callback);
     }
@@ -71,7 +73,7 @@ public class AutoCompleteAdapter<T extends RetrofitAutocomplete> extends ArrayAd
 
                             @Override
                             public void onFailure(Call<List<T>> call, Throwable t) {
-                                Log.e("AutoAdapter", "query failed");
+                                Log.e(TAG, "query failed");
                             }
                         });
 

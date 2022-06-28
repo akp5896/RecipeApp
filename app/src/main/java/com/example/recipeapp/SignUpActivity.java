@@ -19,6 +19,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
+    private static final String TAG = "SIGN UP ACTIVITY";
     ActivitySignUpBinding binding;
 
     @Override
@@ -39,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
                 user.signUpInBackground((SignUpCallback) e -> {
                     if(e != null) {
                         Toast.makeText(SignUpActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                        Log.i("SIGN UP ACTIVTY", e.toString());
+                        Log.i(TAG, e.toString());
                         return;
                     }
                     Preferences pref = new Preferences();
@@ -48,7 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
                         taste.save();
                         pref.put(Preferences.KEY_USER_TASTE, taste);
                         pref.saveInBackground(e1 -> {
-                            user.put("preferences", pref);
+                            user.put(Preferences.PREFERENCES, pref);
                             user.saveInBackground();
                         });
                     } catch (ParseException ex) {
