@@ -16,6 +16,8 @@
     <string name="ingredients">Ingredients</string>
     <string name="ingredients_title">Ingredients:</string>
     <string name="instructions">Instructions:</string>
+    <string name="save">Save</string>
+    <string name="exclude">Exclude:</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

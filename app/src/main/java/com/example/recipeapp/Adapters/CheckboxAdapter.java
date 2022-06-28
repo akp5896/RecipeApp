@@ -12,22 +12,25 @@ import android.widget.Toast;
 
 import com.example.recipeapp.CustomViews.StateVO;
 import com.example.recipeapp.R;
-import com.example.recipeapp.databinding.SpinnerItemBinding;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class CheckboxAdapter extends ArrayAdapter<StateVO> {
-    private Context mContext;
-    private ArrayList<StateVO> listState;
-    private CheckboxAdapter myAdapter;
-    private boolean isFromView = false;
+    private final Context context;
+    private final ArrayList<StateVO> listState;
+    private final HashSet<String> checked;
 
     public CheckboxAdapter(Context context, int resource, List<StateVO> objects) {
         super(context, resource, objects);
-        this.mContext = context;
+        this.context = context;
         this.listState = (ArrayList<StateVO>) objects;
-        this.myAdapter = this;
+        this.checked = new HashSet<>();
+    }
+
+    public HashSet<String> getChecked() {
+        return checked;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class CheckboxAdapter extends ArrayAdapter<StateVO> {
                               ViewGroup parent) {
         final CheckboxViewHolder holder;
         if (convertView == null) {
-            LayoutInflater layoutInflator = LayoutInflater.from(mContext);
+            LayoutInflater layoutInflator = LayoutInflater.from(context);
             convertView = layoutInflator.inflate(R.layout.spinner_item, null);
             holder = new CheckboxViewHolder();
             holder.textView = (TextView) convertView
@@ -64,7 +67,12 @@ public class CheckboxAdapter extends ArrayAdapter<StateVO> {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Toast.makeText(mContext, "Checked" + listState.get(position).getTitle(), Toast.LENGTH_SHORT);
+                if(isChecked) {
+                    checked.add(listState.get(position).getTitle());
+                } else {
+                    checked.remove(listState.get(position).getTitle());
+                }
+                Toast.makeText(context, "Checked" + listState.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
         return convertView;

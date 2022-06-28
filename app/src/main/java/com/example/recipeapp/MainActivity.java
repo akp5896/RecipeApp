@@ -3,6 +3,7 @@ package com.example.recipeapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 //import androidx.databinding.BindingAdapter;
 //import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
@@ -18,6 +19,7 @@ import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,6 +33,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -72,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        startActivity(new Intent(this, EditPreferencesActivity.class));
         binding.bottomNavigation.setSelectedItemId(R.id.search);
     }
     @Override
