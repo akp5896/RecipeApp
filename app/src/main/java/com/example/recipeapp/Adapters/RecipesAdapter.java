@@ -75,8 +75,8 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
             binding.ivHeart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Liked", Toast.LENGTH_SHORT).show();
-                    Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
+                    Toast.makeText(context, R.string.Liked, Toast.LENGTH_SHORT).show();
+                    Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
                     preferences.updatePreferences(item);
                     preferences.saveInBackground();
                 }

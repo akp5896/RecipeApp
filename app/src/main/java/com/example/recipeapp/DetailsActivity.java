@@ -46,8 +46,8 @@ public class DetailsActivity extends AppCompatActivity {
         recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
 
         Glide.with(this).load(recipe.getImage()).into(binding.ivImage);
-        binding.tvServings.setText(recipe.getServings().toString() + "\nservings");
-        binding.tvTime.setText(recipe.getTimeToCook().toString() + " minutes");
+        binding.tvServings.setText(String.format("%s\nservings", recipe.getServings().toString()));
+        binding.tvTime.setText(String.format("%s minutes", recipe.getTimeToCook().toString()));
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -77,7 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
-                i.putExtra("recipe", Parcels.wrap(recipe));
+                i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
                 startActivity(i);
             }
         });

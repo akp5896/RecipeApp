@@ -17,6 +17,13 @@ public class Preferences extends ParseObject {
     public static final String KEY_USER_DIET = "diet";
     public static final String KEY_USER_CUISINE = "cuisine";
 
+    public static final String PREFERENCES = "preferences";
+
+
+    /**
+     * Update preferences with the parameters of the new recipe
+     * @param recipe The liked recipe
+     */
     public void updatePreferences(Recipe recipe) {
         increment(KEY_NUMBER_OF_VOTES);
         try {
@@ -30,18 +37,22 @@ public class Preferences extends ParseObject {
         updateAverage(KEY_AVG_TIME, (double)recipe.getTimeToCook());
         updateAverage(KEY_AVG_PRICE, recipe.getPricePerServing());
         updateAverage(KEY_AVG_HEALTH, recipe.getHealthScore());
-
-//        ((Taste)getParseObject(KEY_USER_TASTE)).updateTaste(recipe);
-//        ((Diet)getParseObject(KEY_USER_DIET)).updateDiet(recipe);
-//        ((Cuisine)getParseObject(KEY_USER_CUISINE)).updateRecipe(recipe);
     }
 
-    private void updateStd(float newTime) {
+    /**
+     * Updating standard deviation using Welford's online algorithm
+     * @param newVal New value to update std
+     */
+    private void updateStd(float newVal) {
+        // Standard deviation indicates how spread out are the values
+        // Here it shows, whether the likes recipes were all close to one point
+        // (ex. [1,2,1,2,2,1], or spread (ex. 1,10,1,10,1,1, 10)
+        // This is used in the recommendation search, where maxTime = avgTime + std
         int n = getInt(KEY_NUMBER_OF_VOTES);
         double sigma = getDouble(KEY_STD_TIME);
         double avg = getDouble(KEY_AVG_TIME);
-        double newAvg = ((n - 1) * avg + newTime) / n;
-        put(KEY_STD_TIME, ((n - 1)*sigma + (newTime - avg)*(newTime - newAvg))/n);
+        double newAvg = ((n - 1) * avg + newVal) / n;
+        put(KEY_STD_TIME, ((n - 1)*sigma + (newVal - avg)*(newVal - newAvg))/n);
     }
 
     private void updateAverage(String key, Double newVal) {

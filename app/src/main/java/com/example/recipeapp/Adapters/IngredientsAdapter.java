@@ -64,7 +64,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
                 @Override
                 public void onResponse(Call<SubEnvelope<List<String>>> call, Response<SubEnvelope<List<String>>> response) {
                     SubEnvelope<List<String>> x = response.body();
-                    if(x.status.equals("failure")) {
+                    if(x.status.equals(RecipeApi.FAILURE)) {
                         binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
                         return;
                     }
