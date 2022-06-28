@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if(e != null) {
-                            Log.i(TAG, "Issue with login" + e);
+                            Log.i(TAG, getString(R.string.login_issue) + e);
                             return;
                         }
                         toMainActivity();
