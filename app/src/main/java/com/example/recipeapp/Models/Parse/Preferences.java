@@ -26,7 +26,6 @@ public class Preferences extends ParseObject {
     public static final String KEY_USER_DIET = "diet";
     public static final String KEY_USER_CUISINE = "cuisine";
 
-
     public static final String KEY_NAME = "name";
     public static final String KEY_COUNTER = "counter";
 
@@ -201,6 +200,10 @@ public class Preferences extends ParseObject {
      */
 
     private void updateStd(float newVal) {
+        // Standard deviation indicates how spread out are the values
+        // Here it shows, whether the likes recipes were all close to one point
+        // (ex. [1,2,1,2,2,1], or spread (ex. 1,10,1,10,1,1, 10)
+        // This is used in the recommendation search, where maxTime = avgTime + std
         int n = getInt(KEY_NUMBER_OF_VOTES);
         double sigma = getDouble(KEY_STD_TIME);
         double avg = getDouble(KEY_AVG_TIME);

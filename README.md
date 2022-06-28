@@ -27,28 +27,30 @@ App that allows user to search recipes.
 ### 1. User Stories (Required and Optional)
 
 **Required Must-have Stories**
+  * User can login
+  * User can register
   * User can view recipe
-  * User can rate the recipe
+      * User can write review
+  * User can like the recipe
+      * User can view number of likes
+      * User can get recommendations based on likes
   * User can search among the recipes in the db
       * User can use various filters, like rating, exclude certain ingrindients, time etc.
       * User can get hints when searhing		
-  * User can login
-  * User can register
   * User can update preferences(like "never include certain ingridient") in the profile
+      * User can select diets, prefered cuisines, intolerances from list of common intolerances and banned ingredients. 
   * User can enter what ingridients they currently have, and get recipe suggestions
-  * User can write review
   * User can update profile picture
   * User can view other people profiles
-  * User can view average rating
 * ...
 
 **Optional Nice-to-have Stories**
  * User can view substitutes to the ingredients
+    * When viewing the recipe, user can slide to see how the ingridient could be substituted
  * User can view published recipes
- * User can add recipe
+    * User can add recipe
  * Search includes the rating
  * User can take a photo of the result and share in the social networks
- * User can get recommendations based on likes
  * User can get pushes with recommendations
  * Gather recipes from the other sources, and parse them into application format
  * User can share recipes with nearby users via bluetooth
