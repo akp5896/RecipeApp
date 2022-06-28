@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.R;
@@ -49,6 +48,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     public int getItemCount() {
         return ingredients.size();
     }
+
 
     public class IngredientsViewHolder extends RecyclerView.ViewHolder{
         ItemIngredientsBinding binding;

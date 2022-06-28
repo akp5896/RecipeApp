@@ -44,7 +44,6 @@ public class Recipe {
     Double pricePerServing;
     @SerializedName("servings")
     Integer servings;
-    //List<String> analyzedInstructions;
     @SerializedName("analyzedInstructions")
     @Transient
     List<InstructionEnvelope<List<Step>>> analyzedInstructions;
@@ -65,7 +64,7 @@ public class Recipe {
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
-
+    
     public List<String> getCuisines() {
         return cuisines;
     }

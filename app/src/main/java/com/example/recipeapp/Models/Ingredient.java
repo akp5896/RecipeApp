@@ -26,19 +26,6 @@ public class Ingredient extends RetrofitAutocomplete {
         this.id = id;
     }
 
-    public ArrayList<String> getNamesFromJsonArray(JsonHttpResponseHandler.JSON json) {
-        ArrayList<String> suggestions = new ArrayList<>();
-        try {
-        JSONArray response = json.jsonArray;
-        for (int i = 0; i < response.length(); i++) {
-                suggestions.add(response.getJSONObject(i).getString("name"));
-        }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return suggestions;
-    }
-
     public Ingredient() {
     }
 
@@ -49,6 +36,4 @@ public class Ingredient extends RetrofitAutocomplete {
     public Long getId() {
         return id;
     }
-
-
 }
