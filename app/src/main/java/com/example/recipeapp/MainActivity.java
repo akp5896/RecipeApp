@@ -2,6 +2,7 @@ package com.example.recipeapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.BindingAdapter;
@@ -27,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.recipeapp.databinding.ProfileLayoutBinding;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -73,6 +75,10 @@ public class MainActivity extends AppCompatActivity{
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
     }
+
+    public ProfileLayoutBinding getProfileLayoutBinding() {
+        return binding.drawer;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -96,11 +102,7 @@ public class MainActivity extends AppCompatActivity{
                 float deltaX = x2 - x1;
                 if (Math.abs(deltaX) > MIN_DISTANCE)
                 {
-                    Toast.makeText(MainActivity.this, "left2right swipe", Toast.LENGTH_SHORT).show ();
-                }
-                else
-                {
-                    // consider as something else - a screen tap for example
+                    Toast.makeText(MainActivity.this, "right2left swipe", Toast.LENGTH_SHORT).show ();
                 }
                 break;
         }

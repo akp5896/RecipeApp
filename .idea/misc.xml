@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/drawable-v24/item_background.xml" value="0.1965" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/drawable/back.xml" value="0.317" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/drawable/bottom_border.xml" value="0.316" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/drawable/fab_back.xml" value="0.3225" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/drawable/heart.xml" value="0.321" />
@@ -17,14 +18,22 @@
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_login.xml" value="0.3140625" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_main.xml" value="0.3" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_sign_up.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/fragment_biography.xml" value="0.3" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/fragment_feed.xml" value="0.3140625" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/fragment_search.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/header.xml" value="0.3140625" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item.xml" value="0.335" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item_ingreditns.xml" value="0.31302083333333336" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item_list.xml" value="0.31302083333333336" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/network_automcomplete.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/profile_layout.xml" value="0.3260416666666667" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/recipe_item.xml" value="0.31302083333333336" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/search_spinner.xml" value="0.31302083333333336" />
+<<<<<<< HEAD
+=======
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/spinner_item.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/menu/drawer_view.xml" value="0.32708333333333334" />
+>>>>>>> eedf3bb... sliding panel, which will contain profile info, added:
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.31302083333333336" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/menu/menu_main.xml" value="0.3171875" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/xml/attrs.xml" value="0.32083333333333336" />

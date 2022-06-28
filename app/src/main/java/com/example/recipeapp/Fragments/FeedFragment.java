@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.recipeapp.Adapters.RecipesAdapter;
+import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Utils.LeftSwipeListener;
@@ -64,7 +65,7 @@ public class FeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentFeedBinding.inflate(getLayoutInflater());
-        binding.getRoot().setOnTouchListener(new LeftSwipeListener(getContext()));
+        binding.getRoot().setOnTouchListener(new LeftSwipeListener(getContext(), ((MainActivity)getActivity()).getProfileLayoutBinding()));
         return binding.getRoot();
     }
 

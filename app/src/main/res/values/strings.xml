@@ -19,6 +19,9 @@
     <string name="Liked">Liked</string>
     <string name="login_issue">Issue with login</string>
     <string name="liked">Liked</string>
+    <string name="save">Save</string>
+    <string name="exclude">Exclude:</string>
+    <string name="fish">this is extremely long and overcomplicated biography that only takes up valuable space that could have been used for something else</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>
