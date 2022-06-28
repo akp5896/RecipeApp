@@ -8,14 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.recipeapp.Models.Parse.Cuisine;
-import com.example.recipeapp.Models.Parse.Diet;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.databinding.ActivitySignUpBinding;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -44,15 +41,9 @@ public class SignUpActivity extends AppCompatActivity {
                         return;
                     }
                     Preferences pref = new Preferences();
-                    Diet diet = new Diet();
                     Taste taste = new Taste();
-                    Cuisine cuisine = new Cuisine();
                     try {
-                        diet.save();
-                        cuisine.save();
                         taste.save();
-                        pref.put(Preferences.KEY_USER_DIET, diet);
-                        pref.put(Preferences.KEY_USER_CUISINE, cuisine);
                         pref.put(Preferences.KEY_USER_TASTE, taste);
                         pref.saveInBackground(e1 -> {
                             user.put("preferences", pref);

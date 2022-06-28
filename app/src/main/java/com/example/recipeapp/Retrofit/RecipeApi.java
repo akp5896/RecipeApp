@@ -13,6 +13,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RecipeApi {
+    String API_KEY = "apiKey";
+    String RANDOM_ORDER = "random";
     @GET("/recipes/complexSearch")
     Call<Envelope<List<Recipe>>> getAllRecipes(@Query("apiKey") String apiKey);
 
