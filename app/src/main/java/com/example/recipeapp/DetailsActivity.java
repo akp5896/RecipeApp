@@ -37,6 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
     Recipe recipe;
     List<String> steps = new ArrayList<>();
     ItemsAdapter stepsAdapter;
+    public static final String RECIPE = "recipe";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        recipe = Parcels.unwrap(getIntent().getParcelableExtra("recipe"));
+        recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
 
         Glide.with(this).load(recipe.getImage()).into(binding.ivImage);
         binding.tvServings.setText(recipe.getServings().toString() + "\nservings");
