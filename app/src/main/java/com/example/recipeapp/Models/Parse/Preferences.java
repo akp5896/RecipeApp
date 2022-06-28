@@ -95,6 +95,11 @@ public class Preferences extends ParseObject {
         return null;
     }
 
+    /**
+     * Updates the preferences of the current user based on a liked recipe. Also updates general preferences.
+     * @param recipe Liked recipe
+     * @param newTaste The Taste of liked recipe
+     */
     public void updatePreferences(Recipe recipe, Taste newTaste) {
         if(!this.getObjectId().equals(BuildConfig.GENERAL_ID)) {
             Preferences gp = getGeneralPreferences();
@@ -126,6 +131,10 @@ public class Preferences extends ParseObject {
 
     }
 
+    /**
+     * Increment number of occurrences of all cuisines the recipe fits by one. Create a CuisineCounter object if doesn't exist.
+     * @param recipe Liked recipe.
+     */
     private void updateCuisine(Recipe recipe) {
         ParseRelation<ParseObject> diet = getRelation(KEY_USER_CUISINE);
         diet.getQuery().whereContainedIn(KEY_NAME, recipe.getCuisines()).findInBackground(new FindCallback<ParseObject>() {
@@ -157,44 +166,53 @@ public class Preferences extends ParseObject {
         });
     }
 
+    /**
+     * Increment number of occurrences of all diets the recipe fits by one. Create a DietCounter object if doesn't exist.
+     * @param recipe Liked recipe.
+     */
     private void updateDiet(Recipe recipe) {
         ParseRelation<ParseObject> diet = getRelation(KEY_USER_DIET);
-        diet.getQuery().whereContainedIn(KEY_NAME, recipe.getDiets()).findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                List<String> copy = new ArrayList<>(recipe.getDiets());
-                for(ParseObject object : objects) {
-                    copy.remove(object.getString(KEY_NAME));
-                    object.increment(KEY_COUNTER);
-                }
-                List<DietCounter> newDiets = new ArrayList<>();
-                for(String diet : copy) {
-                    DietCounter dc = new DietCounter();
-                    dc.put(KEY_NAME, diet);
-                    dc.put(KEY_COUNTER, 1);
-                    newDiets.add(dc);
-                }
-                ParseObject.saveAllInBackground(newDiets, new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        for(DietCounter d : newDiets) {
-                            diet.add(d);
-                        }
-                        saveInBackground();
-                    }
-                });
-                ParseObject.saveAllInBackground(objects);
+        diet.getQuery().whereContainedIn(KEY_NAME, recipe.getDiets()).findInBackground((objects, e) -> {
+            List<String> copy = new ArrayList<>(recipe.getDiets());
+            for(ParseObject object : objects) {
+                copy.remove(object.getString(KEY_NAME));
+                object.increment(KEY_COUNTER);
             }
+            List<DietCounter> newDiets = new ArrayList<>();
+            for(String newDiet : copy) {
+                DietCounter dc = new DietCounter();
+                dc.put(KEY_NAME, newDiet);
+                dc.put(KEY_COUNTER, 1);
+                newDiets.add(dc);
+            }
+            ParseObject.saveAllInBackground(newDiets, e1 -> {
+                for(DietCounter newDiet : newDiets) {
+                    diet.add(newDiet);
+                }
+                saveInBackground();
+            });
+            ParseObject.saveAllInBackground(objects);
         });
     }
 
-    private void updateStd(float newTime) {
+    /**
+     * Updating standard deviation using Welford's online algorithm
+     * @param newVal New value to update std
+     */
+
+    private void updateStd(float newVal) {
         int n = getInt(KEY_NUMBER_OF_VOTES);
         double sigma = getDouble(KEY_STD_TIME);
         double avg = getDouble(KEY_AVG_TIME);
-        double newAvg = ((n - 1) * avg + newTime) / n;
-        put(KEY_STD_TIME, ((n - 1)*sigma + (newTime - avg)*(newTime - newAvg))/n);
+        double newAvg = ((n - 1) * avg + newVal) / n;
+        put(KEY_STD_TIME, ((n - 1)*sigma + (newVal - avg)*(newVal - newAvg))/n);
     }
+
+    /**
+     * Updates the average values of the given key
+     * @param key Corresponding value of this key will be updated.
+     * @param newVal The value of the newly liked recipe
+     */
 
     private void updateAverage(String key, Double newVal) {
         int n = getInt(KEY_NUMBER_OF_VOTES);
