@@ -8,6 +8,7 @@ import android.util.Printer;
 import androidx.annotation.NonNull;
 
 import com.example.recipeapp.BuildConfig;
+import com.example.recipeapp.Models.Parse.CuisineCounter;
 import com.example.recipeapp.Models.Parse.ParseCounter;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
@@ -51,7 +52,7 @@ public class Recommendation {
                 RecipeApi.RANDOM_ORDER,
                 String.valueOf(currentPreferences.getMaxTime().intValue()),
                 RECIPES_REQUESTED,
-                RecipeApi.API_KEY);
+                "true");
         call.enqueue(getSortingCallback(currentPreferences, callback));
     }
 
@@ -92,6 +93,7 @@ public class Recommendation {
         HashMap<String, Double> probabilities = new HashMap<>();
         for(ParseObject parseCounter : generalList) {
             ParseCounter curCounter = (ParseCounter) parseCounter;
+            Log.e(TAG, "123");
             probabilities.put(curCounter.getName(), (curCounter.getCount()) / total);
         }
 

@@ -40,7 +40,7 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        recipe = Parcels.unwrap(getIntent().getParcelableExtra("recipe"));
+        recipe = Parcels.unwrap(getIntent().getParcelableExtra(IngredientsActivity.RECIPE));
 
         Glide.with(this).load(recipe.getImage()).into(binding.ivImage);
         binding.tvServings.setText(recipe.getServings().toString() + "\nservings");

@@ -54,6 +54,8 @@ public class Recipe {
     List<String> cuisines;
     @SerializedName("diets")
     List<String> diets;
+    @SerializedName("summary")
+    String summary;
 
     @Transient
     double userRating = -3;
@@ -142,4 +144,9 @@ public class Recipe {
     public void setUserRating(double userRating) {
         this.userRating = userRating;
     }
+
+    public String getSummary() {
+        return summary;
+    }
+
 }
