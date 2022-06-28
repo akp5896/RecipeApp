@@ -13,7 +13,11 @@ import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Models.Step;
 import com.example.recipeapp.Network.RecipeClient;
+import com.example.recipeapp.Retrofit.InstructionEnvelope;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 
 import org.parceler.Parcels;
@@ -22,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -29,8 +36,9 @@ public class DetailsActivity extends AppCompatActivity {
     ActivityDetailsBinding binding;
     Recipe recipe;
     List<String> steps = new ArrayList<>();
-    StepsAdapter stepsAdapter;
+    public static final String RECIPE = "recipe";
 
+    StepsAdapter stepsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,28 +46,42 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        recipe = Parcels.unwrap(getIntent().getParcelableExtra("recipe"));
+        recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
 
         Glide.with(this).load(recipe.getImage()).into(binding.ivImage);
         binding.tvServings.setText(recipe.getServings().toString() + "\nservings");
         binding.tvTime.setText(recipe.getTimeToCook().toString() + " minutes");
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
 
+
         stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
         binding.rvSteps.setAdapter(stepsAdapter);
 
-        RecipeClient.getInstance().getRecipeById(recipe.getId(), new JsonHttpResponseHandler() {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        Call<Recipe> recipeById = service.getRecipeById(recipe.getId(), BuildConfig.API_KEY);
+        recipeById.enqueue(new Callback<Recipe>() {
             @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Recipe.Steps(recipe, json.jsonObject);
-                Recipe.Ingredients(recipe, json.jsonObject);
-                steps.addAll(recipe.getAnalyzedInstructions());
+            public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
+                recipe.setIngredients(response.body().getIngredients());
+                for(Step item : recipe.getAnalyzedInstructions().get(0).results) {
+                    steps.add(item.number + ". " + item.step);
+                }
                 stepsAdapter.notifyItemRangeChanged(0, steps.size());
             }
 
             @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "Something went wrong: " + response);
+            public void onFailure(Call<Recipe> call, Throwable t) {
+                Log.e(TAG, "Something went wrong: " + t);
+            }
+        });
+
+        binding.btnIngredients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
+                i.putExtra("recipe", Parcels.wrap(recipe));
+                startActivity(i);
             }
         });
 

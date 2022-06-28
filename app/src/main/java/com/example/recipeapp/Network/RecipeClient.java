@@ -66,7 +66,7 @@ public class RecipeClient {
     }
 
     public void getTitleAutocomplete(String query, JsonHttpResponseHandler handler) {
-        String apiUrl = BASE_URL + "/food/ingredients/autocomplete";
+        String apiUrl = BASE_URL + "/recipes/autocomplete";
         RequestParams params = new RequestParams();
         params.put("apiKey", API_KEY);
         params.put("query", query);

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class IngredientsActivity extends AppCompatActivity {
 
     private static final String TAG = "INGR ACTIVITY";
+
     public static final String RECIPE = "recipe";
 
     List<Ingredient> ingredients;

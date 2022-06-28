@@ -11,13 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
+import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.MainActivity;
+import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Models.RecipeTitle;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Network.RecipeClient;
+import com.example.recipeapp.Retrofit.Envelope;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -30,6 +37,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Headers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,22 +81,33 @@ public class SearchFragment extends Fragment {
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
 
+
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         binding.edExclude.setAdapter(
-                new AutoCompleteAdapter(
+                new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
+                        (query, callback) -> {
+                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
+                            call.enqueue(callback);
+                        }));
         binding.edInclude.setAdapter(
-                new AutoCompleteAdapter(
+                new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
+                        (query, callback) -> {
+                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
+                            call.enqueue(callback);
+                        }));
 
         binding.etTitle.setAdapter(
-                new AutoCompleteAdapter(
+                new AutoCompleteAdapter<RecipeTitle>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, handler) -> RecipeClient.getInstance().getIngredientAutocomplete(query, handler)));
+                        (query, callback) -> {
+                            Call<List<RecipeTitle>> call = service.getTitleAutocomplete(BuildConfig.API_KEY, query, 5);
+                            call.enqueue(callback);
+                        }));
 
         includedAdapter = new StepsAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
@@ -113,36 +136,39 @@ public class SearchFragment extends Fragment {
         String cuisine = null;
         String excludeCuisine = null;
         if(binding.checkboxExcludeCuisine.isChecked()) {
-            excludeCuisine = binding.spinnerCuisine.getSelectedItem();
+            excludeCuisine = putWithEmptyCheck(binding.spinnerCuisine.getSelectedItem());
         } else {
-            cuisine = binding.spinnerCuisine.getSelectedItem();
+            cuisine = putWithEmptyCheck(binding.spinnerCuisine.getSelectedItem());
         }
 
-        RecipeClient.getInstance().getRecipesWithFilters(new JsonHttpResponseHandler() {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
+                putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
+                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()), "true");
+
+        call.enqueue(new Callback<Envelope<List<Recipe>>>() {
             @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                try {
-                    FeedFragment feedFragment = ((MainActivity) getActivity()).getFeedFragment();
-                    List<Recipe> result = Recipe.fromJsonArray(json.jsonObject.getJSONArray("results"));
-                    feedFragment.getRecipes().clear();
-                    feedFragment.getRecipes().addAll(result);
-                    ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
+            public void onResponse(Call<Envelope<List<Recipe>>> call, Response<Envelope<List<Recipe>>> response) {
+                FeedFragment feedFragment = ((MainActivity) getActivity()).getFeedFragment();
+                feedFragment.getRecipes().clear();
+                feedFragment.getRecipes().addAll(response.body().results);
+                ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
 
-                    Log.i(TAG, "success: " + json.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+//                Log.i(TAG, "success: " + json.toString());
             }
 
             @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                
-                Log.e(TAG, "Recipes search failed: " + response);
+            public void onFailure(Call<Envelope<List<Recipe>>> call, Throwable t) {
+                Log.e(TAG, "Recipes search failed: " + t);
             }
-        }, binding.etTitle.getText().toString(), cuisine, excludeCuisine,
-                String.join(",", included),String.join(",", excluded),
-                binding.spinnerType.getSelectedItem(), binding.edTime.getText().toString());
+        });
+
+    }
+
+    private String putWithEmptyCheck(CharSequence chars) {
+        if(chars == null || chars.toString().equals(""))
+            return null;
+        return chars.toString();
     }
 
     @NonNull
