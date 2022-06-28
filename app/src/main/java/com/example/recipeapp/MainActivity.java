@@ -14,11 +14,14 @@ import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.GalleryHandler;
+import com.example.recipeapp.Utils.ProfileSetup;
 import com.example.recipeapp.Utils.RecommendCallback;
 import com.example.recipeapp.Utils.Recommendation;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity{
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     FeedFragment feedFragment = new FeedFragment();
+    private GalleryHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,10 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
+        handler = new GalleryHandler(this, ProfileSetup.getHeaderCallback(binding.drawer, this));
+        binding.drawer.ivProfilePic.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.onPickPhoto(), "Select Picture")));
+
+        ProfileSetup.Initialize(binding.drawer, this);
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
     }
