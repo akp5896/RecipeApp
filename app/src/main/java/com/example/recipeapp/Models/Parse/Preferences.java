@@ -61,6 +61,10 @@ public class Preferences extends ParseObject {
         return Math.sqrt(getDouble(KEY_STD_TIME));
     }
 
+
+    /**
+     * Returns preferences common to all users
+     */
     public static Preferences getGeneralPreferences() {
         try {
             if (generalPreferences == null) {
@@ -74,16 +78,10 @@ public class Preferences extends ParseObject {
         return generalPreferences;
     }
 
-    public List<ParseObject> getDietsList() {
-        ParseQuery<ParseObject> query = getRelation(KEY_USER_DIET).getQuery();
-        try {
-            return query.find();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
+    /**
+     * Return a preference relation by key
+     * @param key Should be equal KEY_USER_DIET or KEY_USER_CUISINE
+     */
     public List<ParseObject> getRelationByKey(String key) {
         ParseQuery<ParseObject> query = getRelation(key).getQuery();
         try {
