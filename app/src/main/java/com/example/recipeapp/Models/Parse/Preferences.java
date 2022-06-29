@@ -3,6 +3,7 @@ package com.example.recipeapp.Models.Parse;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.Recipe;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -29,7 +30,7 @@ public class Preferences extends ParseObject {
     public static final String KEY_NAME = "name";
     public static final String KEY_COUNTER = "counter";
 
-    private static Preferences generalPreferences;
+    private static Preferences generalPreferences = null;
 
     public static final String PREFERENCES = "preferences";
 
@@ -73,6 +74,7 @@ public class Preferences extends ParseObject {
                 generalPreferences = query.find().get(0);
             }
         } catch (ParseException e) {
+            generalPreferences = new Preferences();
             e.printStackTrace();
         }
         return generalPreferences;
@@ -120,76 +122,54 @@ public class Preferences extends ParseObject {
         taste.updateTaste(newTaste, getInt(KEY_NUMBER_OF_VOTES));
         taste.saveInBackground();
 
-
-        updateDiet(recipe);
-
-        updateCuisine(recipe);
-
-
+        updateCounterRelation(recipe.getCuisines(), KEY_USER_CUISINE);
+        updateCounterRelation(recipe.getDiets(), KEY_USER_DIET);
     }
 
     /**
-     * Increment number of occurrences of all cuisines the recipe fits by one. Create a CuisineCounter object if doesn't exist.
-     * @param recipe Liked recipe.
+     * Increment number of occurrences of all cuisines/diets the recipe fits by one. Create a ParseCounter object if doesn't exist.
+     * @param updates The list of cuisines/diets the recipe fits
+     * @param key The name of the relation in Preference object
      */
-    private void updateCuisine(Recipe recipe) {
-        ParseRelation<ParseObject> diet = getRelation(KEY_USER_CUISINE);
-        diet.getQuery().whereContainedIn(KEY_NAME, recipe.getCuisines()).findInBackground(new FindCallback<ParseObject>() {
+    private void updateCounterRelation(List<String> updates, String key) {
+        ParseRelation<ParseObject> counterRelation = getRelation(key);
+        counterRelation.getQuery().whereContainedIn(KEY_NAME, updates).findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                List<String> copy = new ArrayList<>(recipe.getCuisines());
-                for(ParseObject object : objects) {
-                    copy.remove(object.getString(KEY_NAME));
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                List<String> updatesCopy = new ArrayList<>(updates);
+                for(ParseObject object : parseObjects) {
+                    updatesCopy.remove(object.getString(KEY_NAME));
                     object.increment(KEY_COUNTER);
                 }
-                List<CuisineCounter> newDiets = new ArrayList<>();
-                for(String diet : copy) {
-                    CuisineCounter dc = new CuisineCounter();
-                    dc.put(KEY_NAME, diet);
+                List<ParseObject> newCounter = new ArrayList<>();
+                for(String counter : updatesCopy) {
+                    ParseObject dc = ParseObject.create(getCounterClassName(key));
+                    dc.put(KEY_NAME, counter);
                     dc.put(KEY_COUNTER, 1);
-                    newDiets.add(dc);
+                    newCounter.add(dc);
                 }
-                ParseObject.saveAllInBackground(newDiets, new SaveCallback() {
+                ParseObject.saveAllInBackground(newCounter, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        for(CuisineCounter d : newDiets) {
-                            diet.add(d);
+                        for(ParseObject d : newCounter) {
+                            counterRelation.add(d);
                         }
                         saveInBackground();
                     }
                 });
-                ParseObject.saveAllInBackground(objects);
+                ParseObject.saveAllInBackground(parseObjects);
             }
         });
     }
 
-    /**
-     * Increment number of occurrences of all diets the recipe fits by one. Create a DietCounter object if doesn't exist.
-     * @param recipe Liked recipe.
-     */
-    private void updateDiet(Recipe recipe) {
-        ParseRelation<ParseObject> diet = getRelation(KEY_USER_DIET);
-        diet.getQuery().whereContainedIn(KEY_NAME, recipe.getDiets()).findInBackground((objects, e) -> {
-            List<String> copy = new ArrayList<>(recipe.getDiets());
-            for(ParseObject object : objects) {
-                copy.remove(object.getString(KEY_NAME));
-                object.increment(KEY_COUNTER);
-            }
-            List<DietCounter> newDiets = new ArrayList<>();
-            for(String newDiet : copy) {
-                DietCounter dc = new DietCounter();
-                dc.put(KEY_NAME, newDiet);
-                dc.put(KEY_COUNTER, 1);
-                newDiets.add(dc);
-            }
-            ParseObject.saveAllInBackground(newDiets, e1 -> {
-                for(DietCounter newDiet : newDiets) {
-                    diet.add(newDiet);
-                }
-                saveInBackground();
-            });
-            ParseObject.saveAllInBackground(objects);
-        });
+    private String getCounterClassName(String key) {
+        if(key.equals(KEY_USER_CUISINE)) {
+            return CuisineCounter.getParseClassName();
+        }
+        else if(key.equals(KEY_USER_DIET)) {
+            return DietCounter.getParseClassName();
+        }
+        return key;
     }
 
     /**

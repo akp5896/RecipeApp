@@ -44,6 +44,11 @@ public class Recommendation {
         Preferences currentPreferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
         Preferences generalPreferences = Preferences.getGeneralPreferences();
 
+        if(generalPreferences == null) {
+            Log.e(TAG, "Unable to fetch general preferences");
+            return;
+        }
+
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getSortedRecipes(BuildConfig.API_KEY,
                 getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_CUISINE),

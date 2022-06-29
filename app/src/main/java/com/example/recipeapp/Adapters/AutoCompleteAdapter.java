@@ -73,7 +73,7 @@ public class AutoCompleteAdapter<T extends RetrofitAutocomplete> extends ArrayAd
 
                             @Override
                             public void onFailure(Call<List<T>> call, Throwable t) {
-                                Log.e(TAG, "query failed");
+                                Log.e(TAG, "query failed" + t);
                             }
                         });
 

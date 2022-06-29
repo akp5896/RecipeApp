@@ -21,6 +21,7 @@ public class Taste extends ParseObject {
     public static final String KEY_FATTINESS = "fattiness";
     public static final String KEY_SPICINESS = "spiciness";
 
+    // If a component is added/removed, this number should be updated
     private static final int NUMBER_OF_COMPONENTS = 7;
 
     @SerializedName("sweetness")

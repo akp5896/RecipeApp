@@ -5,6 +5,10 @@ import com.parse.ParseObject;
 
 @ParseClassName("dietCounter")
 public class DietCounter extends ParseObject implements ParseCounter{
+    public static String getParseClassName() {
+        return "dietCounter";
+    }
+
     public int getCount() {
         return getInt(Preferences.KEY_COUNTER);
     }
