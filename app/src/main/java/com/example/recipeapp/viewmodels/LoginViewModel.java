@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.databinding.BaseObservable;
 
@@ -27,11 +28,12 @@ public class LoginViewModel extends BaseObservable {
                 username,
                 password,
                 (user, e) -> {
+                    Context context = view.getContext();
                     if(e != null) {
                         Log.i(TAG, "Issue with login" + e);
+                        Toast.makeText(context, "Unable to login", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Context context = view.getContext();
                     context.startActivity(new Intent(context, MainActivity.class));
                 });
     }
