@@ -13,39 +13,57 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RecipeApi {
+
+    String FAILURE = "failure";
+    String API_KEY = "apiKey";
+    String ID = "id";
+    String QUERY = "query";
+    String NUMBER = "number";
+    String TITLE_MATCH = "titleMatch";
+    String CUISINE = "cuisine";
+    String EXCLUDE_CUISINE = "excludeCuisine";
+    String INCLUDE_INGREDIENTS = "includeIngredients";
+    String EXCLUDE_INGREDIENTS = "excludeIngredients";
+    String TYPE = "type";
+    String MAX_READY_TIME = "maxReadyTime";
+    String ADD_RECIPE_INFORMATION = "addRecipeInformation";
+    String INTOLERANCES = "intolerances";
+    String DIET = "diet";
+
     @GET("/recipes/complexSearch")
-    Call<Envelope<List<Recipe>>> getAllRecipes(@Query("apiKey") String apiKey);
+    Call<Envelope<List<Recipe>>> getAllRecipes(@Query(API_KEY) String apiKey);
 
     @GET("/recipes/{id}/information")
-    Call<Recipe> getRecipeById(@Path("id") long id, @Query("apiKey") String apiKey);
+    Call<Recipe> getRecipeById(@Path(ID) long id, @Query(API_KEY) String apiKey);
 
     @GET("/food/ingredients/autocomplete")
-    Call<List<Ingredient>> getIngredientAutocomplete(@Query("apiKey") String apiKey,
-                                                     @Query("query") String query,
-                                                     @Query("number") int number);
+    Call<List<Ingredient>> getIngredientAutocomplete(@Query(API_KEY) String apiKey,
+                                                     @Query(QUERY) String query,
+                                                     @Query(NUMBER) int number);
 
     @GET("/recipes/autocomplete")
-    Call<List<RecipeTitle>> getTitleAutocomplete(@Query("apiKey") String apiKey,
-                                                 @Query("query") String query,
-                                                 @Query("number") int number);
+    Call<List<RecipeTitle>> getTitleAutocomplete(@Query(API_KEY) String apiKey,
+                                                 @Query(QUERY) String query,
+                                                 @Query(NUMBER) int number);
 
     @GET("/food/ingredients/{id}/substitutes")
-    Call<SubEnvelope<List<String>>> getIngredientSubstitute(@Path("id") Long id,
-                                                            @Query("apiKey") String apiKey
+    Call<SubEnvelope<List<String>>> getIngredientSubstitute(@Path(ID) Long id,
+                                                            @Query(API_KEY) String apiKey
                                                  );
 
     @GET("/recipes/complexSearch")
-    Call<Envelope<List<Recipe>>> getRecipesWithFilters(@Query("apiKey") String apiKey,
-                                             @Query("titleMatch") String titleMatch,
-                                             @Query("cuisine") String cuisine,
-                                             @Query("excludeCuisine") String excludeCuisine,
-                                             @Query("includeIngredients") String includeIngredients,
-                                             @Query("excludeIngredients") String excludeIngredients,
-                                             @Query("type") String type,
-                                             @Query("maxReadyTime") String maxReadyTime,
-                                             @Query("intolerances") String intolerances,
-                                             @Query("diet") String diet,
-                                             @Query("addRecipeInformation") String addRecipeInformation
+    Call<Envelope<List<Recipe>>> getRecipesWithFilters(@Query(API_KEY) String apiKey,
+                                             @Query(TITLE_MATCH) String titleMatch,
+                                             @Query(CUISINE) String cuisine,
+                                             @Query(EXCLUDE_CUISINE) String excludeCuisine,
+                                             @Query(INCLUDE_INGREDIENTS) String includeIngredients,
+                                             @Query(EXCLUDE_INGREDIENTS) String excludeIngredients,
+                                             @Query(TYPE) String type,
+                                             @Query(MAX_READY_TIME) String maxReadyTime,
+                                             @Query(INTOLERANCES) String intolerances,
+                                             @Query(DIET) String diet,
+                                             @Query(ADD_RECIPE_INFORMATION) String addRecipeInformation
+
                                              );
 
     @GET("/recipes/{id}/tasteWidget.json")

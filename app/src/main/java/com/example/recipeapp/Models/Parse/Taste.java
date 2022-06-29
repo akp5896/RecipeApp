@@ -82,7 +82,13 @@ public class Taste extends ParseObject {
         return spiciness;
     }
 
-    private void updateAverage(String key, double newVal, int n) {
+    /**
+     * Updates the average values of the components of the taste
+     * @param key Corresponding value of this key will be updated.
+     * @param newVal The value of the newly liked recipe
+     * @param n How many votes user alreay have
+     */
+    private void updateAverage(String key, Double newVal, int n) {
         double avg = getDouble(key);
         put(key, ((n - 1) * avg + newVal) / n);
     }

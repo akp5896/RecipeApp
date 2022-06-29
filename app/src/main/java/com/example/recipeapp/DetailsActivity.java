@@ -10,7 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipeapp.Adapters.ItemsAdapter;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RecipeApi;
@@ -32,7 +33,9 @@ public class DetailsActivity extends AppCompatActivity {
     ActivityDetailsBinding binding;
     Recipe recipe;
     List<String> steps = new ArrayList<>();
-    ItemsAdapter stepsAdapter;
+    public static final String RECIPE = "recipe";
+
+    StepsAdapter stepsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +43,15 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        recipe = Parcels.unwrap(getIntent().getParcelableExtra("recipe"));
+        recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
 
         Glide.with(this).load(recipe.getImage()).into(binding.ivImage);
-        binding.tvServings.setText(recipe.getServings().toString() + "\nservings");
-        binding.tvTime.setText(recipe.getTimeToCook().toString() + " minutes");
+        binding.tvServings.setText(String.format("%s\nservings", recipe.getServings().toString()));
+        binding.tvTime.setText(String.format("%s minutes", recipe.getTimeToCook().toString()));
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
-        stepsAdapter = new ItemsAdapter(steps, R.layout.item_list);
+
+
+        stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
         binding.rvSteps.setAdapter(stepsAdapter);
 
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
@@ -60,12 +65,20 @@ public class DetailsActivity extends AppCompatActivity {
                     steps.add(item.number + ". " + item.step);
                 }
                 stepsAdapter.notifyItemRangeChanged(0, steps.size());
-
             }
 
             @Override
             public void onFailure(Call<Recipe> call, Throwable t) {
                 Log.e(TAG, "Something went wrong: " + t);
+            }
+        });
+
+        binding.btnIngredients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
+                i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
+                startActivity(i);
             }
         });
 

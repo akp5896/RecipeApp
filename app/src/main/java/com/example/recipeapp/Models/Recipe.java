@@ -44,7 +44,6 @@ public class Recipe {
     Double pricePerServing;
     @SerializedName("servings")
     Integer servings;
-    //List<String> analyzedInstructions;
     @SerializedName("analyzedInstructions")
     @Transient
     List<InstructionEnvelope<List<Step>>> analyzedInstructions;

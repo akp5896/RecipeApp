@@ -26,7 +26,7 @@ public class Preferences extends ParseObject {
     public static final String KEY_USER_TASTE = "userTaste";
     public static final String KEY_USER_DIET = "diet";
     public static final String KEY_USER_CUISINE = "cuisine";
-
+    public static final String PREFERENCES = "preferences";
 
     public static final String KEY_DIET_NAME = "name";
     public static final String KEY_DIET_COUNTER = "counter";
@@ -93,14 +93,16 @@ public class Preferences extends ParseObject {
         }
         return null;
     }
-
+    /**
+     * Update preferences with the parameters of the new recipe
+     * @param recipe The liked recipe
+     */
     public void updatePreferences(Recipe recipe, Taste newTaste) {
         if(!this.getObjectId().equals(BuildConfig.GENERAL_ID)) {
             Preferences gp = getGeneralPreferences();
             gp.updatePreferences(recipe, newTaste);
             gp.saveInBackground();
         }
-
         increment(KEY_NUMBER_OF_VOTES);
         try {
             fetchIfNeeded();
@@ -187,12 +189,20 @@ public class Preferences extends ParseObject {
         });
     }
 
-    private void updateStd(float newTime) {
+    /**
+     * Updating standard deviation using Welford's online algorithm
+     * @param newVal New value to update std
+     */
+    private void updateStd(float newVal) {
+        // Standard deviation indicates how spread out are the values
+        // Here it shows, whether the likes recipes were all close to one point
+        // (ex. [1,2,1,2,2,1], or spread (ex. 1,10,1,10,1,1, 10)
+        // This is used in the recommendation search, where maxTime = avgTime + std
         int n = getInt(KEY_NUMBER_OF_VOTES);
         double sigma = getDouble(KEY_STD_TIME);
         double avg = getDouble(KEY_AVG_TIME);
-        double newAvg = ((n - 1) * avg + newTime) / n;
-        put(KEY_STD_TIME, ((n - 1)*sigma + (newTime - avg)*(newTime - newAvg))/n);
+        double newAvg = ((n - 1) * avg + newVal) / n;
+        put(KEY_STD_TIME, ((n - 1)*sigma + (newVal - avg)*(newVal - newAvg))/n);
     }
 
     private void updateAverage(String key, Double newVal) {

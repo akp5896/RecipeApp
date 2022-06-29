@@ -63,14 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.feed:
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
-                        Toast.makeText(MainActivity.this, "Feed", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.search:
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SearchFragment()).commit();
-                        Toast.makeText(MainActivity.this, "Search", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.suggest:
-                        Toast.makeText(MainActivity.this, "Suggest", Toast.LENGTH_SHORT).show();
                         return true;
                     default:
                         return true;
