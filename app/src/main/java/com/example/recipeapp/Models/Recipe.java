@@ -55,7 +55,7 @@ public class Recipe {
     List<String> diets;
 
     @Transient
-    double userRating = -3;
+    double userRating = -1;
 
     public void setCuisines(List<String> cuisines) {
         this.cuisines = cuisines;
