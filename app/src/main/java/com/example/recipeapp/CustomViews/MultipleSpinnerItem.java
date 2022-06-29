@@ -1,6 +1,6 @@
 package com.example.recipeapp.CustomViews;
 
-public class StateVO {
+public class MultipleSpinnerItem {
     private String title;
     private boolean selected;
 

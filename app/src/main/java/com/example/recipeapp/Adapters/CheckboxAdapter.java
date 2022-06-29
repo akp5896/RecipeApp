@@ -10,22 +10,22 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.recipeapp.CustomViews.StateVO;
+import com.example.recipeapp.CustomViews.MultipleSpinnerItem;
 import com.example.recipeapp.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class CheckboxAdapter extends ArrayAdapter<StateVO> {
+public class CheckboxAdapter extends ArrayAdapter<MultipleSpinnerItem> {
     private final Context context;
-    private final ArrayList<StateVO> listState;
+    private final ArrayList<MultipleSpinnerItem> listState;
     private final HashSet<String> checked;
 
-    public CheckboxAdapter(Context context, int resource, List<StateVO> objects) {
+    public CheckboxAdapter(Context context, int resource, List<MultipleSpinnerItem> objects) {
         super(context, resource, objects);
         this.context = context;
-        this.listState = (ArrayList<StateVO>) objects;
+        this.listState = (ArrayList<MultipleSpinnerItem>) objects;
         this.checked = new HashSet<>();
     }
 

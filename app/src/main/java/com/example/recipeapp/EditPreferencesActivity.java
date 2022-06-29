@@ -5,13 +5,12 @@ import androidx.preference.PreferenceManager;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.Adapters.CheckboxAdapter;
-import com.example.recipeapp.Adapters.ItemsAdapter;
-import com.example.recipeapp.CustomViews.StateVO;
+import com.example.recipeapp.Adapters.StepsAdapter;
+import com.example.recipeapp.CustomViews.MultipleSpinnerItem;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.Retrofit.RecipeApi;
@@ -35,7 +34,7 @@ public class EditPreferencesActivity extends AppCompatActivity {
     public static final String INTOLERANCES = "intolerances";
     public static final String BANNED = "banned";
     ActivityEditPreferencesBinding binding;
-    ItemsAdapter banAdapter;
+    StepsAdapter banAdapter;
     List<String> banned = new ArrayList<>();
 
     @Override
@@ -55,10 +54,10 @@ public class EditPreferencesActivity extends AppCompatActivity {
 
         binding.spinnerDiet.setSelection(getDietIndex());
 
-        ArrayList<StateVO> cuisinesVO = new ArrayList<>();
+        ArrayList<MultipleSpinnerItem> cuisinesVO = new ArrayList<>();
         String[] cuisines = getResources().getStringArray(R.array.cuisines);
         for (String cuisine : cuisines) {
-            StateVO stateVO = new StateVO();
+            MultipleSpinnerItem stateVO = new MultipleSpinnerItem();
             stateVO.setTitle(cuisine);
             stateVO.setSelected(Settings.getCuisines().contains(cuisine));
             cuisinesVO.add(stateVO);
@@ -68,10 +67,10 @@ public class EditPreferencesActivity extends AppCompatActivity {
                 cuisinesVO);
         binding.spinnerCuisine.setAdapter(cuisineAdapter);
 
-        ArrayList<StateVO> intoleranceVO = new ArrayList<>();
+        ArrayList<MultipleSpinnerItem> intoleranceVO = new ArrayList<>();
         String[] intolerances = getResources().getStringArray(R.array.intolerances);
         for (String intolerance : intolerances) {
-            StateVO stateVO = new StateVO();
+            MultipleSpinnerItem stateVO = new MultipleSpinnerItem();
             stateVO.setTitle(intolerance);
             stateVO.setSelected(Settings.containsIntolerance(intolerance));
             intoleranceVO.add(stateVO);
@@ -90,7 +89,7 @@ public class EditPreferencesActivity extends AppCompatActivity {
                             call.enqueue(callback);
                         }));
         banned.addAll(Settings.getBanned());
-        banAdapter = new ItemsAdapter(banned, R.layout.item);
+        banAdapter = new StepsAdapter(banned, R.layout.item);
         binding.rvBan.setAdapter(banAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
