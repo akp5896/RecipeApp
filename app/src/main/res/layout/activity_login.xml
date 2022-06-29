@@ -1,51 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginActivity">
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/etLogin"
-        android:inputType="text"
-        android:hint="Login"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
+    xmlns:bind="http://schemas.android.com/tools">
 
-    <EditText
+    <!-- binding object of ViewModel to the XML layout -->
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.recipeapp.viewmodels.LoginViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/etLogin"
-        android:id="@+id/etPass"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:id="@+id/btnLogin"
-        android:backgroundTint="@color/blue"
-        app:layout_constraintTop_toBottomOf="@+id/etPass"
-        android:text="@string/login"
-        />
+        android:layout_height="match_parent"
+        tools:context=".LoginActivity">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/etLogin"
+            android:inputType="text"
+            android:hint="Login"
+            android:text="@={viewModel.username}"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        android:id="@+id/tvSignUp"
-        android:text="@string/sign_up"
-        android:gravity="center"
-        android:textColor="@color/blue"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/etLogin"
+            android:id="@+id/etPass"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:text="@={viewModel.password}"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/btnLogin"
+            android:onClick="@{(v) -> viewModel.login(v)}"
+            android:backgroundTint="@color/blue"
+            app:layout_constraintTop_toBottomOf="@+id/etPass"
+            android:text="@string/login"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+            android:id="@+id/tvSignUp"
+            android:text="@string/sign_up"
+            android:gravity="center"
+            android:textColor="@color/blue"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:onClick="@{(v) -> viewModel.signUp(v)}"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
