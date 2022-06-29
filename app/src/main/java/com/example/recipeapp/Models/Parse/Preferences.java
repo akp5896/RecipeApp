@@ -74,7 +74,6 @@ public class Preferences extends ParseObject {
                 generalPreferences = query.find().get(0);
             }
         } catch (ParseException e) {
-            generalPreferences = new Preferences();
             e.printStackTrace();
         }
         return generalPreferences;
