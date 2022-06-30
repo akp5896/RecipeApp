@@ -18,7 +18,7 @@ public class LoginViewModel extends ViewModel {
 
 
     public MutableLiveData<Boolean> startSignUp = new MutableLiveData<>();
-    public MutableLiveData<LoginResult> isLogInSuccessful = new MutableLiveData<>();
+    public MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
 
     public LoginViewModel() {
     }
@@ -32,17 +32,18 @@ public class LoginViewModel extends ViewModel {
                     public void done(ParseUser user, ParseException e) {
                         if(e != null) {
                             Log.i(TAG, "Issue with login" + e);
-                            if(e.getCode() == INVALID_LOGIN_PARAMS
-                                    || e.getCode() == ParseException.USERNAME_MISSING
-                                    || e.getCode() == ParseException.PASSWORD_MISSING) {
-                                isLogInSuccessful.setValue(LoginResult.PARSE_INVALID_CREDENTIALS);
-                            }
-                            else {
-                                isLogInSuccessful.setValue(LoginResult.PARSE_ERROR);
+                            switch (e.getCode()) {
+                                case INVALID_LOGIN_PARAMS:
+                                case ParseException.USERNAME_MISSING:
+                                case ParseException.PASSWORD_MISSING:
+                                    loginResult.setValue(LoginResult.PARSE_INVALID_CREDENTIALS);
+                                    break;
+                                default:
+                                    loginResult.setValue(LoginResult.PARSE_ERROR);
                             }
                             return;
                         }
-                        isLogInSuccessful.setValue(LoginResult.SUCCESS);
+                        loginResult.setValue(LoginResult.SUCCESS);
                     }
                 });
     }

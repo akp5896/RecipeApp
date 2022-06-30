@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
 
-        binding.getViewModel().isLogInSuccessful.observe(this, errorCode -> {
+        binding.getViewModel().loginResult.observe(this, errorCode -> {
             Context context = getApplicationContext();
             switch (errorCode) {
                 case SUCCESS:
@@ -36,9 +36,11 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                     break;
                 case PARSE_ERROR:
+                    Toast.makeText(context, getString(R.string.login_failure, "Unknown error"), Toast.LENGTH_SHORT).show();
+                    break;
                 case PARSE_INVALID_CREDENTIALS:
-                default:
-                    Toast.makeText(context, "Unable to login: " + errorCode.message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.login_failure, "Invalid credentials"), Toast.LENGTH_SHORT).show();
+                    break;
             }
         });
 
