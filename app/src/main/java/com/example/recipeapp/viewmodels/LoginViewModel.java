@@ -2,15 +2,20 @@ package com.example.recipeapp.viewmodels;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.databinding.BaseObservable;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.SignUpActivity;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import kotlin.reflect.KClass;
 
 public class LoginViewModel extends BaseObservable {
 
@@ -19,22 +24,18 @@ public class LoginViewModel extends BaseObservable {
     private String username;
     private String password;
 
+    public MutableLiveData<ParseException> signInSuccessful;
+
     public LoginViewModel() {
 
     }
 
-    public void login(View view) {
+    public void login() {
         ParseUser.logInInBackground(
                 username,
                 password,
                 (user, e) -> {
-                    Context context = view.getContext();
-                    if(e != null) {
-                        Log.i(TAG, "Issue with login" + e);
-                        Toast.makeText(context, "Unable to login", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    context.startActivity(new Intent(context, MainActivity.class));
+                    signInSuccessful.setValue(e);
                 });
     }
 
