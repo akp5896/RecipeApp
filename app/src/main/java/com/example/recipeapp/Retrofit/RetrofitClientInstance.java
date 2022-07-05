@@ -1,6 +1,8 @@
 package com.example.recipeapp.Retrofit;
 
 import com.example.recipeapp.Models.Parse.Taste;
+import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Utils.RecipeDeserializer;
 import com.example.recipeapp.Utils.TasteDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,7 +18,7 @@ public class RetrofitClientInstance {
         if (retrofit == null) {
             Gson gson =
                     new GsonBuilder()
-                            .registerTypeAdapter(Taste.class, new TasteDeserializer())
+                            .registerTypeAdapter(Recipe.class, new RecipeDeserializer())
                             .create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)

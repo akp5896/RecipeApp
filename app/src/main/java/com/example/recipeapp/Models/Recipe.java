@@ -59,9 +59,8 @@ public class Recipe {
     @SerializedName("servings")
     public Integer servings;
     @ColumnInfo
-    @SerializedName("analyzedInstructions")
-    @Transient
-    public List<InstructionEnvelope<List<Step>>> analyzedInstructions;
+//    @SerializedName("analyzedInstructions")
+    public List<Step> analyzedInstructions;
     @ColumnInfo
     @SerializedName("extendedIngredients")
     public List<Ingredient> ingredients;
@@ -107,7 +106,7 @@ public class Recipe {
         return image;
     }
 
-    public void setAnalyzedInstructions(List<InstructionEnvelope<List<Step>>> analyzedInstructions) {
+    public void setAnalyzedInstructions(List<Step> analyzedInstructions) {
         this.analyzedInstructions = analyzedInstructions;
     }
 
@@ -123,7 +122,7 @@ public class Recipe {
         return servings;
     }
 
-    public List<InstructionEnvelope<List<Step>>> getAnalyzedInstructions() {
+    public List<Step> getAnalyzedInstructions() {
         return analyzedInstructions;
     }
 

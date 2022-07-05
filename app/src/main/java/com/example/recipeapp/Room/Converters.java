@@ -41,13 +41,14 @@ public class Converters {
     }
 
     @TypeConverter
-    public static List<InstructionEnvelope<List<Step>>> analyzedInstructionsFromString(String value) {
-        Type listType = new TypeToken<List<InstructionEnvelope<List<Step>>>>() {}.getType();
-        return new Gson().fromJson(value, listType);
+    public static List<Step> analyzedInstructionsFromString(String value) {
+        Type listType = new TypeToken<List<Step>>() {}.getType();
+        List<Step> o = new Gson().fromJson(value, listType);
+        return o;
     }
 
     @TypeConverter
-    public static String stringFromAnalyzedInstructions(List<InstructionEnvelope<List<Step>>> list) {
+    public static String stringFromAnalyzedInstructions(List<Step> list) {
         Gson gson = new Gson();
         String json = gson.toJson(list);
         return json;

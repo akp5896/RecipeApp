@@ -79,6 +79,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
                 @Override
                 public void onFailure(Call<SubEnvelope<List<String>>> call, Throwable t) {
+                    binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
                     Log.i(TAG, "Couldn't retrieve substitutes");
                 }
             });

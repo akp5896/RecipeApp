@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.recipeapp.Adapters.StepsAdapter;
+import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RecipeApi;
@@ -67,11 +68,7 @@ public class DetailsActivity extends AppCompatActivity {
                 public void onResponse(Call<Recipe> call, Response<Recipe> response) {
                     recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
                     recipe.setIngredients(response.body().getIngredients());
-                    for (Step item : recipe.getAnalyzedInstructions().get(0).results) {
-                        steps.add(item.number + ". " + item.step);
-                    }
-                    stepsAdapter.notifyItemRangeChanged(0, steps.size());
-                    Log.e(TAG, "Something went wrong: recipes loaded");
+                    setDetails();
                 }
 
                 @Override
@@ -79,6 +76,8 @@ public class DetailsActivity extends AppCompatActivity {
                     Log.e(TAG, "Something went wrong: " + t);
                 }
             });
+        } else {
+            setDetails();
         }
 
         binding.btnIngredients.setOnClickListener(new View.OnClickListener() {
@@ -115,5 +114,13 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    private void setDetails() {
+        for (Step item : recipe.getAnalyzedInstructions()) {
+            steps.add(item.number + ". " + item.step);
+        }
+        stepsAdapter.notifyItemRangeChanged(0, steps.size());
+        Log.e(TAG, "Something went wrong: recipes loaded");
     }
 }
