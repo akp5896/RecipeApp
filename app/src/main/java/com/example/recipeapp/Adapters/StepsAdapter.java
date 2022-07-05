@@ -11,32 +11,30 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapp.R;
-import com.example.recipeapp.databinding.ItemBinding;
-import com.example.recipeapp.databinding.ItemListBinding;
 
 import java.util.List;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.StringViewHolder> {
+public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
 
     List<String> items;
     int layoutId = R.layout.item;
 
     @NonNull
     @Override
-    public StringViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public StepsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View todoView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        return new StringViewHolder(todoView);
+        return new StepsViewHolder(todoView);
     }
 
-    public ItemsAdapter(List<String> items, int layoutId)
+    public StepsAdapter(List<String> items, int layoutId)
     {
         this.items = items;
         this.layoutId = layoutId;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StringViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StepsViewHolder holder, int position) {
         String item = items.get(position);
         holder.bind(item);
     }
@@ -48,12 +46,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.StringViewHo
 
 
     // General ViewHolder used to display simple string lists, for example, in autocomplete
-    class StringViewHolder extends RecyclerView.ViewHolder{
+    class StepsViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvText;
         ConstraintLayout layout;
 
-        public StringViewHolder(@NonNull View itemView) {
+        public StepsViewHolder(@NonNull View itemView) {
             super(itemView);
             tvText = itemView.findViewById(R.id.text);
             layout = itemView.findViewById(R.id.layout);

@@ -21,6 +21,7 @@ public class Taste extends ParseObject {
     public static final String KEY_FATTINESS = "fattiness";
     public static final String KEY_SPICINESS = "spiciness";
 
+    // If a component is added/removed, this number should be updated
     private static final int NUMBER_OF_COMPONENTS = 7;
 
     @SerializedName("sweetness")
@@ -88,8 +89,7 @@ public class Taste extends ParseObject {
      * @param newVal The value of the newly liked recipe
      * @param n How many votes user alreay have
      */
-
-    private void updateAverage(String key, double newVal, int n) {
+    private void updateAverage(String key, Double newVal, int n) {
         double avg = getDouble(key);
         put(key, ((n - 1) * avg + newVal) / n);
     }
@@ -100,12 +100,13 @@ public class Taste extends ParseObject {
      * @return
      */
     public Double calculateTasteDistance(Taste otherTaste) {
-        Double total = 0.0;
+        double total = 0.0;
         try {
             fetchIfNeeded();
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        // Using copy-paste because of the form of the API response here 
         total += Recommendation.getNormalDistance(getDouble(KEY_SWEETNESS), otherTaste.sweetness) / NUMBER_OF_COMPONENTS;
         total += Recommendation.getNormalDistance(getDouble(KEY_FATTINESS), otherTaste.fattiness) / NUMBER_OF_COMPONENTS;
         total += Recommendation.getNormalDistance(getDouble(KEY_BITTERNESS), otherTaste.bitterness) / NUMBER_OF_COMPONENTS;

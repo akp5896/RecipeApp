@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.R;
@@ -50,6 +49,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         return ingredients.size();
     }
 
+
     public class IngredientsViewHolder extends RecyclerView.ViewHolder{
         ItemIngredientsBinding binding;
         public IngredientsViewHolder(@NonNull View itemView) {
@@ -64,7 +64,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
                 @Override
                 public void onResponse(Call<SubEnvelope<List<String>>> call, Response<SubEnvelope<List<String>>> response) {
                     SubEnvelope<List<String>> x = response.body();
-                    if(x.status.equals("failure")) {
+                    if(x.status.equals(RecipeApi.FAILURE)) {
                         binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
                         return;
                     }

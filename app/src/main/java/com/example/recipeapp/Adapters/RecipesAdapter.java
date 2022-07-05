@@ -22,6 +22,7 @@ import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ItemBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -77,7 +78,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(context, DetailsActivity.class);
-                    i.putExtra("recipe", Parcels.wrap(item));
+                    i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(item));
                     context.startActivity(i);
                 }
             });
@@ -85,11 +86,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
             binding.ivHeart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Liked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.liked, Toast.LENGTH_SHORT).show();
                     item.getTaste(new Callback<Taste>() {
                         @Override
                         public void onResponse(Call<Taste> call, Response<Taste> response) {
-                            Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
+                            Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
                             preferences.updatePreferences(item, response.body());
                             preferences.saveInBackground();
                         }
