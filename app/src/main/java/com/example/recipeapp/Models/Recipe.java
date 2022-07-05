@@ -30,6 +30,7 @@ import retrofit2.Response;
 @Parcel
 public class Recipe {
     private static final String TAG = "TASTE";
+    private static final double INVALID_RATING = -1;
     @SerializedName("title")
     String title;
     @SerializedName("image")
@@ -54,8 +55,11 @@ public class Recipe {
     @SerializedName("diets")
     List<String> diets;
 
+    /**
+     * Set to an invalid value to make debugging easier
+     */
     @Transient
-    double userRating = -1;
+    double userRating = INVALID_RATING;
 
     public void setCuisines(List<String> cuisines) {
         this.cuisines = cuisines;
