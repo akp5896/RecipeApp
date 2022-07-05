@@ -45,7 +45,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN ACTIVITY";
+    // 5 minutes
     private static final long FIRST_ALARM_TRIGGER = 5 * 60 * 1000;
+    // 20 minutes
     private static final long ALARM_INTERVAL = 20 * 60 * 1000;
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
