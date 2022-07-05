@@ -59,24 +59,27 @@ public class DetailsActivity extends AppCompatActivity {
         stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
         binding.rvSteps.setAdapter(stepsAdapter);
 
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-        Call<Recipe> recipeById = service.getRecipeById(recipe.getId(), BuildConfig.API_KEY);
-        recipeById.enqueue(new Callback<Recipe>() {
-            @Override
-            public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
-                recipe.setIngredients(response.body().getIngredients());
-                for(Step item : recipe.getAnalyzedInstructions().get(0).results) {
-                    steps.add(item.number + ". " + item.step);
+        if(recipe.getAnalyzedInstructions() == null || recipe.getIngredients() == null) {
+            RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+            Call<Recipe> recipeById = service.getRecipeById(recipe.getId(), BuildConfig.API_KEY);
+            recipeById.enqueue(new Callback<Recipe>() {
+                @Override
+                public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                    recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
+                    recipe.setIngredients(response.body().getIngredients());
+                    for (Step item : recipe.getAnalyzedInstructions().get(0).results) {
+                        steps.add(item.number + ". " + item.step);
+                    }
+                    stepsAdapter.notifyItemRangeChanged(0, steps.size());
+                    Log.e(TAG, "Something went wrong: recipes loaded");
                 }
-                stepsAdapter.notifyItemRangeChanged(0, steps.size());
-            }
 
-            @Override
-            public void onFailure(Call<Recipe> call, Throwable t) {
-                Log.e(TAG, "Something went wrong: " + t);
-            }
-        });
+                @Override
+                public void onFailure(Call<Recipe> call, Throwable t) {
+                    Log.e(TAG, "Something went wrong: " + t);
+                }
+            });
+        }
 
         binding.btnIngredients.setOnClickListener(new View.OnClickListener() {
             @Override

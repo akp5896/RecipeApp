@@ -20,6 +20,8 @@ import com.example.recipeapp.databinding.ActivityMainBinding;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +35,8 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                     finish();
                 }
+            });
+        }
+        if(item.getItemId() == R.id.bookmark) {
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(() -> {
+                RecipeDatabase recipeDatabase = ((ParseApplication) getApplicationContext()).getRecipeDatabase();
+                recipeDatabase.runInTransaction(() -> {
+                    List<Recipe> recipes = recipeDatabase.recipeDao().getRecipes();
+                    handler.post(
+                            () -> fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, FeedFragment.newInstance(recipes)).commit());
+                });
             });
         }
         return true;

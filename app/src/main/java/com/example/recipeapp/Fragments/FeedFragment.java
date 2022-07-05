@@ -41,8 +41,9 @@ public class FeedFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static FeedFragment newInstance() {
+    public static FeedFragment newInstance(List<Recipe> recipes) {
         FeedFragment fragment = new FeedFragment();
+        fragment.recipes.addAll(recipes);
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
