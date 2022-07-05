@@ -1,9 +1,10 @@
 package com.example.recipeapp.Models.Parse;
 
+import android.util.Log;
+
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.Recipe;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -29,6 +30,7 @@ public class Preferences extends ParseObject {
 
     public static final String KEY_NAME = "name";
     public static final String KEY_COUNTER = "counter";
+    private static final String TAG = "PREFERENCES";
 
     private static Preferences generalPreferences = null;
 
@@ -75,6 +77,7 @@ public class Preferences extends ParseObject {
             }
         } catch (ParseException e) {
             e.printStackTrace();
+            Log.e(TAG, "Unable to retrieve general preferences; set to null");
         }
         return generalPreferences;
     }
@@ -142,16 +145,16 @@ public class Preferences extends ParseObject {
                 }
                 List<ParseObject> newCounter = new ArrayList<>();
                 for(String counter : updatesCopy) {
-                    ParseObject dc = ParseObject.create(getCounterClassName(key));
-                    dc.put(KEY_NAME, counter);
-                    dc.put(KEY_COUNTER, 1);
-                    newCounter.add(dc);
+                    ParseObject parseCounter = ParseObject.create(getCounterClassName(key));
+                    parseCounter.put(KEY_NAME, counter);
+                    parseCounter.put(KEY_COUNTER, 1);
+                    newCounter.add(parseCounter);
                 }
                 ParseObject.saveAllInBackground(newCounter, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        for(ParseObject d : newCounter) {
-                            counterRelation.add(d);
+                        for(ParseObject parseCounter : newCounter) {
+                            counterRelation.add(parseCounter);
                         }
                         saveInBackground();
                     }

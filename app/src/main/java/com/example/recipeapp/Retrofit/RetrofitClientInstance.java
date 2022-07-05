@@ -1,9 +1,7 @@
 package com.example.recipeapp.Retrofit;
 
-import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Utils.RecipeDeserializer;
-import com.example.recipeapp.Utils.TasteDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

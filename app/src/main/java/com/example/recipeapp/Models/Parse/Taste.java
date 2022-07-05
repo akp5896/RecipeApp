@@ -21,44 +21,73 @@ import java.util.List;
 
 @ParseClassName("UserTaste")
 public class Taste extends ParseObject {
-    public static final List<String> COMPONENTS = new ArrayList<String>() {
-        {
-            add("sweetness");
-            add("saltiness");
-            add("sourness");
-            add("bitterness");
-            add("savoriness");
-            add("fattiness");
-            add("spiciness");
-        }
-    };
+    public static final String KEY_SWEETNESS = "sweetness";
+    public static final String KEY_SALTINESS = "saltiness";
+    public static final String KEY_SOURNESS = "sourness";
+    public static final String KEY_BITTERNESS = "bitterness";
+    public static final String KEY_SAVORINESS = "savoriness";
+    public static final String KEY_FATTINESS = "fattiness";
+    public static final String KEY_SPICINESS = "spiciness";
 
-    private static final int NUMBER_OF_COMPONENTS = COMPONENTS.size();
+    // If a component is added/removed, this number should be updated
+    private static final int NUMBER_OF_COMPONENTS = 7;
 
-    private HashMap<String, Double> componentValues = new HashMap<>();
+    @SerializedName("sweetness")
+    Double sweetness;
+    @SerializedName("saltiness")
+    Double saltiness;
+    @SerializedName("sourness")
+    Double sourness;
+    @SerializedName("bitterness")
+    Double bitterness;
+    @SerializedName("savoriness")
+    Double savoriness;
+    @SerializedName("fattiness")
+    Double fattiness;
+    @SerializedName("spiciness")
+    Double spiciness;
 
     public void updateTaste(Taste newTaste, int numberOfVotes) {
         try {
             fetchIfNeeded();
-            for(String component : COMPONENTS) {
-                updateAverage(component, newTaste.getComponentValues().getOrDefault(component, 0.0), numberOfVotes);
-            }
+            updateAverage(KEY_SWEETNESS, newTaste.getSweetness(), numberOfVotes);
+            updateAverage(KEY_SALTINESS, newTaste.getSaltiness(), numberOfVotes);
+            updateAverage(KEY_SOURNESS, newTaste.getSourness(), numberOfVotes);
+            updateAverage(KEY_BITTERNESS, newTaste.getBitterness(), numberOfVotes);
+            updateAverage(KEY_SAVORINESS, newTaste.getSavoriness(), numberOfVotes);
+            updateAverage(KEY_FATTINESS, newTaste.getFattiness(), numberOfVotes);
+            updateAverage(KEY_SPICINESS, newTaste.getSpiciness(), numberOfVotes);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
-    @NotNull
-    public HashMap<String, Double> getComponentValues() {
-        if(componentValues == null) {
-            componentValues = new HashMap<>();
-        }
-        return componentValues;
+    public Double getSweetness() {
+        return sweetness;
     }
 
-    public void setComponentValues(HashMap<String, Double> componentValues) {
-        this.componentValues = componentValues;
+    public Double getSaltiness() {
+        return saltiness;
+    }
+
+    public Double getSourness() {
+        return sourness;
+    }
+
+    public Double getBitterness() {
+        return bitterness;
+    }
+
+    public Double getSavoriness() {
+        return savoriness;
+    }
+
+    public Double getFattiness() {
+        return fattiness;
+    }
+
+    public Double getSpiciness() {
+        return spiciness;
     }
 
     /**
@@ -84,9 +113,14 @@ public class Taste extends ParseObject {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        for(String component : COMPONENTS) {
-            total += Recommendation.getNormalDistance(getDouble(component), otherTaste.componentValues.getOrDefault(component, 0.0)) / NUMBER_OF_COMPONENTS;
-        }
+        // Using copy-paste because of the form of the API response here 
+        total += Recommendation.getNormalDistance(getDouble(KEY_SWEETNESS), otherTaste.sweetness) / NUMBER_OF_COMPONENTS;
+        total += Recommendation.getNormalDistance(getDouble(KEY_FATTINESS), otherTaste.fattiness) / NUMBER_OF_COMPONENTS;
+        total += Recommendation.getNormalDistance(getDouble(KEY_BITTERNESS), otherTaste.bitterness) / NUMBER_OF_COMPONENTS;
+        total += Recommendation.getNormalDistance(getDouble(KEY_SAVORINESS), otherTaste.savoriness) / NUMBER_OF_COMPONENTS;
+        total += Recommendation.getNormalDistance(getDouble(KEY_SOURNESS), otherTaste.sourness) / NUMBER_OF_COMPONENTS;
+        total += Recommendation.getNormalDistance(getDouble(KEY_SALTINESS), otherTaste.saltiness) / NUMBER_OF_COMPONENTS;
+        total += Recommendation.getNormalDistance(getDouble(KEY_SPICINESS), otherTaste.spiciness) / NUMBER_OF_COMPONENTS;
         return total;
     }
 }
