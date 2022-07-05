@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.Step;

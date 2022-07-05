@@ -7,6 +7,13 @@ import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
+import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.RecommendCallback;
+import com.example.recipeapp.Utils.Recommendation;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
@@ -22,6 +29,13 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN ACTIVITY";
@@ -33,9 +47,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());//DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //binding.setViewModel(new AppViewModel());
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -54,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         binding.bottomNavigation.setSelectedItemId(R.id.search);
     }
     @Override

@@ -2,10 +2,10 @@ package com.example.recipeapp;
 
 import android.app.Application;
 
-import com.example.recipeapp.Models.Parse.Cuisine;
-import com.example.recipeapp.Models.Parse.Diet;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
+import com.example.recipeapp.Models.Parse.CuisineCounter;
+import com.example.recipeapp.Models.Parse.DietCounter;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -30,8 +30,8 @@ public class ParseApplication extends Application {
 
         ParseObject.registerSubclass(Preferences.class);
         ParseObject.registerSubclass(Taste.class);
-        ParseObject.registerSubclass(Cuisine.class);
-        ParseObject.registerSubclass(Diet.class);
+        ParseObject.registerSubclass(DietCounter.class);
+        ParseObject.registerSubclass(CuisineCounter.class);
 
         // set applicationId, and server server based on the values in the back4app settings.
         // any network interceptors must be added with the Configuration Builder given this syntax
