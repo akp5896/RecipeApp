@@ -38,11 +38,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation 'com.roughike:swipe-selector:1.0.6'
-
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'com.codepath.libraries:asynchttpclient:2.2.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

@@ -46,18 +46,22 @@ public class Recommendation {
     private static Random random;
 
     public static void recommend(RecommendCallback callback) {
-        Preferences currentPreferences = (Preferences) ParseUser.getCurrentUser().getParseObject("preferences");
+        Preferences currentPreferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
         Preferences generalPreferences = Preferences.getGeneralPreferences();
+        if(generalPreferences == null) {
+            Log.e(TAG, "Cannot find general preferences");
+            return;
+        }
 
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getSortedRecipes(BuildConfig.API_KEY,
-                getCuisine(currentPreferences, generalPreferences),
-                getDiet(currentPreferences, generalPreferences),
-                "random",
+                getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_CUISINE),
+                getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_DIET),
+                RecipeApi.RANDOM_ORDER,
                 String.valueOf(currentPreferences.getMaxTime().intValue()),
                 Settings.getIntolerances(),
                 RECIPES_REQUESTED,
-                "true");
+                RecipeApi.RECIPE_INFORMATION_VALUE);
         call.enqueue(getSortingCallback(currentPreferences, callback));
     }
 
@@ -97,7 +101,7 @@ public class Recommendation {
 
             @Override
             public void onFailure(Call<Envelope<List<Recipe>>> call, Throwable t) {
-                Log.e("RECOMMENDATION", "Failed " + t);
+                Log.e(TAG, "Failed " + t);
             }
         };
     }

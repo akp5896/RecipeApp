@@ -138,7 +138,7 @@ public class SearchFragment extends Fragment {
         Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
                 putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()),
-                Settings.getIntolerances(), Settings.getDiet(), "true");
+                Settings.getIntolerances(), Settings.getDiet(), RecipeApi.RECIPE_INFORMATION_VALUE);
 
         call.enqueue(new Callback<Envelope<List<Recipe>>>() {
             @Override

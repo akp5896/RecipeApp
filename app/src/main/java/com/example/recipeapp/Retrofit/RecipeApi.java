@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RecipeApi {
-
+    String RANDOM_ORDER = "random";
     String FAILURE = "failure";
     String API_KEY = "apiKey";
     String ID = "id";
@@ -28,6 +28,8 @@ public interface RecipeApi {
     String MAX_READY_TIME = "maxReadyTime";
     String ADD_RECIPE_INFORMATION = "addRecipeInformation";
     String INTOLERANCES = "intolerances";
+    String RECIPE_INFORMATION_VALUE = "true";
+    String SORT = "sort";
     String DIET = "diet";
 
     @GET("/recipes/complexSearch")
@@ -67,17 +69,17 @@ public interface RecipeApi {
                                              );
 
     @GET("/recipes/{id}/tasteWidget.json")
-    Call<Taste> getTasteById(@Path("id") Long id,@Query("apiKey") String apiKey);
+    Call<Taste> getTasteById(@Path("id") Long id,@Query(API_KEY) String apiKey);
 
     @GET("/recipes/complexSearch")
-    Call<Envelope<List<Recipe>>> getSortedRecipes(@Query("apiKey") String apiKey,
-                                                  @Query("cuisine") String cuisine,
-                                                  @Query("diet") String diet,
-                                                  @Query("sort") String sortOrder,
-                                                  @Query("maxReadyTime") String maxReadyTime,
-                                                  @Query("intolerances") String intolerances,
-                                                  @Query("number") int numberOfResults,
-                                                  @Query("addRecipeInformation") String addRecipeInformation
+    Call<Envelope<List<Recipe>>> getSortedRecipes(@Query(API_KEY) String apiKey,
+                                                  @Query(CUISINE) String cuisine,
+                                                  @Query(DIET) String diet,
+                                                  @Query(SORT) String sortOrder,
+                                                  @Query(MAX_READY_TIME) String maxReadyTime,
+                                                  @Query(INTOLERANCES) String intolerances,
+                                                  @Query(NUMBER) int numberOfResults,
+                                                  @Query(ADD_RECIPE_INFORMATION) String addRecipeInformation
     );
 
 }
