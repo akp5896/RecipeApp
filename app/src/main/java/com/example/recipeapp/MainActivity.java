@@ -93,30 +93,6 @@ public class MainActivity extends AppCompatActivity{
         return true;
     }
 
-    private float x1,x2;
-    static final int MIN_DISTANCE = 150;
-
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        switch(event.getAction())
-        {
-            case MotionEvent.ACTION_DOWN:
-                x1 = event.getX();
-                break;
-            case MotionEvent.ACTION_UP:
-                x2 = event.getX();
-                float deltaX = x2 - x1;
-                if (Math.abs(deltaX) > MIN_DISTANCE)
-                {
-                    Toast.makeText(MainActivity.this, "right2left swipe", Toast.LENGTH_SHORT).show ();
-                }
-                break;
-        }
-        return true;
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
