@@ -106,6 +106,7 @@ public class Taste extends ParseObject {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        // Using copy-paste because of the form of the API response here 
         total += Recommendation.getNormalDistance(getDouble(KEY_SWEETNESS), otherTaste.sweetness) / NUMBER_OF_COMPONENTS;
         total += Recommendation.getNormalDistance(getDouble(KEY_FATTINESS), otherTaste.fattiness) / NUMBER_OF_COMPONENTS;
         total += Recommendation.getNormalDistance(getDouble(KEY_BITTERNESS), otherTaste.bitterness) / NUMBER_OF_COMPONENTS;
