@@ -34,11 +34,7 @@ public class LeftSwipeListener implements View.OnTouchListener {
                 {
                     binding.drawerLayout.openDrawer(GravityCompat.START);
                     Toast.makeText(context, "right2left swipe", Toast.LENGTH_SHORT).show ();
-                }
-                else
-                {
-                    // consider as something else - a screen tap for example
-                }
+                }   
                 break;
         }
         return true;
