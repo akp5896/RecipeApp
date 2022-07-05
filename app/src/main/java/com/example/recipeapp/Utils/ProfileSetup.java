@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.recipeapp.Fragments.BiographyFragment;
+import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.ProfileLayoutBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -34,7 +35,7 @@ public class ProfileSetup {
         try {
             binding.tvName.setText(ParseUser.getCurrentUser().fetch().getUsername());
             String bio = ParseUser.getCurrentUser().fetch().getString(USER_BIO);
-            binding.tvBio.setText(bio);
+            binding.tvBio.setText((bio == null || bio.equals("")) ? context.getString(R.string.no_bio)  : bio);
             binding.tvBio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

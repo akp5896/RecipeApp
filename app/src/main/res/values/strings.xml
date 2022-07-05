@@ -22,6 +22,7 @@
     <string name="save">Save</string>
     <string name="exclude">Exclude:</string>
     <string name="fish">this is extremely long and overcomplicated biography that only takes up valuable space that could have been used for something else</string>
+    <string name="no_bio">No biography yet.</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>
