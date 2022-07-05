@@ -23,6 +23,7 @@ import java.io.IOException;
 
 public class GalleryHandler {
     private static final String NAME = "myImage";
+    private static final String INTENT_TYPE = "image/*";
     public ActivityResultLauncher<Intent> launcher;
     ComponentActivity activity;
 
@@ -35,7 +36,7 @@ public class GalleryHandler {
     public Intent onPickPhoto() {
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType(INTENT_TYPE);
         intent.setAction(Intent.ACTION_GET_CONTENT);
         return intent;
     }
