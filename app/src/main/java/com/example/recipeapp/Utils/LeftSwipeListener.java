@@ -33,8 +33,7 @@ public class LeftSwipeListener implements View.OnTouchListener {
                 if (Math.abs(deltaX) > MIN_DISTANCE)
                 {
                     binding.drawerLayout.openDrawer(GravityCompat.START);
-                    Toast.makeText(context, "right2left swipe", Toast.LENGTH_SHORT).show ();
-                }   
+                }
                 break;
         }
         return true;

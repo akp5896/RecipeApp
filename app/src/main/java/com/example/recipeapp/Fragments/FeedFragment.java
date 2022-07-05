@@ -68,6 +68,4 @@ public class FeedFragment extends Fragment {
         binding.getRoot().setOnTouchListener(new LeftSwipeListener(getContext(), ((MainActivity)getActivity()).getProfileLayoutBinding()));
         return binding.getRoot();
     }
-
-
 }
