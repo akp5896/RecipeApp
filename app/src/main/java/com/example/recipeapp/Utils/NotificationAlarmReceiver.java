@@ -40,7 +40,7 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_baseline_coffee_24)
-                        .setContentTitle("Try " + recipe.getTitle() + "!")
+                        .setContentTitle(context.getString(R.string.try_recipe, recipe.getTitle()))
                         .setContentText(Html.fromHtml(recipe.getSummary(),Html.FROM_HTML_MODE_LEGACY))
                         .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT).build();
