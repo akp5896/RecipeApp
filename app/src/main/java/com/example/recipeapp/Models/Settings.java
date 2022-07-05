@@ -20,10 +20,10 @@ public class Settings {
     public static void getSavedSettings(Context context) {
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(context);
-        diet = pref.getString(EditPreferencesActivity.DIET, null);
-        cuisines = new ArrayList<>(pref.getStringSet(EditPreferencesActivity.CUISINES, null));
-        intolerances = (HashSet<String>) pref.getStringSet(EditPreferencesActivity.INTOLERANCES, null);
-        banned = (HashSet<String>) pref.getStringSet(EditPreferencesActivity.BANNED, null);
+        diet = pref.getString(EditPreferencesActivity.DIET, "");
+        cuisines = new ArrayList<>(pref.getStringSet(EditPreferencesActivity.CUISINES, new HashSet<>()));
+        intolerances = (HashSet<String>) pref.getStringSet(EditPreferencesActivity.INTOLERANCES, new HashSet<>());
+        banned = (HashSet<String>) pref.getStringSet(EditPreferencesActivity.BANNED, new HashSet<>());
     }
 
     public static String getDiet() {
