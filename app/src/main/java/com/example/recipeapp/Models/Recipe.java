@@ -2,6 +2,10 @@ package com.example.recipeapp.Models;
 
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Parse.Preferences;
@@ -27,33 +31,46 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Entity
 @Parcel
 public class Recipe {
     private static final String TAG = "TASTE";
     private static final double INVALID_RATING = -1;
+    @ColumnInfo
     @SerializedName("title")
-    String title;
+    public String title;
+    @ColumnInfo
     @SerializedName("image")
-    String image;
+    public String image;
+    @ColumnInfo
+    @PrimaryKey
     @SerializedName("id")
-    Long id;
+    public Long id;
+    @ColumnInfo
     @SerializedName("readyInMinutes")
-    Integer readyInMinutes;
+    public Integer readyInMinutes;
+    @ColumnInfo
     @SerializedName("healthScore")
-    Double healthScore;
+    public Double healthScore;
+    @ColumnInfo
     @SerializedName("pricePerServing")
-    Double pricePerServing;
+    public Double pricePerServing;
+    @ColumnInfo
     @SerializedName("servings")
-    Integer servings;
+    public Integer servings;
+    @ColumnInfo
     @SerializedName("analyzedInstructions")
     @Transient
-    List<InstructionEnvelope<List<Step>>> analyzedInstructions;
+    public List<InstructionEnvelope<List<Step>>> analyzedInstructions;
+    @ColumnInfo
     @SerializedName("extendedIngredients")
-    List<Ingredient> ingredients;
+    public List<Ingredient> ingredients;
+    @ColumnInfo
     @SerializedName("cuisines")
-    List<String> cuisines;
+    public List<String> cuisines;
+    @ColumnInfo
     @SerializedName("diets")
-    List<String> diets;
+    public List<String> diets;
 
     /**
      * Set to an invalid value to make debugging easier

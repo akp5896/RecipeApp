@@ -1,5 +1,6 @@
 package com.example.recipeapp.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import android.view.ViewGroup;
 
 import com.example.recipeapp.Adapters.RecipesAdapter;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.ParseApplication;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Room.RecipeDatabase;
 import com.example.recipeapp.databinding.FragmentFeedBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
 
@@ -55,6 +58,18 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         adapter = new RecipesAdapter(recipes, getContext());
         binding.rvRecipes.setAdapter(adapter);
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                RecipeDatabase recipeDatabase = ((ParseApplication) getActivity().getApplication()).getRecipeDatabase();
+//                recipeDatabase.runInTransaction(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        recipeDatabase.recipeDao().insertRecipe(recipes.get(0), recipes.get(1));
+//                    }
+//                });
+//            }
+//        });
         binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

@@ -2,10 +2,14 @@ package com.example.recipeapp;
 
 import android.app.Application;
 
+import androidx.room.Room;
+
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Parse.CuisineCounter;
 import com.example.recipeapp.Models.Parse.DietCounter;
+import com.example.recipeapp.Room.RecipeDao;
+import com.example.recipeapp.Room.RecipeDatabase;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -13,6 +17,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ParseApplication extends Application {
+
+    RecipeDatabase recipeDatabase;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -39,5 +46,12 @@ public class ParseApplication extends Application {
                 .applicationId(BuildConfig.PARSE_APP_ID) // should correspond to Application Id env variable
                 .clientKey(BuildConfig.PARSE_CLIENT_KEY)  // should correspond to Client key env variable
                 .server("https://parseapi.back4app.com").build());
+
+        recipeDatabase = Room.databaseBuilder(this, RecipeDatabase.class,
+                RecipeDatabase.NAME).fallbackToDestructiveMigration().build();
+    }
+
+    public RecipeDatabase getRecipeDatabase() {
+        return recipeDatabase;
     }
 }
