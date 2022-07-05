@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
     <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_baseline_bookmark_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTime"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/ivBookmark"
+        />
+    <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

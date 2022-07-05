@@ -5,9 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.recipeapp.Adapters.StepsAdapter;
@@ -15,12 +18,15 @@ import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Room.RecipeDatabase;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,6 +94,23 @@ public class DetailsActivity extends AppCompatActivity {
                 i.putExtra(IngredientsActivity.RECIPE, Parcels.wrap(recipe));
                 startActivity(i);
             }
+        });
+
+        binding.ivBookmark.setOnClickListener(v -> {
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(() -> {
+                RecipeDatabase recipeDatabase = ((ParseApplication) getApplication()).getRecipeDatabase();
+                recipe.isBookmarked = !recipe.isBookmarked;
+                if(recipe.isBookmarked) {
+                    recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().insertRecipe(recipe));
+                    handler.post(() -> Toast.makeText(DetailsActivity.this, R.string.recipe_bookmarked, Toast.LENGTH_SHORT).show());
+                }
+                else {
+                    recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().delete(recipe));
+                    handler.post(() -> Toast.makeText(DetailsActivity.this, R.string.recipe_unbookmarked, Toast.LENGTH_SHORT).show());
+                }
+            });
         });
     }
 }

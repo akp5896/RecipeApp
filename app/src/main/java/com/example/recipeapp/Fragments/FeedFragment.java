@@ -58,18 +58,6 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         adapter = new RecipesAdapter(recipes, getContext());
         binding.rvRecipes.setAdapter(adapter);
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                RecipeDatabase recipeDatabase = ((ParseApplication) getActivity().getApplication()).getRecipeDatabase();
-//                recipeDatabase.runInTransaction(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        recipeDatabase.recipeDao().insertRecipe(recipes.get(0), recipes.get(1));
-//                    }
-//                });
-//            }
-//        });
         binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 

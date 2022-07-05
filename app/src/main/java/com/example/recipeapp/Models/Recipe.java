@@ -71,6 +71,7 @@ public class Recipe {
     @ColumnInfo
     @SerializedName("diets")
     public List<String> diets;
+    public boolean isBookmarked = false;
 
     /**
      * Set to an invalid value to make debugging easier
