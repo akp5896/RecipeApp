@@ -97,7 +97,6 @@ public class Recommendation {
         HashMap<String, Double> probabilities = new HashMap<>();
         for(ParseObject parseCounter : generalList) {
             ParseCounter curCounter = (ParseCounter) parseCounter;
-            Log.e(TAG, "123");
             probabilities.put(curCounter.getName(), (curCounter.getCount()) / total);
         }
 
