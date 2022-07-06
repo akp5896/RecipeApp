@@ -21,6 +21,7 @@
     <string name="Liked">Liked</string>
     <string name="login_issue">Issue with login</string>
     <string name="liked">Liked</string>
+    <string name="try_recipe">Try %1$s!</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>
