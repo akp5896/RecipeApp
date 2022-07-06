@@ -67,7 +67,7 @@ public class Recipe {
     @SerializedName("diets")
     List<String> diets;
     @SerializedName("summary")
-    String summary;
+    public String summary;
 
     /**
      * Set to an invalid value to make debugging easier

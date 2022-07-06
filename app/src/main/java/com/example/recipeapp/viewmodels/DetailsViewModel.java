@@ -1,19 +1,45 @@
 package com.example.recipeapp.viewmodels;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.recipeapp.Adapters.StepsAdapter;
+import com.example.recipeapp.BuildConfig;
+import com.example.recipeapp.DetailsActivity;
+import com.example.recipeapp.Models.API.RecipeWidget;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.R;
 import com.example.recipeapp.Repositories.RecipesRepository;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.parse.ParseUser;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +58,9 @@ public class DetailsViewModel extends ViewModel {
     private final String servings;
     private final String time;
     private final String image;
+
+    public MutableLiveData<String> widgetLoaded = new MutableLiveData<>();
+    public MutableLiveData<Boolean> liked = new MutableLiveData<>();
 
     public DetailsViewModel(Recipe recipe) {
         this.recipe = recipe;
@@ -103,5 +132,37 @@ public class DetailsViewModel extends ViewModel {
         StepsAdapter adapter = new StepsAdapter();
         recyclerView.setAdapter(adapter);
         return adapter;
+    }
+
+    public void onShare() {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        service.getRecipeWidget(recipe.getId(), BuildConfig.API_KEY).enqueue(new Callback<RecipeWidget<String>>() {
+            @Override
+            public void onResponse(Call<RecipeWidget<String>> call, Response<RecipeWidget<String>> response) {
+                widgetLoaded.setValue(response.body().url);
+            }
+
+            @Override
+            public void onFailure(Call<RecipeWidget<String>> call, Throwable t) {
+                Log.w(TAG, "Cannot get recipe: " + t);
+            }
+        });
+    }
+
+    public void onLike() {
+        liked.setValue(true);
+        recipe.getTaste(new Callback<Taste>() {
+            @Override
+            public void onResponse(Call<Taste> call, Response<Taste> response) {
+                Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
+                preferences.updatePreferences(recipe, response.body());
+                preferences.saveInBackground();
+            }
+
+            @Override
+            public void onFailure(Call<Taste> call, Throwable t) {
+                Log.e(TAG, "Failure : " + t);
+            }
+        });
     }
 }

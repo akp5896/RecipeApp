@@ -1,9 +1,24 @@
 package com.example.recipeapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +28,11 @@ import androidx.lifecycle.Observer;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.Models.Ingredient;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.recipeapp.Adapters.StepsAdapter;
+import com.example.recipeapp.Models.API.RecipeWidget;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -27,6 +46,9 @@ import com.example.recipeapp.viewmodels.DetailsViewModel;
 
 import org.parceler.Parcels;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,23 +80,51 @@ public class DetailsActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        binding.options.like.setOnClickListener(this::onLike);
+        binding.options.like.setOnClickListener(v -> viewModel.onLike());
+        binding.options.share.setOnClickListener(v -> viewModel.onShare());
+
+        viewModel.liked.observe(this, aBoolean -> Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show());
+
+        viewModel.widgetLoaded.observe(this, url -> Glide.with(getApplicationContext()).asBitmap().load(url).into(new CustomTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                Uri localBitmapUri = getLocalBitmapUri(resource);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, localBitmapUri);
+                shareIntent.setType("image/*");
+                Intent chooser = Intent.createChooser(shareIntent, null);
+                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+
+                for (ResolveInfo resolveInfo : resInfoList) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    grantUriPermission(packageName, localBitmapUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+                startActivity(chooser);
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+            }
+        }));
     }
 
-    private void onLike(View v) {
-        Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show();
-        recipe.getTaste(new Callback<Taste>() {
-            @Override
-            public void onResponse(Call<Taste> call, Response<Taste> response) {
-                Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
-                preferences.updatePreferences(recipe, response.body());
-                preferences.saveInBackground();
-            }
+    public Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        try {
+            File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = FileProvider.getUriForFile(
+                    DetailsActivity.this,
+                    "com.example.recipeapp.provider",
+                    file);
 
-            @Override
-            public void onFailure(Call<Taste> call, Throwable t) {
-                Log.e(TAG, "Failure : " + t);
-            }
-        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
     }
 }
