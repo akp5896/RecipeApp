@@ -94,6 +94,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         binding.options.like.setOnClickListener(this::onLike);
+        binding.options.review.setOnClickListener();
     }
 
     private void onLike(View v) {
