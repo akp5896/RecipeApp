@@ -121,6 +121,5 @@ public class DetailsActivity extends AppCompatActivity {
             steps.add(item.number + ". " + item.step);
         }
         stepsAdapter.notifyItemRangeChanged(0, steps.size());
-        Log.e(TAG, "Something went wrong: recipes loaded");
     }
 }
