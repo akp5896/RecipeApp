@@ -59,7 +59,6 @@ public class Recipe {
     @SerializedName("servings")
     public Integer servings;
     @ColumnInfo
-//    @SerializedName("analyzedInstructions")
     public List<Step> analyzedInstructions;
     @ColumnInfo
     @SerializedName("extendedIngredients")
@@ -71,6 +70,8 @@ public class Recipe {
     @SerializedName("diets")
     public List<String> diets;
     public Boolean isBookmarked = null;
+    @SerializedName("summary")
+    public String summary;
 
     /**
      * Set to an invalid value to make debugging easier
@@ -162,4 +163,9 @@ public class Recipe {
     public void setUserRating(double userRating) {
         this.userRating = userRating;
     }
+
+    public String getSummary() {
+        return summary;
+    }
+
 }
