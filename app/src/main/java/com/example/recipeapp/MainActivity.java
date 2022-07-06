@@ -10,8 +10,20 @@ import com.example.recipeapp.Fragments.SearchFragment;
 import com.example.recipeapp.Utils.GalleryHandler;
 import com.example.recipeapp.Utils.ProfileSetup;
 import com.example.recipeapp.databinding.ActivityMainBinding;
+import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
+import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.NotificationAlarmReceiver;
+import com.example.recipeapp.Utils.RecommendCallback;
+import com.example.recipeapp.Utils.Recommendation;
+import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,9 +36,21 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-public class MainActivity extends AppCompatActivity{
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN ACTIVITY";
+    // 5 minutes
+    private static final long FIRST_ALARM_TRIGGER = 5 * 60 * 1000;
+    // 20 minutes
+    private static final long ALARM_INTERVAL = 20 * 60 * 1000;
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     FeedFragment feedFragment = new FeedFragment();
@@ -56,10 +80,12 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
+        
         handler = new GalleryHandler(this, ProfileSetup.getHeaderCallback(binding.drawer, this));
         binding.drawer.ivProfilePic.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.onPickPhoto(), "Select Picture")));
 
         ProfileSetup.initialize(binding.drawer, this);
+        setNotifications();
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
     }
@@ -67,6 +93,14 @@ public class MainActivity extends AppCompatActivity{
     public ProfileLayoutBinding getProfileLayoutBinding() {
         return binding.drawer;
     }
+
+    private void setNotifications() {
+        AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationAlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, FIRST_ALARM_TRIGGER, ALARM_INTERVAL, alarmIntent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
