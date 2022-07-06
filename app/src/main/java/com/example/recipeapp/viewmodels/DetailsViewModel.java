@@ -134,7 +134,7 @@ public class DetailsViewModel extends ViewModel {
         return adapter;
     }
 
-    public void onShare() {
+    public void shareWidget() {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         service.getRecipeWidget(recipe.getId(), BuildConfig.API_KEY).enqueue(new Callback<RecipeWidget<String>>() {
             @Override

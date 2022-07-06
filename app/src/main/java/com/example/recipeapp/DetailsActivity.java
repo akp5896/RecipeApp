@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -39,6 +41,7 @@ import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.ShareRecipe;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.parse.ParseUser;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
@@ -81,7 +84,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         binding.options.like.setOnClickListener(v -> viewModel.onLike());
-        binding.options.share.setOnClickListener(v -> viewModel.onShare());
+        binding.options.share.setOnClickListener(v -> onShare());
 
         viewModel.liked.observe(this, aBoolean -> Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show());
 
@@ -109,6 +112,23 @@ public class DetailsActivity extends AppCompatActivity {
             }
         }));
     }
+
+    private void onShare() {
+        new AlertDialog.Builder(DetailsActivity.this)
+                .setTitle(R.string.choose_sharing)
+                .setMessage(R.string.share_question)
+                .setPositiveButton(
+                        R.string.share_widget, (dialog, which) -> viewModel.shareWidget())
+                .setNegativeButton(R.string.share_recipe, (dialog, which) -> shareRecipe())
+                .setIcon(android.R.drawable.ic_menu_share)
+                .show();
+    }
+
+    private void shareRecipe() {
+        Toast.makeText(this, R.string.sharing_started, Toast.LENGTH_LONG).show();
+        new ShareRecipe().startAdvertising(this, ParseUser.getCurrentUser().getUsername(), recipe);
+    }
+
 
     public Uri getLocalBitmapUri(Bitmap bmp) {
         Uri bmpUri = null;

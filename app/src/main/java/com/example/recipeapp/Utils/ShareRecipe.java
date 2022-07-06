@@ -3,10 +3,13 @@ package com.example.recipeapp.Utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.recipeapp.DetailsActivity;
+import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.connection.AdvertisingOptions;
@@ -21,14 +24,23 @@ import com.google.android.gms.nearby.connection.Payload;
 import com.google.android.gms.nearby.connection.PayloadCallback;
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate;
 import com.google.android.gms.nearby.connection.Strategy;
+import com.google.gson.Gson;
+
+import org.parceler.Parcels;
+
+import java.nio.charset.StandardCharsets;
 
 public class ShareRecipe {
 
     private static final String TAG = "Share class";
+    Role role = null;
+    Recipe recipe;
 
-    public static void startAdvertising(Context context, String username) {
+    public void startAdvertising(Context context, String username, Recipe recipe) {
         AdvertisingOptions advertisingOptions =
                 new AdvertisingOptions.Builder().setStrategy(Strategy.P2P_STAR).build();
+        role = Role.SENDER;
+        this.recipe = recipe;
         Nearby.getConnectionsClient(context)
                 .startAdvertising(
                         username, context.getString(R.string.app_name), getConnectionLifecycleCallback(context), advertisingOptions)
@@ -42,9 +54,10 @@ public class ShareRecipe {
                         });
     }
 
-    public static void startDiscovery(Context context, String username) {
+    public void startDiscovery(Context context, String username) {
         DiscoveryOptions discoveryOptions =
                 new DiscoveryOptions.Builder().setStrategy(Strategy.P2P_STAR).build();
+        role = Role.RECEIVER;
         Nearby.getConnectionsClient(context)
                 .startDiscovery(context.getString(R.string.app_name), getEndpointDiscoveryCallback(context, username), discoveryOptions)
                 .addOnSuccessListener(
@@ -57,7 +70,7 @@ public class ShareRecipe {
                         });
     }
 
-    public static EndpointDiscoveryCallback getEndpointDiscoveryCallback(Context context, String username) {
+    public EndpointDiscoveryCallback getEndpointDiscoveryCallback(Context context, String username) {
         return new EndpointDiscoveryCallback() {
             @Override
             public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
@@ -85,11 +98,10 @@ public class ShareRecipe {
         };
     }
 
-    public static ConnectionLifecycleCallback getConnectionLifecycleCallback(Context context) {
+    public ConnectionLifecycleCallback getConnectionLifecycleCallback(Context context) {
         return new ConnectionLifecycleCallback() {
             @Override
             public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
-                // Automatically accept the connection on both sides.
                 new AlertDialog.Builder(context)
                         .setTitle("Accept connection to " + connectionInfo.getEndpointName())
                         .setMessage("Confirm the code matches on both devices: " + connectionInfo.getAuthenticationDigits())
@@ -98,7 +110,7 @@ public class ShareRecipe {
                                 (DialogInterface dialog, int which) ->
                                         // The user confirmed, so we can accept the connection.
                                         Nearby.getConnectionsClient(context)
-                                                .acceptConnection(endpointId, getPayloadCallback()))
+                                                .acceptConnection(endpointId, getPayloadCallback(context)))
                         .setNegativeButton(
                                 android.R.string.cancel,
                                 (DialogInterface dialog, int which) ->
@@ -113,7 +125,12 @@ public class ShareRecipe {
             public void onConnectionResult(String endpointId, ConnectionResolution result) {
                 switch (result.getStatus().getStatusCode()) {
                     case ConnectionsStatusCodes.STATUS_OK:
-                        // We're connected! Can now start sending and receiving data.
+                        // Here we are sending recipe
+                        if(role == Role.SENDER) {
+                            byte[] recipeBytes = new Gson().toJson(recipe).getBytes(StandardCharsets.UTF_8);
+                            Nearby.getConnectionsClient(context).sendPayload(endpointId, Payload.fromBytes(recipeBytes));
+                            Nearby.getConnectionsClient(context).stopAdvertising();
+                        }
                         break;
                     case ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED:
                         getErrorAlertDialog(context, context.getString(R.string.connection_rejected));
@@ -144,17 +161,35 @@ public class ShareRecipe {
     }
 
     @NonNull
-    private static PayloadCallback getPayloadCallback() {
+    private PayloadCallback getPayloadCallback(Context context) {
         return new PayloadCallback() {
             @Override
             public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) {
-
+                // This is called when the first byte of payload is received
+                // For the bytes payload, called at the same time as onPayloadTransferUpdate
+                Log.i(TAG, "Transfer started");
+                if(payload.getType() == Payload.Type.BYTES) {
+                    Recipe recipe = new Gson().fromJson(new String(payload.asBytes(), StandardCharsets.UTF_8), Recipe.class);
+                    Intent i = new Intent(context, DetailsActivity.class);
+                    i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
+                    context.startActivity(i);
+                }
             }
 
             @Override
             public void onPayloadTransferUpdate(@NonNull String s, @NonNull PayloadTransferUpdate payloadTransferUpdate) {
-
+                if(payloadTransferUpdate.getStatus() != PayloadTransferUpdate.Status.SUCCESS) {
+                    Log.i(TAG, "Something went wrong: " + payloadTransferUpdate.getStatus());
+                    Nearby.getConnectionsClient(context).stopDiscovery();
+                    return;
+                }
+                Log.i(TAG, "Payload transferred");
             }
         };
+    }
+
+    enum Role {
+        SENDER,
+        RECEIVER
     }
 }

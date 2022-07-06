@@ -27,6 +27,12 @@
     <string name="connection_rejected">Connection was rejected</string>
     <string name="connection_broken">Connection broke</string>
     <string name="unknow_error">Unknown error occurred</string>
+    <string name="choose_sharing">Choose sharing method</string>
+    <string name="share_question">Do you want to share a widget or a recipe?</string>
+    <string name="share_widget">Share a widget</string>
+    <string name="share_recipe">Share recipe</string>
+    <string name="accept_recipe">accept_recipe</string>
+    <string name="sharing_started">Sharing started</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

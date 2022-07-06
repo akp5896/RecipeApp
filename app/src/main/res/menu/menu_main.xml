@@ -8,6 +8,22 @@
         android:icon="@drawable/ic_logout"
         android:title="@string/logout"
         android:iconTint="@color/white"
+<<<<<<< HEAD
         app:showAsAction="always" />
 
+=======
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bookmark"
+        android:icon="@drawable/ic_baseline_bookmark_24"
+        android:title="@string/bookmarks"
+        android:iconTint="@color/white"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/accept_recipe"
+        android:icon="@drawable/ic_baseline_cell_tower_24"
+        android:title="@string/accept_recipe"
+        android:iconTint="@color/white"
+        app:showAsAction="ifRoom" />
+>>>>>>> 5e566ac... now users can share and accept the link to recipes within the app with nearby share
 </menu>
