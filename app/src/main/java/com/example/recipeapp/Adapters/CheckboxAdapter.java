@@ -44,7 +44,7 @@ public class CheckboxAdapter extends ArrayAdapter<MultipleSpinnerItem> {
         return getCustomView(position, convertView, parent);
     }
 
-    public View getCustomView(final int position, View convertView,
+    private View getCustomView(final int position, View convertView,
                               ViewGroup parent) {
         final CheckboxViewHolder holder;
         if (convertView == null) {
@@ -60,7 +60,9 @@ public class CheckboxAdapter extends ArrayAdapter<MultipleSpinnerItem> {
             holder = (CheckboxViewHolder) convertView.getTag();
         }
 
-        holder.textView.setText(listState.get(position).getTitle());
+        String title = listState.get(position).getTitle();
+
+        holder.textView.setText(title);
 
         holder.checkBox.setTag(position);
         holder.checkBox.setChecked(listState.get(position).isSelected());
@@ -69,11 +71,10 @@ public class CheckboxAdapter extends ArrayAdapter<MultipleSpinnerItem> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    checked.add(listState.get(position).getTitle());
+                    checked.add(title);
                 } else {
-                    checked.remove(listState.get(position).getTitle());
+                    checked.remove(title);
                 }
-                Toast.makeText(context, "Checked" + listState.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
         return convertView;

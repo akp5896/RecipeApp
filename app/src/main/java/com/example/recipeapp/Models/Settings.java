@@ -35,8 +35,9 @@ public class Settings {
     }
 
     public static List<String> getCuisines() {
-        if(cuisines.size() == 0)
+        if(cuisines.size() == 0) {
             return null;
+        }
         return cuisines;
     }
 
@@ -56,8 +57,9 @@ public class Settings {
     }
 
     public static String getBannedString() {
-        if(banned.size() == 0)
+        if(banned.size() == 0) {
             return null;
+        }
         return String.join(",", banned);
     }
 
@@ -67,10 +69,6 @@ public class Settings {
 
     public static void setBanned(HashSet<String> banned) {
         Settings.banned = banned;
-    }
-
-    public static boolean checkIntolerance(String intolerance) {
-        return intolerances.contains(intolerance);
     }
 
     public static boolean containsIntolerance(String intolerance) {
