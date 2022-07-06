@@ -94,7 +94,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         binding.options.like.setOnClickListener(this::onLike);
-        binding.options.review.setOnClickListener();
+        binding.options.review.setOnClickListener(this::onReview);
     }
 
     private void onLike(View v) {
@@ -112,5 +112,11 @@ public class DetailsActivity extends AppCompatActivity {
                 Log.e(TAG, "Failure : " + t);
             }
         });
+    }
+
+    private void onReview(View v) {
+        Intent i = new Intent(DetailsActivity.this, ReviewsActivity.class);
+        i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
+        startActivity(i);
     }
 }

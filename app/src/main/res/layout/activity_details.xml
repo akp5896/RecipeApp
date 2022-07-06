@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
 
-    <include
-        layout="@layout/interactions"
-        android:id="@+id/options"
-        />
-
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
@@ -79,6 +74,11 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <include
+        layout="@layout/interactions"
+        android:id="@+id/options"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
