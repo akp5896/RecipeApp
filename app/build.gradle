@@ -19,6 +19,7 @@ android {
         buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
         buildConfigField("String", "PARSE_APP_ID", apikeyProperties['PARSE_APP_ID'])
         buildConfigField("String", "PARSE_CLIENT_KEY", apikeyProperties['PARSE_CLIENT_KEY'])
+        buildConfigField("String", "GENERAL_ID", apikeyProperties['GENERAL_ID'])
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

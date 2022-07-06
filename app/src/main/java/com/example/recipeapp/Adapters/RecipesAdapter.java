@@ -2,6 +2,7 @@ package com.example.recipeapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +12,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.DetailsActivity;
 import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ItemBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesViewHolder> {
 
+    private static final String TAG = "RECIPES ADAPTER";
     List<Recipe> recipes;
     Context context;
 
@@ -75,10 +86,20 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
             binding.ivHeart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, R.string.Liked, Toast.LENGTH_SHORT).show();
-                    Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
-                    preferences.updatePreferences(item);
-                    preferences.saveInBackground();
+                    Toast.makeText(context, R.string.liked, Toast.LENGTH_SHORT).show();
+                    item.getTaste(new Callback<Taste>() {
+                        @Override
+                        public void onResponse(Call<Taste> call, Response<Taste> response) {
+                            Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
+                            preferences.updatePreferences(item, response.body());
+                            preferences.saveInBackground();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Taste> call, Throwable t) {
+                            Log.e(TAG, "Failure : " + t);
+                        }
+                    });
                 }
             });
         }

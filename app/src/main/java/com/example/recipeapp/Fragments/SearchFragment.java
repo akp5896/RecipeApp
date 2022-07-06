@@ -136,7 +136,7 @@ public class SearchFragment extends Fragment {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
-                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()), "true");
+                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()), RecipeApi.RECIPE_INFORMATION_VALUE);
 
         call.enqueue(new Callback<Envelope<List<Recipe>>>() {
             @Override
