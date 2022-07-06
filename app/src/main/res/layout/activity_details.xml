@@ -5,6 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
+
+    <include
+        layout="@layout/interactions"
+        android:id="@+id/options"
+        app:layout_constraintTop_toTopOf="@+id/ivImage"
+        app:layout_constraintBottom_toBottomOf="@id/ivImage"
+        />
+
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
