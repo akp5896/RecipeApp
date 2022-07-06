@@ -9,8 +9,6 @@
     <include
         layout="@layout/interactions"
         android:id="@+id/options"
-        app:layout_constraintTop_toTopOf="@+id/ivImage"
-        app:layout_constraintBottom_toBottomOf="@id/ivImage"
         />
 
     <ImageView
