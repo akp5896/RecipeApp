@@ -69,14 +69,8 @@ public class LoginViewModel extends ViewModel {
     }
 
     public enum LoginResult {
-        SUCCESS("Logged in successfully"),
-        PARSE_ERROR("Unknown error"),
-        PARSE_INVALID_CREDENTIALS("Invalid username/password");
-
-        public final String message;
-
-        LoginResult(String message) {
-            this.message = message;
-        }
+        SUCCESS,
+        PARSE_ERROR,
+        PARSE_INVALID_CREDENTIALS;
     }
 }

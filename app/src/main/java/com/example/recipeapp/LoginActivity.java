@@ -36,10 +36,10 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                     break;
                 case PARSE_ERROR:
-                    Toast.makeText(context, getString(R.string.login_failure, "Unknown error"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.login_failure, getString(R.string.unknown_error)), Toast.LENGTH_SHORT).show();
                     break;
                 case PARSE_INVALID_CREDENTIALS:
-                    Toast.makeText(context, getString(R.string.login_failure, "Invalid credentials"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.login_failure, getString(R.string.invalid_credentials)), Toast.LENGTH_SHORT).show();
                     break;
             }
         });

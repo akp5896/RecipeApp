@@ -19,6 +19,8 @@
     <string name="Liked">Liked</string>
     <string name="login_issue">Issue with login</string>
     <string name="login_failure">Unable to login: %1$s</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="invalid_credentials">Invalid credentials</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>
