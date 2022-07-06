@@ -25,11 +25,9 @@ public class GalleryHandler {
     private static final String NAME = "myImage";
     private static final String INTENT_TYPE = "image/*";
     public ActivityResultLauncher<Intent> launcher;
-    ComponentActivity activity;
 
     public GalleryHandler(AppCompatActivity activity, ActivityResultCallback<ActivityResult> callback) {
-        this.activity = activity;
-        getGalleryLauncher(callback);
+        getGalleryLauncher(callback, activity);
     }
 
     // Trigger gallery selection for a photo
@@ -41,7 +39,7 @@ public class GalleryHandler {
         return intent;
     }
 
-    public void getGalleryLauncher(ActivityResultCallback<ActivityResult> callback) {
+    public void getGalleryLauncher(ActivityResultCallback<ActivityResult> callback, ComponentActivity activity) {
         launcher = activity.registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 callback);
