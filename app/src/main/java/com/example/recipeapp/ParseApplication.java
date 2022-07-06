@@ -47,11 +47,10 @@ public class ParseApplication extends Application {
     }
 
     private void createNotificationChannel() {
-        CharSequence name = NotificationAlarmReceiver.CHANNEL_NAME;
-        String description = NotificationAlarmReceiver.CHANNEL_DESCRIPTION;
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel(NotificationAlarmReceiver.CHANNEL_ID, name, importance);
-        channel.setDescription(description);
+        NotificationChannel channel = new NotificationChannel(NotificationAlarmReceiver.CHANNEL_ID,
+                NotificationAlarmReceiver.CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(NotificationAlarmReceiver.CHANNEL_DESCRIPTION);
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
