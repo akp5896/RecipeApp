@@ -24,6 +24,9 @@
     <string name="liked">Liked</string>
     <string name="try_recipe">Try %1$s!</string>
     <string name="share_recipe">Share recipe</string>
+    <string name="connection_rejected">Connection was rejected</string>
+    <string name="connection_broken">Connection broke</string>
+    <string name="unknow_error">Unknown error occurred</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>
