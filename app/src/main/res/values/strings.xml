@@ -22,6 +22,7 @@
     <string name="recipe_bookmarked">Recipe bookmarked</string>
     <string name="recipe_unbookmarked">Recipe no longer bookmarked</string>
     <string name="bookmarks">bookmarks</string>
+    <string name="try_recipe">Try %1$s!</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

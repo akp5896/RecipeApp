@@ -8,6 +8,7 @@ import android.util.Printer;
 import androidx.annotation.NonNull;
 
 import com.example.recipeapp.BuildConfig;
+import com.example.recipeapp.Models.Parse.CuisineCounter;
 import com.example.recipeapp.Models.Parse.ParseCounter;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
