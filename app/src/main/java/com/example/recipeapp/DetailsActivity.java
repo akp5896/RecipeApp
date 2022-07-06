@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer;
 
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.Models.Ingredient;
+import com.bumptech.glide.Glide;
+import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -39,13 +41,14 @@ public class DetailsActivity extends AppCompatActivity {
     public static final String RECIPE = "recipe";
     public static final String INGREDIENTS = "ingredients";
 
+    Recipe recipe;
     DetailsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
-        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
+        recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
         viewModel = new DetailsViewModel(recipe);
         binding.setViewModel(viewModel);
 
@@ -53,6 +56,25 @@ public class DetailsActivity extends AppCompatActivity {
             Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
             i.putExtra(DetailsActivity.INGREDIENTS, Parcels.wrap(ingredients));
             startActivity(i);
+        });
+
+        binding.options.like.setOnClickListener(this::onLike);
+    }
+
+    private void onLike(View v) {
+        Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show();
+        recipe.getTaste(new Callback<Taste>() {
+            @Override
+            public void onResponse(Call<Taste> call, Response<Taste> response) {
+                Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
+                preferences.updatePreferences(recipe, response.body());
+                preferences.saveInBackground();
+            }
+
+            @Override
+            public void onFailure(Call<Taste> call, Throwable t) {
+                Log.e(TAG, "Failure : " + t);
+            }
         });
     }
 }
