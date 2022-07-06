@@ -1,5 +1,7 @@
 package com.example.recipeapp.Room;
 
+import android.net.InetAddresses;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -21,4 +23,7 @@ public interface RecipeDao {
 
     @Delete
     void delete(Recipe recipe);
+
+    @Query("SELECT COUNT(*) FROM Recipe where id = :id")
+    Integer getRecipeById(Long id);
 }

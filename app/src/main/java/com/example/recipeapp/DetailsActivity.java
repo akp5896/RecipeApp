@@ -103,17 +103,29 @@ public class DetailsActivity extends AppCompatActivity {
             Handler handler = new Handler(Looper.getMainLooper());
             executor.execute(() -> {
                 RecipeDatabase recipeDatabase = ((ParseApplication) getApplication()).getRecipeDatabase();
-                recipe.isBookmarked = !recipe.isBookmarked;
-                if(recipe.isBookmarked) {
-                    recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().insertRecipe(recipe));
-                    handler.post(() -> Toast.makeText(DetailsActivity.this, R.string.recipe_bookmarked, Toast.LENGTH_SHORT).show());
+                if(recipe.isBookmarked == null) {
+                    recipeDatabase.runInTransaction(() -> {
+                        recipe.isBookmarked = (recipeDatabase.recipeDao().getRecipeById(recipe.id) > 0);
+                        changeBookmark(handler, recipeDatabase);
+                    });
                 }
                 else {
-                    recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().delete(recipe));
-                    handler.post(() -> Toast.makeText(DetailsActivity.this, R.string.recipe_unbookmarked, Toast.LENGTH_SHORT).show());
+                    changeBookmark(handler, recipeDatabase);
                 }
             });
         });
+    }
+
+    private void changeBookmark(Handler handler, RecipeDatabase recipeDatabase) {
+        recipe.isBookmarked = !recipe.isBookmarked;
+        if(recipe.isBookmarked) {
+            recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().insertRecipe(recipe));
+            handler.post(() -> Toast.makeText(DetailsActivity.this, R.string.recipe_bookmarked, Toast.LENGTH_SHORT).show());
+        }
+        else {
+            recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().delete(recipe));
+            handler.post(() -> Toast.makeText(DetailsActivity.this, R.string.recipe_unbookmarked, Toast.LENGTH_SHORT).show());
+        }
     }
 
     private void setDetails() {
