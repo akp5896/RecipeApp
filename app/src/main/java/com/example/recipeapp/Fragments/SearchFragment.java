@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -180,7 +182,15 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(getLayoutInflater());
-        binding.getRoot().setOnTouchListener(new LeftSwipeListener(getContext(), ((MainActivity)getActivity()).getProfileLayoutBinding()));
+
+        FragmentActivity activity = getActivity();
+        if(activity instanceof MainActivity) {
+            binding.getRoot().setOnTouchListener(new LeftSwipeListener(getContext(), ((MainActivity) activity).getProfileLayoutBinding()));
+        }
+        else {
+            Log.w(TAG, "Activity doesn't have drawer");
+        }
+
         return binding.getRoot();
     }
 }

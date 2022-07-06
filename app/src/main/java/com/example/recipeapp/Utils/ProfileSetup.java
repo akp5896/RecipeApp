@@ -30,7 +30,7 @@ public class ProfileSetup {
 
     public static void initialize(ProfileLayoutBinding binding, AppCompatActivity activity) {
         Context context = activity.getApplicationContext();
-        binding.ivPreferences.setOnClickListener(v -> activity.startActivity(new Intent(context, EditPreferencesActivity.class)));
+        //binding.ivPreferences.setOnClickListener(v -> activity.startActivity(new Intent(context, EditPreferencesActivity.class)));
         setBanner(context, binding);
         try {
             binding.tvName.setText(ParseUser.getCurrentUser().fetch().getUsername());
