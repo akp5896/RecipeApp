@@ -24,11 +24,11 @@ import com.parse.ParseUser;
 
 public class ProfileSetup {
 
-    private static final String USER_BIO = "bio";
+    public static final String USER_BIO = "bio";
     private static final String USER_PROFILE_PICTURE = "profilePicture";
 
 
-    public static void Initialize(ProfileLayoutBinding binding, AppCompatActivity activity) {
+    public static void initialize(ProfileLayoutBinding binding, AppCompatActivity activity) {
         Context context = activity.getApplicationContext();
         binding.ivPreferences.setOnClickListener(v -> activity.startActivity(new Intent(context, EditPreferencesActivity.class)));
         setBanner(context, binding);

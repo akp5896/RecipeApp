@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.recipeapp.Utils.ProfileSetup;
 import com.example.recipeapp.databinding.FragmentBiographyBinding;
 import com.example.recipeapp.databinding.ProfileLayoutBinding;
 import com.parse.ParseException;
@@ -46,7 +47,7 @@ public class BiographyFragment extends DialogFragment {
             public void onClick(View v) {
                 ParseUser user = ParseUser.getCurrentUser();
                 String bio = binding.etEditBio.getText().toString();
-                user.put("bio", bio);
+                user.put(ProfileSetup.USER_BIO, bio);
                 user.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

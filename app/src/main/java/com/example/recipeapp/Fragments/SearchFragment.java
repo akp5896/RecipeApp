@@ -56,7 +56,7 @@ public class SearchFragment extends Fragment {
     public SearchFragment() {
     }
 
-    public static SearchFragment newInstance(ProfileLayoutBinding binding) {
+    public static SearchFragment newInstance() {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

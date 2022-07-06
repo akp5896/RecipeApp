@@ -2,47 +2,27 @@ package com.example.recipeapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.BindingAdapter;
 //import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
-import com.example.recipeapp.Models.Parse.Preferences;
-import com.example.recipeapp.Models.Parse.Taste;
-import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Retrofit.RecipeApi;
-import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Utils.GalleryHandler;
 import com.example.recipeapp.Utils.ProfileSetup;
-import com.example.recipeapp.Utils.RecommendCallback;
-import com.example.recipeapp.Utils.Recommendation;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.recipeapp.databinding.ProfileLayoutBinding;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -79,7 +59,7 @@ public class MainActivity extends AppCompatActivity{
         handler = new GalleryHandler(this, ProfileSetup.getHeaderCallback(binding.drawer, this));
         binding.drawer.ivProfilePic.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.onPickPhoto(), "Select Picture")));
 
-        ProfileSetup.Initialize(binding.drawer, this);
+        ProfileSetup.initialize(binding.drawer, this);
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
     }
@@ -92,7 +72,6 @@ public class MainActivity extends AppCompatActivity{
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
