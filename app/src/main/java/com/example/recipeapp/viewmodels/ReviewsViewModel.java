@@ -20,7 +20,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.recipeapp.Models.Parse.Review;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -35,6 +39,7 @@ public class ReviewsViewModel extends ViewModel {
     Bitmap selectedImage;
 
     public MutableLiveData<Boolean> takePicture = new MutableLiveData<>();
+    public MutableLiveData<String> reviewSaved = new MutableLiveData<>();
 
     public ReviewsViewModel(String title, String body) {
         this.title = title;
@@ -104,7 +109,25 @@ public class ReviewsViewModel extends ViewModel {
         image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bitmapBytes = stream.toByteArray();
 
-        ParseFile result = new ParseFile("myImage", bitmapBytes);
+        ParseFile result = new ParseFile("myImage.jpg", bitmapBytes);
         return result;
+    }
+
+    public void post() {
+        Review review = new Review();
+        review.setBody(body);
+        review.setAuthor(ParseUser.getCurrentUser());
+        review.setMedia(bitmapToParseFile(selectedImage));
+        review.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.i(TAG, "Saved");
+                if(e != null) {
+                    reviewSaved.setValue(e.getMessage());
+                    return;
+                }
+                reviewSaved.setValue("Save successfully");
+            }
+        });
     }
 }

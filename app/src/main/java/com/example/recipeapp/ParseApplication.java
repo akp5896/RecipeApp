@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import com.example.recipeapp.Models.Parse.CuisineCounter;
 import com.example.recipeapp.Models.Parse.DietCounter;
 import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Review;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.parse.Parse;
@@ -34,6 +35,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Preferences.class);
         ParseObject.registerSubclass(Taste.class);
         ParseObject.registerSubclass(DietCounter.class);
+        ParseObject.registerSubclass(Review.class);
         ParseObject.registerSubclass(CuisineCounter.class);
 
         // set applicationId, and server server based on the values in the back4app settings.

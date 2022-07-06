@@ -68,6 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/btnSend"
+            android:onClick="@{() -> viewModel.post()}"
             android:background="@color/purple_200"
             android:text="@string/send"
             />

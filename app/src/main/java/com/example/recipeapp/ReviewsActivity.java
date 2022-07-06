@@ -42,12 +42,9 @@ public class ReviewsActivity extends AppCompatActivity {
         galleryLauncher = getGalleryLauncher();
         viewModel = binding.getViewModel();
 
-        viewModel.takePicture.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean takePicture) {
-                galleryLauncher.launch(Intent.createChooser(viewModel.onPickPhoto(), "Select Picture"));
-            }
-        });
+        viewModel.takePicture.observe(this, takePicture -> galleryLauncher.launch(Intent.createChooser(viewModel.onPickPhoto(), "Select Picture")));
+
+        viewModel.reviewSaved.observe(this, s -> Toast.makeText(ReviewsActivity.this, s, Toast.LENGTH_LONG).show());
     }
 
     @NonNull
