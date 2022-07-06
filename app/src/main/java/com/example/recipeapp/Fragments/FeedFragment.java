@@ -23,7 +23,7 @@ import com.example.recipeapp.databinding.RecipeItemBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends LeftSwipeDrawerFragment {
     FragmentFeedBinding binding;
     RecipesAdapter adapter;
     List<Recipe> recipes = new ArrayList<>();
@@ -65,7 +65,6 @@ public class FeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentFeedBinding.inflate(getLayoutInflater());
-        binding.getRoot().setOnTouchListener(new LeftSwipeListener(getContext(), ((MainActivity)getActivity()).getProfileLayoutBinding()));
         return binding.getRoot();
     }
 }

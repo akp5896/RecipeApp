@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
@@ -46,7 +47,7 @@ import retrofit2.Response;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends LeftSwipeDrawerFragment {
 
     private static final String TAG = "Search fragment";
     FragmentSearchBinding binding;
@@ -73,8 +74,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
 
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
@@ -182,15 +181,6 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(getLayoutInflater());
-
-        FragmentActivity activity = getActivity();
-        if(activity instanceof MainActivity) {
-            binding.getRoot().setOnTouchListener(new LeftSwipeListener(getContext(), ((MainActivity) activity).getProfileLayoutBinding()));
-        }
-        else {
-            Log.w(TAG, "Activity doesn't have drawer");
-        }
-
         return binding.getRoot();
     }
 }
