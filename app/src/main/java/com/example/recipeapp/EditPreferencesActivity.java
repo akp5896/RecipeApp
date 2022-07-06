@@ -54,30 +54,30 @@ public class EditPreferencesActivity extends AppCompatActivity {
 
         binding.spinnerDiet.setSelection(getDietIndex());
 
-        ArrayList<MultipleSpinnerItem> cuisinesVO = new ArrayList<>();
+        ArrayList<MultipleSpinnerItem> cuisinesCheckboxItems = new ArrayList<>();
         String[] cuisines = getResources().getStringArray(R.array.cuisines);
         for (String cuisine : cuisines) {
-            MultipleSpinnerItem stateVO = new MultipleSpinnerItem();
-            stateVO.setTitle(cuisine);
-            stateVO.setSelected(Settings.getCuisines().contains(cuisine));
-            cuisinesVO.add(stateVO);
+            MultipleSpinnerItem cuisineItem = new MultipleSpinnerItem();
+            cuisineItem.setTitle(cuisine);
+            cuisineItem.setSelected(Settings.getCuisines().contains(cuisine));
+            cuisinesCheckboxItems.add(cuisineItem);
         }
 
         CheckboxAdapter cuisineAdapter = new CheckboxAdapter(this, 0,
-                cuisinesVO);
+                cuisinesCheckboxItems);
         binding.spinnerCuisine.setAdapter(cuisineAdapter);
 
-        ArrayList<MultipleSpinnerItem> intoleranceVO = new ArrayList<>();
+        ArrayList<MultipleSpinnerItem> intoleranceCheckboxItems = new ArrayList<>();
         String[] intolerances = getResources().getStringArray(R.array.intolerances);
         for (String intolerance : intolerances) {
-            MultipleSpinnerItem stateVO = new MultipleSpinnerItem();
-            stateVO.setTitle(intolerance);
-            stateVO.setSelected(Settings.containsIntolerance(intolerance));
-            intoleranceVO.add(stateVO);
+            MultipleSpinnerItem intoleranceItem = new MultipleSpinnerItem();
+            intoleranceItem.setTitle(intolerance);
+            intoleranceItem.setSelected(Settings.containsIntolerance(intolerance));
+            intoleranceCheckboxItems.add(intoleranceItem);
         }
 
         CheckboxAdapter intoleranceAdapter = new CheckboxAdapter(this, 0,
-                intoleranceVO);
+                intoleranceCheckboxItems);
         binding.spinnerIntolerances.setAdapter(intoleranceAdapter);
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         binding.edBan.setAdapter(
