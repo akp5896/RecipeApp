@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="itemViewModel"
+            type="com.example.recipeapp.viewmodels.ReviewItemViewModel" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="sample"
+            android:id="@+id/tvTitle"
+            android:gravity="center"
+            android:text="@={itemViewModel.authorName}"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitle"
+            android:id="@+id/tvDesc"
+            android:text="@={itemViewModel.body}"
+            tools:text="kjdfsdjhfjdhvfhgdsgfjhdvfjhdfjhvsdjhfcdsjhvcjsdcsdjhvcdsjhvchjdsvcjhsdvcjhdsvcjhdsvccjhsdvjchdsvcjhvsdcjhvsdjhcvdsjhcvdsjhcvjsdhvcjhdscjhdsvcjhsdvcjhsdvcjdshvc"/>
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:parseImage="@{itemViewModel.media}"
+            />
+    </RelativeLayout>
+</layout>

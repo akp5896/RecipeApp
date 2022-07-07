@@ -22,4 +22,16 @@ public class Review extends ParseObject {
     public void setMedia(ParseFile file) {
         put(KEY_MEDIA, file);
     }
+
+    public String getBody() {
+        return getString(KEY_BODY);
+    }
+
+    public ParseUser getAuthor() {
+        return getParseUser(KEY_AUTHOR);
+    }
+
+    public ParseFile getMedia() {
+        return getParseFile(KEY_MEDIA);
+    }
 }

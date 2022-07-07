@@ -116,7 +116,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void onReview(View v) {
         Intent i = new Intent(DetailsActivity.this, ReviewsActivity.class);
-        i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
+        i.putExtra(DetailsActivity.RECIPE, recipe.getTitle());
         startActivity(i);
     }
 }

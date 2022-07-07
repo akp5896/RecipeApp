@@ -19,16 +19,22 @@ import androidx.core.content.FileProvider;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recipeapp.Adapters.ReviewsAdapter;
 import com.example.recipeapp.Models.Parse.Review;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReviewsViewModel extends ViewModel {
 
@@ -40,10 +46,32 @@ public class ReviewsViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> takePicture = new MutableLiveData<>();
     public MutableLiveData<String> reviewSaved = new MutableLiveData<>();
+    private MutableLiveData<List<ReviewItemViewModel>> data = new MutableLiveData<>(new ArrayList<>());
 
     public ReviewsViewModel(String title, String body) {
         this.title = title;
         this.body = body;
+    }
+
+    public MutableLiveData<List<ReviewItemViewModel>> getData() {
+        loadData();
+        return data;
+    }
+
+    private void loadData() {
+        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
+        query.include(Review.KEY_AUTHOR);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Review>() {
+            @Override
+            public void done(List<Review> objects, ParseException e) {
+                List<ReviewItemViewModel> viewData = new ArrayList<>();
+                for(Review item : objects) {
+                    viewData.add(new ReviewItemViewModel(item.getAuthor().getUsername(), item.getBody(), item.getMedia()));
+                }
+                data.setValue(viewData);
+            }
+        });
     }
 
     public void takePhoto() {
@@ -78,15 +106,8 @@ public class ReviewsViewModel extends ViewModel {
     public Bitmap loadFromUri(Uri photoUri, Activity loadActivity) {
         Bitmap image = null;
         try {
-            // check version of Android on device
-            if(Build.VERSION.SDK_INT > 27){
-                // on newer versions of Android, use the new decodeBitmap method
-                ImageDecoder.Source source = ImageDecoder.createSource(loadActivity.getContentResolver(), photoUri);
-                image = ImageDecoder.decodeBitmap(source);
-            } else {
-                // support older versions of Android by using getBitmap
-                image = MediaStore.Images.Media.getBitmap(loadActivity.getContentResolver(), photoUri);
-            }
+            ImageDecoder.Source source = ImageDecoder.createSource(loadActivity.getContentResolver(), photoUri);
+            image = ImageDecoder.decodeBitmap(source);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,5 +150,22 @@ public class ReviewsViewModel extends ViewModel {
                 reviewSaved.setValue("Save successfully");
             }
         });
+    }
+
+
+
+    @androidx.databinding.BindingAdapter("itemViewModels")
+    public static void bindItemViewModels(RecyclerView recyclerView, List<ReviewItemViewModel> data) {
+        ReviewsAdapter adapter = getOrCreateAdapter(recyclerView);
+        adapter.updateItems(data);
+    }
+
+    private static ReviewsAdapter getOrCreateAdapter(RecyclerView recyclerView) {
+        if(recyclerView.getAdapter() != null) {
+            return (ReviewsAdapter) recyclerView.getAdapter();
+        }
+        ReviewsAdapter adapter = new ReviewsAdapter();
+        recyclerView.setAdapter(adapter);
+        return adapter;
     }
 }
