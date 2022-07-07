@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_details.xml" value="0.1933876811594203" />
+<<<<<<< HEAD
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_login.xml" value="0.3578125" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_main.xml" value="0.3578125" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_reviews.xml" value="0.2630208333333333" />
@@ -28,6 +29,8 @@
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item.xml" value="0.3140625" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item_list.xml" value="0.3140625" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/review_item.xml" value="0.3578125" />
+=======
+>>>>>>> 6d2c3b6... details activity moved to a viewmodel, except for a recyclerview
       </map>
     </option>
   </component>
