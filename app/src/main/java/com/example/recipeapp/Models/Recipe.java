@@ -11,6 +11,10 @@ import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Utils.Recommendation;
 import com.google.gson.annotations.SerializedName;
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -151,5 +155,4 @@ public class Recipe {
     public String getSummary() {
         return summary;
     }
-
 }

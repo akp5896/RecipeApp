@@ -10,6 +10,7 @@ public class Review extends ParseObject {
     public static final String KEY_BODY = "body";
     public static final String KEY_AUTHOR = "author";
     public static final String KEY_MEDIA = "media";
+    public static final String KEY_REVIEW_TO = "reviewTo";
 
     public void setBody(String body) {
         put(KEY_BODY, body);
@@ -36,5 +37,13 @@ public class Review extends ParseObject {
 
     public ParseFile getMedia() {
         return getParseFile(KEY_MEDIA);
+    }
+
+    public void setReviewTo(Long id) {
+         put(KEY_REVIEW_TO, id);
+    }
+
+    public Long getReviewTo() {
+        return getLong(KEY_REVIEW_TO);
     }
 }

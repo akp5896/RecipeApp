@@ -36,6 +36,7 @@ public class DetailsActivity extends AppCompatActivity {
     Recipe recipe;
     List<String> steps = new ArrayList<>();
     public static final String RECIPE = "recipe";
+    public static final String RECIPE_ID = "recipeId";
 
     StepsAdapter stepsAdapter;
 
@@ -117,6 +118,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void onReview(View v) {
         Intent i = new Intent(DetailsActivity.this, ReviewsActivity.class);
         i.putExtra(DetailsActivity.RECIPE, recipe.getTitle());
+        i.putExtra(DetailsActivity.RECIPE_ID, recipe.getId());
         startActivity(i);
     }
 }

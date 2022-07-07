@@ -3,27 +3,17 @@ package com.example.recipeapp.viewmodels;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapp.Adapters.ReviewsAdapter;
 import com.example.recipeapp.Models.Parse.Review;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -31,7 +21,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +33,16 @@ public class ReviewsViewModel extends ViewModel {
     private String body = "";
     private static ReviewsAdapter adapter;
     Bitmap selectedImage;
+    private Long reviewTo;
 
     public MutableLiveData<Boolean> takePicture = new MutableLiveData<>();
     public MutableLiveData<String> reviewSaved = new MutableLiveData<>();
     private MutableLiveData<List<ReviewItemViewModel>> data = new MutableLiveData<>(new ArrayList<>());
 
-    public ReviewsViewModel(String title, String body) {
+    public ReviewsViewModel(String title, String body, Long reviewTo) {
         this.title = title;
         this.body = body;
+        this.reviewTo = reviewTo;
     }
 
     public MutableLiveData<List<ReviewItemViewModel>> getData() {
@@ -62,6 +53,7 @@ public class ReviewsViewModel extends ViewModel {
     private void loadData() {
         ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
         query.include(Review.KEY_AUTHOR);
+        query.whereEqualTo(Review.KEY_REVIEW_TO, reviewTo);
         query.addDescendingOrder("createdAt");
         try {
             List<Review> reviews = query.find();
@@ -140,6 +132,7 @@ public class ReviewsViewModel extends ViewModel {
         review.setBody(body);
         review.setAuthor(ParseUser.getCurrentUser());
         review.setMedia(bitmapToParseFile(selectedImage));
+        review.setReviewTo(reviewTo);
         review.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

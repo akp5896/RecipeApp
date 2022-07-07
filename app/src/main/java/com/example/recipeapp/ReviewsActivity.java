@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.databinding.ActivityReviewsBinding;
 import com.example.recipeapp.viewmodels.ReviewsViewModel;
 
@@ -36,7 +37,9 @@ public class ReviewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityReviewsBinding.inflate(getLayoutInflater());
-        binding.setViewModel(new ReviewsViewModel(getIntent().getStringExtra(DetailsActivity.RECIPE), getString(R.string.write_review)));
+        String title = getIntent().getStringExtra(DetailsActivity.RECIPE);
+        Long id = getIntent().getLongExtra(DetailsActivity.RECIPE_ID, 0);
+        binding.setViewModel(new ReviewsViewModel(title, getString(R.string.write_review), id));
         binding.executePendingBindings();
         setContentView(binding.getRoot());
         galleryLauncher = getGalleryLauncher();
