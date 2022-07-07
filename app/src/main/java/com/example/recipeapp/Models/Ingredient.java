@@ -1,7 +1,10 @@
 package com.example.recipeapp.Models;
 
+import android.os.Parcelable;
+
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Retrofit.RetrofitAutocomplete;
+import com.google.auto.value.AutoValue;
 import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,28 +15,18 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-@Parcel
-public class Ingredient extends RetrofitAutocomplete {
+@AutoValue
+public abstract class Ingredient extends RetrofitAutocomplete implements Parcelable {
     @SerializedName("name")
-    String name;
+    public abstract String getName();
     @SerializedName("id")
-    Long id;
+    public abstract Long id();
     @SerializedName("title")
-    Long title;
+    public abstract Long title();
 
-    public Ingredient(String name, Long id) {
-        this.name = name;
-        this.id = id;
+    public static Ingredient create(String name, Long id, Long title) {
+        return new AutoValue_Ingredient(name, id, title);
     }
 
-    public Ingredient() {
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }
