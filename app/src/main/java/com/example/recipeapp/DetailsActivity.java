@@ -11,11 +11,14 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.recipeapp.Adapters.StepsAdapter;
+import com.example.recipeapp.Models.Parse.ParseRecipe;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
@@ -33,6 +36,7 @@ public class DetailsActivity extends AppCompatActivity {
     Recipe recipe;
     List<String> steps = new ArrayList<>();
     public static final String RECIPE = "recipe";
+    ParseRecipe parseRecipe = null;
 
     StepsAdapter stepsAdapter;
 
@@ -48,6 +52,20 @@ public class DetailsActivity extends AppCompatActivity {
         binding.tvServings.setText(String.format("%s\nservings", recipe.getServings().toString()));
         binding.tvTime.setText(String.format("%s minutes", recipe.getTimeToCook().toString()));
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
+
+        ParseRecipe.findById(recipe.getId(), new FindCallback<ParseRecipe>() {
+            @Override
+            public void done(List<ParseRecipe> objects, ParseException e) {
+                if(objects == null || objects.size() == 0) {
+                    parseRecipe = new ParseRecipe();
+                    parseRecipe.setId(recipe.getId());
+                }
+                else {
+                    parseRecipe = objects.get(0);
+                }
+                binding.tvLikes.setText(parseRecipe.getNumberOfLiked());
+            }
+        });
 
 
         stepsAdapter = new StepsAdapter(steps, R.layout.item_list);

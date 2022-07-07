@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.DetailsActivity;
+import com.example.recipeapp.Models.Parse.ParseRecipe;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -87,6 +88,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, R.string.liked, Toast.LENGTH_SHORT).show();
+                    ParseRecipe.likeById(item.getId());
                     item.getTaste(new Callback<Taste>() {
                         @Override
                         public void onResponse(Call<Taste> call, Response<Taste> response) {
