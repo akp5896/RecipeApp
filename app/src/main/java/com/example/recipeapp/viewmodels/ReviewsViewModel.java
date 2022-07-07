@@ -42,6 +42,7 @@ public class ReviewsViewModel extends ViewModel {
     private static final String PHOTO_FILE_NAME = "photo.jpg";
     private String title = "";
     private String body = "";
+    private static ReviewsAdapter adapter;
     Bitmap selectedImage;
 
     public MutableLiveData<Boolean> takePicture = new MutableLiveData<>();
@@ -62,16 +63,16 @@ public class ReviewsViewModel extends ViewModel {
         ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
         query.include(Review.KEY_AUTHOR);
         query.addDescendingOrder("createdAt");
-        query.findInBackground(new FindCallback<Review>() {
-            @Override
-            public void done(List<Review> objects, ParseException e) {
-                List<ReviewItemViewModel> viewData = new ArrayList<>();
-                for(Review item : objects) {
-                    viewData.add(new ReviewItemViewModel(item.getAuthor().getUsername(), item.getBody(), item.getMedia()));
-                }
-                data.setValue(viewData);
+        try {
+            List<Review> reviews = query.find();
+            List<ReviewItemViewModel> viewData = new ArrayList<>();
+            for (Review item : reviews) {
+                viewData.add(new ReviewItemViewModel(item.getAuthor().getUsername(), item.getBody(), item.getMedia()));
             }
-        });
+            data.setValue(viewData);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public void takePhoto() {
@@ -150,13 +151,14 @@ public class ReviewsViewModel extends ViewModel {
                 reviewSaved.setValue("Save successfully");
             }
         });
+        adapter.addAtTheBeginning(new ReviewItemViewModel(review.getAuthor().getUsername(), review.getBody(), review.getMedia()));
     }
 
 
 
     @androidx.databinding.BindingAdapter("itemViewModels")
     public static void bindItemViewModels(RecyclerView recyclerView, List<ReviewItemViewModel> data) {
-        ReviewsAdapter adapter = getOrCreateAdapter(recyclerView);
+        adapter = getOrCreateAdapter(recyclerView);
         adapter.updateItems(data);
     }
 

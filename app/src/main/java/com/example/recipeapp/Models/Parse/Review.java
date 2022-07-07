@@ -20,6 +20,9 @@ public class Review extends ParseObject {
     }
 
     public void setMedia(ParseFile file) {
+        if(file == null) {
+            return;
+        }
         put(KEY_MEDIA, file);
     }
 

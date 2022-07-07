@@ -43,6 +43,11 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Bindable
         notifyDataSetChanged();
     }
 
+    public void addAtTheBeginning(ReviewItemViewModel item) {
+        data.add(0, item);
+        notifyItemInserted(0);
+    }
+
     @Override
     public int getItemCount() {
         return data.size();

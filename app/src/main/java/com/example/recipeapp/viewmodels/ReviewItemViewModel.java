@@ -1,6 +1,7 @@
 package com.example.recipeapp.viewmodels;
 
 import android.net.wifi.p2p.WifiP2pManager;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,11 @@ public class ReviewItemViewModel {
 
     @androidx.databinding.BindingAdapter("parseImage")
     public static void bindItemViewModels(ImageView imageView, ParseFile media) {
-        Glide.with(imageView.getContext()).load(media).into(imageView);
+        if(media == null) {
+            imageView.setVisibility(View.GONE);
+            return;
+        }
+        imageView.setVisibility(View.VISIBLE);
+        Glide.with(imageView.getContext()).load(media.getUrl()).into(imageView);
     }
 }
