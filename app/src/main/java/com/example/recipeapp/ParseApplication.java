@@ -25,8 +25,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ParseApplication extends Application {
 
-    RecipeDatabase recipeDatabase;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -55,12 +53,7 @@ public class ParseApplication extends Application {
                 .server("https://parseapi.back4app.com").build());
 
         createNotificationChannel();
-        recipeDatabase = Room.databaseBuilder(this, RecipeDatabase.class,
-                RecipeDatabase.NAME).fallbackToDestructiveMigration().build();
-    }
-
-    public RecipeDatabase getRecipeDatabase() {
-        return recipeDatabase;
+        RecipeDatabase.createRecipeDatabase(this);
     }
 
     private void createNotificationChannel() {

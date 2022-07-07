@@ -3,6 +3,7 @@ package com.example.recipeapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -33,8 +34,7 @@ public class IngredientsActivity extends AppCompatActivity {
         binding = ActivityIngridientsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
-        ingredients = recipe.getIngredients();
+        ingredients = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
 
         adapter = new IngredientsAdapter(ingredients);
 

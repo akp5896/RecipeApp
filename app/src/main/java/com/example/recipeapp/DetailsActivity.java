@@ -1,137 +1,61 @@
 package com.example.recipeapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Models.API.Step;
-import com.example.recipeapp.Retrofit.RecipeApi;
-import com.example.recipeapp.Retrofit.RetrofitClientInstance;
-import com.example.recipeapp.Room.RecipeDatabase;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
+import com.example.recipeapp.viewmodels.DetailsViewModel;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "DETAILS ACTIVITY";
     ActivityDetailsBinding binding;
-    Recipe recipe;
+    //Recipe recipe;
     List<String> steps = new ArrayList<>();
     public static final String RECIPE = "recipe";
-
     StepsAdapter stepsAdapter;
+
+    DetailsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDetailsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
+        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
+        viewModel = new DetailsViewModel(recipe);
+        binding.setViewModel(viewModel);
 
-        recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
-
-        Glide.with(this).load(recipe.getImage()).into(binding.ivImage);
-        binding.tvServings.setText(String.format("%s\nservings", recipe.getServings().toString()));
-        binding.tvTime.setText(String.format("%s minutes", recipe.getTimeToCook().toString()));
-        binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
-
-
-        stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
-        binding.rvSteps.setAdapter(stepsAdapter);
-
-        if(recipe.getAnalyzedInstructions() == null || recipe.getIngredients() == null) {
-            RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-            Call<Recipe> recipeById = service.getRecipeById(recipe.getId(), BuildConfig.API_KEY);
-            recipeById.enqueue(new Callback<Recipe>() {
-                @Override
-                public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                    recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
-                    recipe.setIngredients(response.body().getIngredients());
-                    setDetails();
-                }
-
-                @Override
-                public void onFailure(Call<Recipe> call, Throwable t) {
-                    Log.e(TAG, "Something went wrong: " + t);
-                }
-            });
-        } else {
-            setDetails();
-        }
-
-        binding.btnIngredients.setOnClickListener(new View.OnClickListener() {
+        viewModel.showIngredients.observe(this, new Observer<List<Ingredient>>() {
             @Override
-            public void onClick(View v) {
+            public void onChanged(List<Ingredient> ingredients) {
                 Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
-                i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
+                i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(ingredients));
                 startActivity(i);
             }
         });
 
-        binding.btnIngredients.setOnClickListener(new View.OnClickListener() {
+        viewModel.bookmarkToast.observe(this, new Observer<Integer>() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
-                i.putExtra(IngredientsActivity.RECIPE, Parcels.wrap(recipe));
-                startActivity(i);
+            public void onChanged(Integer messageId) {
+                Toast.makeText(DetailsActivity.this, messageId, Toast.LENGTH_SHORT).show();
             }
         });
-
-        binding.ivBookmark.setOnClickListener(v -> {
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(() -> {
-                RecipeDatabase recipeDatabase = ((ParseApplication) getApplication()).getRecipeDatabase();
-                if(recipe.isBookmarked == null) {
-                    recipeDatabase.runInTransaction(() -> {
-                        recipe.isBookmarked = (recipeDatabase.recipeDao().getRecipeById(recipe.id) > 0);
-                        changeBookmark(handler, recipeDatabase);
-                    });
-                }
-                else {
-                    changeBookmark(handler, recipeDatabase);
-                }
-            });
-        });
-    }
-
-    private void changeBookmark(Handler handler, RecipeDatabase recipeDatabase) {
-        recipe.isBookmarked = !recipe.isBookmarked;
-        if(recipe.isBookmarked) {
-            recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().insertRecipe(recipe));
-            handler.post(() -> Toast.makeText(DetailsActivity.this, R.string.recipe_bookmarked, Toast.LENGTH_SHORT).show());
-        }
-        else {
-            recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().delete(recipe));
-            handler.post(() -> Toast.makeText(DetailsActivity.this, R.string.recipe_unbookmarked, Toast.LENGTH_SHORT).show());
-        }
-    }
-
-    private void setDetails() {
-        for (Step item : recipe.getAnalyzedInstructions()) {
-            steps.add(item.number + ". " + item.step);
-        }
-        stepsAdapter.notifyItemRangeChanged(0, steps.size());
+//        binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
+//        stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
+//        binding.rvSteps.setAdapter(stepsAdapter);
+//
     }
 }
