@@ -38,15 +38,8 @@ public class DetailsViewModel extends ViewModel {
 
     private Recipe recipe;
 
-    private final String servings;
-    private final String time;
-    private final String image;
-
     public DetailsViewModel(Recipe recipe) {
         this.recipe = recipe;
-        servings = recipe.servings.toString();
-        time = recipe.readyInMinutes.toString();
-        image = recipe.getImage();
         steps.setValue(new ArrayList<>());
         setDetails();
         if(recipe.getIngredients() == null) {
@@ -121,15 +114,15 @@ public class DetailsViewModel extends ViewModel {
     }
 
     public String getServings() {
-        return String.format("%s\nservings", servings);
+        return String.format("%s\nservings", recipe.getServings());
     }
 
     public String getTime() {
-        return String.format("%s minutes", time);
+        return String.format("%s minutes", recipe.getTimeToCook());
     }
 
     public String getImage() {
-        return image;
+        return recipe.getImage();
     }
 
     @androidx.databinding.BindingAdapter("recipePhoto")
