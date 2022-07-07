@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 
-import com.example.recipeapp.Adapters.StepsAdapter;
+import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
@@ -23,10 +23,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "DETAILS ACTIVITY";
     ActivityDetailsBinding binding;
-    //Recipe recipe;
-    List<String> steps = new ArrayList<>();
     public static final String RECIPE = "recipe";
-    StepsAdapter stepsAdapter;
 
     DetailsViewModel viewModel;
 
@@ -38,24 +35,12 @@ public class DetailsActivity extends AppCompatActivity {
         viewModel = new DetailsViewModel(recipe);
         binding.setViewModel(viewModel);
 
-        viewModel.showIngredients.observe(this, new Observer<List<Ingredient>>() {
-            @Override
-            public void onChanged(List<Ingredient> ingredients) {
-                Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
-                i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(ingredients));
-                startActivity(i);
-            }
+        viewModel.showIngredients.observe(this, ingredients -> {
+            Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
+            i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(ingredients));
+            startActivity(i);
         });
 
-        viewModel.bookmarkToast.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer messageId) {
-                Toast.makeText(DetailsActivity.this, messageId, Toast.LENGTH_SHORT).show();
-            }
-        });
-//        binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
-//        stepsAdapter = new StepsAdapter(steps, R.layout.item_list);
-//        binding.rvSteps.setAdapter(stepsAdapter);
-//
+        viewModel.bookmarkToast.observe(this, messageId -> Toast.makeText(DetailsActivity.this, messageId, Toast.LENGTH_SHORT).show());
     }
 }
