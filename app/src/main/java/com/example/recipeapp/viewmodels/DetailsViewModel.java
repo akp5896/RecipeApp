@@ -97,11 +97,11 @@ public class DetailsViewModel extends ViewModel {
         recipe.isBookmarked = !recipe.isBookmarked;
         if(recipe.isBookmarked) {
             recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().insertRecipe(recipe));
-            handler.post(() -> bookmarkToast.setValue(R.string.recipe_bookmarked));
+            handler.post(() -> bookmarkToast.postValue(R.string.recipe_bookmarked));
         }
         else {
             recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().delete(recipe));
-            handler.post(() -> bookmarkToast.setValue(R.string.recipe_unbookmarked));
+            handler.post(() -> bookmarkToast.postValue(R.string.recipe_unbookmarked));
         }
     }
 
