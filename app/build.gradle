@@ -71,4 +71,13 @@ dependencies {
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
     implementation "androidx.preference:preference:1.2.0"
+    implementation 'com.google.auto.value:auto-value:1.5.2'
+    annotationProcessor 'com.google.auto.value:auto-value:1.5.2'
+
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.5'
+    implementation 'com.ryanharter.auto.value:auto-value-gson:0.4.5'
+
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.9'
+    implementation 'com.ryanharter.auto.value:auto-value-parcel-adapter:0.2.9'
 }

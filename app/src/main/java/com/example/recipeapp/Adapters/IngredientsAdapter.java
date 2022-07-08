@@ -59,7 +59,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
         public void bindIngredientsSubstitute(Ingredient s) {
             RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-            Call<SubEnvelope<List<String>>> call = service.getIngredientSubstitute(s.getId(), BuildConfig.API_KEY);
+            Call<SubEnvelope<List<String>>> call = service.getIngredientSubstitute(s.id(), BuildConfig.API_KEY);
             call.enqueue(new Callback<SubEnvelope<List<String>>>() {
                 @Override
                 public void onResponse(Call<SubEnvelope<List<String>>> call, Response<SubEnvelope<List<String>>> response) {
