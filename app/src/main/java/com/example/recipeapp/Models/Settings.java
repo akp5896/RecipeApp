@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+
+/**
+ * Stores local user preferences(diets, cuisines, intolerances and banned ingredients in the shared preferences)
+ * They are used in recommendation and search
+ */
 public class Settings {
     private static String diet;
     private static List<String> cuisines;
