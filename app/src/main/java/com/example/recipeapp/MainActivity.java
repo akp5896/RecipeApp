@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.recipeapp.Fragments.BookmarkFeedFragment;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
 import com.example.recipeapp.Room.RecipesRepository;
@@ -92,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         if(item.getItemId() == R.id.bookmark) {
-            ViewModelProviders.of(this).get(FeedViewModel.class).dataSource = FeedViewModel.DataSource.LOCAL_SQL_DB;
-            fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new FeedFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new BookmarkFeedFragment()).commit();
         }
         return true;
     }

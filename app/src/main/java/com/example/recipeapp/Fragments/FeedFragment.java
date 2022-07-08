@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.recipeapp.Adapters.RecipesAdapter;
+import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Room.RecipesRepository;
 import com.example.recipeapp.databinding.FragmentFeedBinding;
@@ -62,7 +63,7 @@ public class FeedFragment extends Fragment {
         adapter = new RecipesAdapter(recipes, getContext());
         binding.rvRecipes.setAdapter(adapter);
         binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
-        viewModel.fetch();
+        viewModel.fetch(FeedViewModel.DataSource.API_CALL);
         viewModel.allRecipes.observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
             @Override
             public void onChanged(List<Recipe> recipes) {

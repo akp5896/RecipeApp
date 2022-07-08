@@ -138,12 +138,11 @@ public class SearchFragment extends Fragment {
             cuisine = putWithEmptyCheck(binding.spinnerCuisine.getSelectedItem());
         }
 
-        FeedViewModel viewModel = ViewModelProviders.of(requireActivity()).get(FeedViewModel.class);
-        viewModel.params = new ApiCallParams(putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
+        ApiCallParams params = new ApiCallParams(putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
                 putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()));
-        viewModel.dataSource = FeedViewModel.DataSource.API_CALL;
-        //viewModel.allRecipes = new MutableLiveData<>(response.body().results);;
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentPlaceholder, SearchFeedFragment.newInstance(params)).commit();
         ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
     }
 

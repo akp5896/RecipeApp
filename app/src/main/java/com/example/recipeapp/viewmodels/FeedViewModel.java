@@ -14,14 +14,12 @@ public class FeedViewModel extends ViewModel {
 
     private RecipesRepository repo;
     public LiveData<List<Recipe>> allRecipes;
-    public ApiCallParams params;
-    public DataSource dataSource;
 
     public FeedViewModel() {
         repo = new RecipesRepository();
     }
 
-    public void fetch() {
+    public void fetch(DataSource dataSource, ApiCallParams params) {
         switch (dataSource) {
             case LOCAL_SQL_DB:
                 fetchLocal();
