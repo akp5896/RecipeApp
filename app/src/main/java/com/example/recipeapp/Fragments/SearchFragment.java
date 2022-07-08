@@ -5,6 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.MainActivity;
+import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.RecipeTitle;
@@ -23,6 +27,7 @@ import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
+import com.example.recipeapp.viewmodels.FeedViewModel;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -133,28 +138,13 @@ public class SearchFragment extends Fragment {
             cuisine = putWithEmptyCheck(binding.spinnerCuisine.getSelectedItem());
         }
 
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-        Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
+        FeedViewModel viewModel = ViewModelProviders.of(requireActivity()).get(FeedViewModel.class);
+        viewModel.params = new ApiCallParams(putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
-                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()), RecipeApi.RECIPE_INFORMATION_VALUE);
-
-        call.enqueue(new Callback<Envelope<List<Recipe>>>() {
-            @Override
-            public void onResponse(Call<Envelope<List<Recipe>>> call, Response<Envelope<List<Recipe>>> response) {
-                FeedFragment feedFragment = ((MainActivity) getActivity()).getFeedFragment();
-                feedFragment.getRecipes().clear();
-                feedFragment.getRecipes().addAll(response.body().results);
-                ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
-
-//                Log.i(TAG, "success: " + json.toString());
-            }
-
-            @Override
-            public void onFailure(Call<Envelope<List<Recipe>>> call, Throwable t) {
-                Log.e(TAG, "Recipes search failed: " + t);
-            }
-        });
-
+                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()));
+        viewModel.dataSource = FeedViewModel.DataSource.API_CALL;
+        //viewModel.allRecipes = new MutableLiveData<>(response.body().results);;
+        ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
     }
 
     private String putWithEmptyCheck(CharSequence chars) {

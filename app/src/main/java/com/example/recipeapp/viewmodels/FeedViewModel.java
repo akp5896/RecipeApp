@@ -1,35 +1,47 @@
 package com.example.recipeapp.viewmodels;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.recipeapp.Fragments.FeedFragment;
+import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.R;
-import com.example.recipeapp.Room.BookmarksRepository;
+import com.example.recipeapp.Room.RecipesRepository;
 import com.example.recipeapp.Room.RecipeDatabase;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class FeedViewModel extends ViewModel {
 
-    public MutableLiveData<DataSource> dataSource = new MutableLiveData<>();
-    private final BookmarksRepository repo;
-    public final LiveData<List<Recipe>> allRecipes;
+    private RecipesRepository repo;
+    public LiveData<List<Recipe>> allRecipes;
+    public ApiCallParams params;
+    public DataSource dataSource;
 
     public FeedViewModel() {
-        repo = new BookmarksRepository(RecipeDatabase.getRecipeDatabase().recipeDao());
-        allRecipes = repo.bookmarkedRecipes;
+        repo = new RecipesRepository();
     }
 
-    // Currently contains only one value, but since I'm already have to load messages with a different way in the search fragment, there will be more
+    public void fetch() {
+        switch (dataSource) {
+            case LOCAL_SQL_DB:
+                fetchLocal();
+                break;
+            case API_CALL:
+                fetchApi(params);
+                break;
+        }
+    }
+
+    private void fetchLocal() {
+        allRecipes = repo.fetchLocal();
+    }
+
+    private void fetchApi(ApiCallParams params) {
+        allRecipes = repo.fetchApi(params);
+    }
+
     public enum DataSource {
-        LOCAL_SQL_STORAGE
+        LOCAL_SQL_DB,
+        API_CALL
     }
 }

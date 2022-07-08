@@ -5,8 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
-import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Room.RecipeDatabase;
+import com.example.recipeapp.Room.RecipesRepository;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 import com.example.recipeapp.viewmodels.FeedViewModel;
@@ -27,10 +24,6 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -99,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         if(item.getItemId() == R.id.bookmark) {
-            ViewModelProviders.of(this).get(FeedViewModel.class).dataSource.setValue(FeedViewModel.DataSource.LOCAL_SQL_STORAGE);
+            ViewModelProviders.of(this).get(FeedViewModel.class).dataSource = FeedViewModel.DataSource.LOCAL_SQL_DB;
             fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new FeedFragment()).commit();
         }
         return true;
