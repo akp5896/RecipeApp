@@ -13,10 +13,6 @@ public class RecipeTitle extends RetrofitAutocomplete {
     @SerializedName("title")
     String title;
 
-    public String getTitle() {
-        return title;
-    }
-
     @Override
     public String getName() {
         return title;

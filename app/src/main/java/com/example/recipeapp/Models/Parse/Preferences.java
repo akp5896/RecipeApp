@@ -115,9 +115,9 @@ public class Preferences extends ParseObject {
             e.printStackTrace();
         }
 
-        updateStd((float)recipe.getTimeToCook());
+        updateStd((float)recipe.getReadyInMinutes());
 
-        updateAverage(KEY_AVG_TIME, (double)recipe.getTimeToCook());
+        updateAverage(KEY_AVG_TIME, (double)recipe.getReadyInMinutes());
         updateAverage(KEY_AVG_PRICE, recipe.getPricePerServing());
         updateAverage(KEY_AVG_HEALTH, recipe.getHealthScore());
         Taste taste = ((Taste)getParseObject(KEY_USER_TASTE));
