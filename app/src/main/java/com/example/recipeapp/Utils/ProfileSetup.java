@@ -40,7 +40,7 @@ public class ProfileSetup {
                 @Override
                 public void onClick(View v) {
                     FragmentManager fm = activity.getSupportFragmentManager();
-                    BiographyFragment biographyFragment = BiographyFragment.newInstance(bio, binding);
+                    BiographyFragment biographyFragment = BiographyFragment.newInstance(binding.tvBio.getText().toString(), binding);
                     biographyFragment.show(fm, BiographyFragment.BIO_TAG);
                 }
             });
