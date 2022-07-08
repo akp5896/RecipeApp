@@ -6,9 +6,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +24,13 @@ import com.example.recipeapp.R;
 import com.example.recipeapp.Room.RecipeDatabase;
 import com.example.recipeapp.databinding.FragmentFeedBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
+import com.example.recipeapp.viewmodels.FeedViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FeedFragment extends Fragment {
+    private static final String TAG = "FEED FRAGMENT";
     FragmentFeedBinding binding;
     RecipesAdapter adapter;
     List<Recipe> recipes = new ArrayList<>();
@@ -57,6 +63,13 @@ public class FeedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.setViewModel(ViewModelProviders.of(this).get(FeedViewModel.class));
+        binding.getViewModel().dataSource.observe(getViewLifecycleOwner(), new Observer<FeedViewModel.DataSource>() {
+            @Override
+            public void onChanged(FeedViewModel.DataSource dataSource) {
+                Log.e(TAG, "this");
+            }
+        });
         adapter = new RecipesAdapter(recipes, getContext());
         binding.rvRecipes.setAdapter(adapter);
         binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));

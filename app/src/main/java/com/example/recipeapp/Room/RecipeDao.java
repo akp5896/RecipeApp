@@ -2,6 +2,7 @@ package com.example.recipeapp.Room;
 
 import android.net.InetAddresses;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,7 +17,7 @@ import java.util.List;
 public interface RecipeDao {
 
     @Query("SELECT * FROM Recipe")
-    List<Recipe> getRecipes();
+    LiveData<List<Recipe>> getRecipes();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertRecipe(Recipe... recipe);

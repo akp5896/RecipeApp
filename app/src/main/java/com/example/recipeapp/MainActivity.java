@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
@@ -21,6 +22,7 @@ import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Room.RecipeDatabase;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.example.recipeapp.databinding.ActivityMainBinding;
+import com.example.recipeapp.viewmodels.FeedViewModel;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -97,16 +99,8 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         if(item.getItemId() == R.id.bookmark) {
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(() -> {
-                RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase();
-                recipeDatabase.runInTransaction(() -> {
-                    List<Recipe> recipes = recipeDatabase.recipeDao().getRecipes();
-                    handler.post(
-                            () -> fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, FeedFragment.newInstance(recipes)).commit());
-                });
-            });
+            ViewModelProviders.of(this).get(FeedViewModel.class).dataSource.setValue(FeedViewModel.DataSource.LOCAL_SQL_STORAGE);
+            fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new FeedFragment()).commit();
         }
         return true;
     }
