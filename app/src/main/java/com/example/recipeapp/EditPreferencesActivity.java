@@ -1,6 +1,7 @@
 package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.preference.PreferenceManager;
 
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityEditPreferencesBinding;
+import com.example.recipeapp.viewmodels.PreferenceScreenViewModel;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -36,13 +38,19 @@ public class EditPreferencesActivity extends AppCompatActivity {
     ActivityEditPreferencesBinding binding;
     StepsAdapter banAdapter;
     List<String> banned = new ArrayList<>();
+    PreferenceScreenViewModel viewModel;
+    CheckboxAdapter cuisineAdapter;
+    CheckboxAdapter intoleranceAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        viewModel = new PreferenceScreenViewModel();
+
         binding = ActivityEditPreferencesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.setViewModel(viewModel);
 
         binding.spinnerDiet.setAdapter(
                 new ArrayAdapter<String>(
@@ -54,31 +62,25 @@ public class EditPreferencesActivity extends AppCompatActivity {
 
         binding.spinnerDiet.setSelection(getDietIndex());
 
-        ArrayList<MultipleSpinnerItem> cuisinesCheckboxItems = new ArrayList<>();
-        String[] cuisines = getResources().getStringArray(R.array.cuisines);
-        for (String cuisine : cuisines) {
-            MultipleSpinnerItem cuisineItem = new MultipleSpinnerItem();
-            cuisineItem.setTitle(cuisine);
-            cuisineItem.setSelected(Settings.getCuisines().contains(cuisine));
-            cuisinesCheckboxItems.add(cuisineItem);
-        }
+        viewModel.cuisinesList.observe(this, cuisines -> {
+            cuisineAdapter = new CheckboxAdapter(EditPreferencesActivity.this, 0,
+                    cuisines);
+            binding.spinnerCuisine.setAdapter(cuisineAdapter);
+        });
 
-        CheckboxAdapter cuisineAdapter = new CheckboxAdapter(this, 0,
-                cuisinesCheckboxItems);
-        binding.spinnerCuisine.setAdapter(cuisineAdapter);
+        viewModel.loadCuisines(getResources().getStringArray(R.array.cuisines));
 
-        ArrayList<MultipleSpinnerItem> intoleranceCheckboxItems = new ArrayList<>();
-        String[] intolerances = getResources().getStringArray(R.array.intolerances);
-        for (String intolerance : intolerances) {
-            MultipleSpinnerItem intoleranceItem = new MultipleSpinnerItem();
-            intoleranceItem.setTitle(intolerance);
-            intoleranceItem.setSelected(Settings.containsIntolerance(intolerance));
-            intoleranceCheckboxItems.add(intoleranceItem);
-        }
+        viewModel.intolerancesList.observe(this, new Observer<List<MultipleSpinnerItem>>() {
+            @Override
+            public void onChanged(List<MultipleSpinnerItem> intolerances) {
+                intoleranceAdapter = new CheckboxAdapter(EditPreferencesActivity.this, 0,
+                        intolerances);
+                binding.spinnerIntolerances.setAdapter(intoleranceAdapter);
+            }
+        });
 
-        CheckboxAdapter intoleranceAdapter = new CheckboxAdapter(this, 0,
-                intoleranceCheckboxItems);
-        binding.spinnerIntolerances.setAdapter(intoleranceAdapter);
+        viewModel.loadIntolerances(getResources().getStringArray(R.array.intolerances));
+
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         binding.edBan.setAdapter(
                 new AutoCompleteAdapter<Ingredient>(

@@ -101,7 +101,7 @@ public class DetailsActivity extends AppCompatActivity {
         recipe.getTaste(new Callback<Taste>() {
             @Override
             public void onResponse(Call<Taste> call, Response<Taste> response) {
-                Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
+                Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.KEY_PREFERENCES);
                 preferences.updatePreferences(recipe, response.body());
                 preferences.saveInBackground();
             }

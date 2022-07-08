@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         Settings.getSavedSettings(this);
+        Intent i = new Intent(MainActivity.this, EditPreferencesActivity.class);
+        startActivity(i);
         setNotifications();
         binding.bottomNavigation.setSelectedItemId(R.id.search);
     }
