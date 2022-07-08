@@ -49,7 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
                         taste.save();
                         pref.put(Preferences.KEY_USER_TASTE, taste);
                         pref.saveInBackground(e1 -> {
-                            user.put(Preferences.PREFERENCES, pref);
+                            user.put(Preferences.KEY_PREFERENCES, pref);
                             user.saveInBackground();
                         });
                     } catch (ParseException ex) {

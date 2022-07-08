@@ -1,101 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".EditPreferencesActivity">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Diet: "
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/tvDiet"
-        />
-    <Spinner
-        android:id="@+id/spinnerDiet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDiet"
-        android:layout_margin="5dp"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cuisine: "
-        app:layout_constraintTop_toBottomOf="@id/spinnerDiet"
-        android:id="@+id/tvCuisine"
-        />
-    <Spinner
-        android:id="@+id/spinnerCuisine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerDiet"
-        android:layout_margin="5dp"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Intolerances: "
-        app:layout_constraintTop_toBottomOf="@id/spinnerCuisine"
-        android:id="@+id/tvIntolerances"
-        />
-    <Spinner
-        android:id="@+id/spinnerIntolerances"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvIntolerances"
-        android:layout_margin="5dp"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ban ingredients: "
-        app:layout_constraintTop_toBottomOf="@id/spinnerIntolerances"
-        android:id="@+id/tvIngredients"
-        />
-    <AutoCompleteTextView
-        android:id="@+id/edBan"
-        android:layout_width="0dp"
-        android:minHeight="25dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/exclude"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvIngredients"
-        app:layout_constraintEnd_toStartOf="@+id/btnAdd"
-        />
+    xmlns:bind="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"
-        android:text="@string/save"
-        />
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAdd"
+    <!-- binding object of ViewModel to the XML layout -->
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.recipeapp.viewmodels.PreferenceScreenViewModel" />
+    </data>
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stateListAnimator="@null"
-        android:text="Add"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edBan" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBan"
+        <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/edBan"/>
+        android:layout_height="match_parent"
+        tools:context=".EditPreferencesActivity">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Diet: "
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/tvDiet"
+            />
+        <Spinner
+            android:id="@+id/spinnerDiet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDiet"
+            android:layout_margin="5dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cuisine: "
+            app:layout_constraintTop_toBottomOf="@id/spinnerDiet"
+            android:id="@+id/tvCuisine"
+            />
+        <Spinner
+            android:id="@+id/spinnerCuisine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerDiet"
+            android:layout_margin="5dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Intolerances: "
+            app:layout_constraintTop_toBottomOf="@id/spinnerCuisine"
+            android:id="@+id/tvIntolerances"
+            />
+        <Spinner
+            android:id="@+id/spinnerIntolerances"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIntolerances"
+            android:layout_margin="5dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ban ingredients: "
+            app:layout_constraintTop_toBottomOf="@id/spinnerIntolerances"
+            android:id="@+id/tvIngredients"
+            />
+        <AutoCompleteTextView
+            android:id="@+id/edBan"
+            android:layout_width="0dp"
+            android:minHeight="25dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/exclude"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIngredients"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="20dp"
+            android:text="@string/save"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAdd"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@null"
+            android:text="Add"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edBan" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edBan"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

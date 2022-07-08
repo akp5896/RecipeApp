@@ -1,15 +1,11 @@
 package com.example.recipeapp.Utils;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.util.Printer;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.Models.Parse.CuisineCounter;
 import com.example.recipeapp.Models.Parse.ParseCounter;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
@@ -22,17 +18,11 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +37,7 @@ public class Recommendation {
     private static Random random;
 
     public static void recommend(RecommendCallback callback) {
-        Preferences currentPreferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
+        Preferences currentPreferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.KEY_PREFERENCES);
         Preferences generalPreferences = Preferences.getGeneralPreferences();
         if(generalPreferences == null) {
             Log.e(TAG, "Cannot find general preferences");
