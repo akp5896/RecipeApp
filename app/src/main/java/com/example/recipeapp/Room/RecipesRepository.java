@@ -34,6 +34,16 @@ public class RecipesRepository {
     private RecipeDao recipeDao;
     private LiveData<List<Recipe>> bookmarkedRecipes;
 
+    public LiveData<List<Recipe>> fetch(DataSource dataSource, ApiCallParams params) {
+        switch (dataSource) {
+            case LOCAL_SQL_DB:
+                return fetchLocal();
+            case API_CALL:
+                return fetchApi(params);
+        }
+        return null;
+    }
+
     public LiveData<List<Recipe>> fetchLocal() {
         this.recipeDao = RecipeDatabase.getRecipeDatabase().recipeDao();
         bookmarkedRecipes = recipeDao.getRecipes();
@@ -61,5 +71,10 @@ public class RecipesRepository {
             }
         });
         return bookmarkedRecipes;
+    }
+
+    public enum DataSource {
+        LOCAL_SQL_DB,
+        API_CALL
     }
 }

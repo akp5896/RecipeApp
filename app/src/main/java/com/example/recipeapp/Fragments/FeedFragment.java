@@ -30,24 +30,8 @@ public class FeedFragment extends Fragment {
     List<Recipe> recipes = new ArrayList<>();
     FeedViewModel viewModel;
 
-    public List<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public RecipesAdapter getAdapter() {
-        return adapter;
-    }
-
     public FeedFragment() {
         // Required empty public constructor
-    }
-
-    public static FeedFragment newInstance(List<Recipe> recipes) {
-        FeedFragment fragment = new FeedFragment();
-        fragment.recipes.addAll(recipes);
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

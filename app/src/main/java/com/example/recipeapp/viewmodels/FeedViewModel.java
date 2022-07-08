@@ -19,27 +19,7 @@ public class FeedViewModel extends ViewModel {
         repo = new RecipesRepository();
     }
 
-    public void fetch(DataSource dataSource, ApiCallParams params) {
-        switch (dataSource) {
-            case LOCAL_SQL_DB:
-                fetchLocal();
-                break;
-            case API_CALL:
-                fetchApi(params);
-                break;
-        }
-    }
-
-    private void fetchLocal() {
-        allRecipes = repo.fetchLocal();
-    }
-
-    private void fetchApi(ApiCallParams params) {
-        allRecipes = repo.fetchApi(params);
-    }
-
-    public enum DataSource {
-        LOCAL_SQL_DB,
-        API_CALL
+    public void fetch(RecipesRepository.DataSource dataSource, ApiCallParams params) {
+        allRecipes = repo.fetch(dataSource, params);
     }
 }
