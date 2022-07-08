@@ -133,6 +133,7 @@ public class SearchFragment extends Fragment {
             cuisine = putWithEmptyCheck(binding.spinnerCuisine.getSelectedItem());
         }
 
+<<<<<<< HEAD
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
@@ -157,6 +158,14 @@ public class SearchFragment extends Fragment {
             }
         });
 
+=======
+        ApiCallParams params = new ApiCallParams(putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
+                putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
+                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()));
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentPlaceholder, SearchFeedFragment.newInstance(params)).commit();
+        ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
+>>>>>>> 3fc82d7... new fragments added
     }
 
     private String putWithEmptyCheck(CharSequence chars) {
