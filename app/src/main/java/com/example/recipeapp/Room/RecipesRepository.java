@@ -51,7 +51,7 @@ public class RecipesRepository {
             @Override
             public void onResponse(@NonNull Call<Envelope<List<Recipe>>> call, @NonNull Response<Envelope<List<Recipe>>> response) {
                 if(bookmarkedRecipes instanceof MutableLiveData) {
-                    ((MutableLiveData<List<Recipe>>)bookmarkedRecipes).postValue(response.body().results);
+                    ((MutableLiveData)bookmarkedRecipes).postValue(response.body().results);
                 }
             }
 

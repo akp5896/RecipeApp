@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,22 +24,12 @@ import java.util.List;
 
 public class SearchFeedFragment extends FeedFragment {
 
-    private ApiCallParams params;
 
-    public SearchFeedFragment() {
-        // Required empty public constructor
-    }
-
-    public static SearchFeedFragment newInstance(ApiCallParams params) {
-        SearchFeedFragment fragment = new SearchFeedFragment();
-        fragment.params = params;
-        return fragment;
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.fetch(FeedViewModel.DataSource.API_CALL, params);
+        viewModel.fetch(FeedViewModel.DataSource.LOCAL_SQL_DB, null);
         viewModel.allRecipes.observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
             @Override
             public void onChanged(List<Recipe> recipes) {

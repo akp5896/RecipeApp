@@ -63,13 +63,6 @@ public class FeedFragment extends Fragment {
         adapter = new RecipesAdapter(recipes, getContext());
         binding.rvRecipes.setAdapter(adapter);
         binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
-        viewModel.fetch(FeedViewModel.DataSource.API_CALL);
-        viewModel.allRecipes.observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
-            @Override
-            public void onChanged(List<Recipe> recipes) {
-                adapter.updateList(recipes);
-            }
-        });
     }
 
     @Override
