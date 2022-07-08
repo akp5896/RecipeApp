@@ -63,16 +63,22 @@ public class FeedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.setViewModel(ViewModelProviders.of(this).get(FeedViewModel.class));
+        binding.setViewModel(ViewModelProviders.of(requireActivity()).get(FeedViewModel.class));
+        adapter = new RecipesAdapter(recipes, getContext());
+        binding.rvRecipes.setAdapter(adapter);
+        binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.getViewModel().dataSource.observe(getViewLifecycleOwner(), new Observer<FeedViewModel.DataSource>() {
             @Override
             public void onChanged(FeedViewModel.DataSource dataSource) {
                 Log.e(TAG, "this");
             }
         });
-        adapter = new RecipesAdapter(recipes, getContext());
-        binding.rvRecipes.setAdapter(adapter);
-        binding.rvRecipes.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.getViewModel().allRecipes.observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
+            @Override
+            public void onChanged(List<Recipe> recipes) {
+                adapter.updateList(recipes);
+            }
+        });
     }
 
     @Override

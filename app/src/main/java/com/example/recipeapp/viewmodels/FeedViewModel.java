@@ -21,23 +21,11 @@ public class FeedViewModel extends ViewModel {
 
     public MutableLiveData<DataSource> dataSource = new MutableLiveData<>();
     private final BookmarksRepository repo;
-    private final LiveData<List<Recipe>> allRecipes;
+    public final LiveData<List<Recipe>> allRecipes;
 
     public FeedViewModel() {
         repo = new BookmarksRepository(RecipeDatabase.getRecipeDatabase().recipeDao());
         allRecipes = repo.bookmarkedRecipes;
-    }
-
-    public void loadBookmarkedPosts() {
-//        ExecutorService executor = Executors.newSingleThreadExecutor();
-//        Handler handler = new Handler(Looper.getMainLooper());
-//        executor.execute(() -> {
-//            RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase();
-//            recipeDatabase.runInTransaction(() -> {
-//                List<Recipe> recipes = recipeDatabase.recipeDao().getRecipes();
-////                handler.post();
-//            });
-//        });
     }
 
     // Currently contains only one value, but since I'm already have to load messages with a different way in the search fragment, there will be more
