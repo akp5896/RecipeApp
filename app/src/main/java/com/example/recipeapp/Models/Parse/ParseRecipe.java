@@ -9,6 +9,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class ParseRecipe extends ParseObject {
     public static final String KEY_NUM_OF_LIKES = "numOfLikes";
     public static final String KEY_LIKED_BY = "likedBy";
-    public static final String KEY_ID = "id";
+    public static final String KEY_ID = "recipeId";
     private static final String TAG = "Parse recipe";
 
     public int getNumberOfLiked() {
@@ -26,13 +27,14 @@ public class ParseRecipe extends ParseObject {
     public void like() {
         isLiked((likedUsers, e) -> {
             if(likedUsers.size() > 0) {
-                increment(KEY_LIKED_BY, -1);
+                increment(KEY_NUM_OF_LIKES, -1);
                 getRelation(KEY_LIKED_BY).remove(ParseUser.getCurrentUser());
             }
             else {
                 increment(KEY_NUM_OF_LIKES);
                 getRelation(KEY_LIKED_BY).add(ParseUser.getCurrentUser());
             }
+            saveInBackground();
         });
     }
 
@@ -47,15 +49,20 @@ public class ParseRecipe extends ParseObject {
     }
 
     public static void likeById(Long id) {
-        findById(id, new FindCallback<ParseRecipe>() {
-            @Override
-            public void done(List<ParseRecipe> objects, ParseException e) {
-                if(objects == null || objects.size() == 0) {
-                    Log.i(TAG, "Not found");
-                    return;
-                }
-                objects.get(0).like();
+        findById(id, (objects, e) -> {
+            if(objects == null || objects.size() == 0) {
+                ParseRecipe parseRecipe = new ParseRecipe();
+                parseRecipe.setId(id);
+                parseRecipe.saveInBackground(e1 -> {
+                    if(e1 != null) {
+                        Log.e(TAG, "Not found, cannot create" + e);
+                        return;
+                    }
+                    parseRecipe.like();
+                });
+                return;
             }
+            objects.get(0).like();
         });
     }
 

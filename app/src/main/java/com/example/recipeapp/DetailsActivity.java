@@ -63,7 +63,7 @@ public class DetailsActivity extends AppCompatActivity {
                 else {
                     parseRecipe = objects.get(0);
                 }
-                binding.tvLikes.setText(parseRecipe.getNumberOfLiked());
+                binding.tvLikes.setText(String.valueOf(parseRecipe.getNumberOfLiked()));
             }
         });
 
@@ -95,15 +95,6 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
                 i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
-                startActivity(i);
-            }
-        });
-
-        binding.btnIngredients.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
-                i.putExtra(IngredientsActivity.RECIPE, Parcels.wrap(recipe));
                 startActivity(i);
             }
         });
