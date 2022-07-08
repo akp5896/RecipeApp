@@ -62,4 +62,13 @@ public class RecipesRepository {
         });
         return bookmarkedRecipes;
     }
+<<<<<<< HEAD
+=======
+
+    private String putWithEmptyCheck(CharSequence chars) {
+        if(chars == null || chars.toString().equals(""))
+            return null;
+        return chars.toString();
+    }
+>>>>>>> 7911c1e... call to api moved to viewmodel
 }
