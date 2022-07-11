@@ -48,12 +48,16 @@ public abstract class Recipe implements Parcelable {
     @SerializedName("id")
     public abstract Long id();
     @SerializedName("readyInMinutes")
+    @Nullable
     public abstract Integer getReadyInMinutes();
     @SerializedName("healthScore")
+    @Nullable
     public abstract Double getHealthScore();
     @SerializedName("pricePerServing")
+    @Nullable
     public abstract Double getPricePerServing();
     @SerializedName("servings")
+    @Nullable
     public abstract Integer getServings();
     @SerializedName("analyzedInstructions")
     @ParcelAdapter(AnalyzedInstructionsAdapter.class)
@@ -63,10 +67,13 @@ public abstract class Recipe implements Parcelable {
     @Nullable
     public abstract List<Ingredient> ingredients();
     @SerializedName("cuisines")
+    @Nullable
     public abstract List<String> getCuisines();
     @SerializedName("diets")
+    @Nullable
     public abstract List<String> getDiets();
     @SerializedName("summary")
+    @Nullable
     public abstract String getSummary();
 
     /**

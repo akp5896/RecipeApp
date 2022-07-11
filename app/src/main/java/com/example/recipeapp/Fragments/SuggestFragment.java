@@ -1,11 +1,13 @@
 package com.example.recipeapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,10 @@ import android.view.ViewGroup;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.BuildConfig;
+import com.example.recipeapp.DetailsActivity;
+import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
@@ -23,13 +28,18 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SuggestFragment extends Fragment {
 
+    private static final String TAG = "Suggest activity";
     FragmentSuggestBinding binding;
     StepsAdapter iHaveAdapter;
     List<String> iHave = new ArrayList<>();
@@ -67,6 +77,35 @@ public class SuggestFragment extends Fragment {
             iHave.add(binding.edIngredients.getText().toString());
             iHaveAdapter.notifyItemInserted(iHave.size() - 1);
             binding.edIngredients.setText(null);
+        });
+
+        binding.btnSuggest.setOnClickListener(v -> {
+            RecipeApi service1 = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+            Call<List<Recipe>> call = service1.getRecipeByIngredients(BuildConfig.API_KEY, 2, String.join(",", iHave));
+            call.enqueue(new Callback<List<Recipe>>() {
+                @Override
+                public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                    Call<Recipe> call2 = service1.getRecipeById(response.body().get(0).id(), BuildConfig.API_KEY);
+                    call2.enqueue(new Callback<Recipe>() {
+                        @Override
+                        public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                            Intent i = new Intent(getContext(), DetailsActivity.class);
+                            i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(response.body()));
+                            startActivity(i);
+                        }
+
+                        @Override
+                        public void onFailure(Call<Recipe> call, Throwable t) {
+                            Log.e(TAG, "Recipes search failed: " + t);
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                    Log.e(TAG, "Recipes search failed: " + t);
+                }
+            });
         });
     }
 
