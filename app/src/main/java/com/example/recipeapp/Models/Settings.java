@@ -22,6 +22,10 @@ public class Settings {
     private static HashSet<String> intolerances;
     private static HashSet<String> banned;
 
+    /**
+     * Retrieves saved user setting from shared preferences
+     * @param context
+     */
     public static void getSavedSettings(Context context) {
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(context);
