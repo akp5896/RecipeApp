@@ -144,7 +144,12 @@ public class SearchFragment extends Fragment {
                 FeedFragment feedFragment = ((MainActivity) getActivity()).getFeedFragment();
                 feedFragment.getRecipes().clear();
                 feedFragment.getRecipes().addAll(response.body().results);
-                ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.animator.search_to_feed, R.animator.feed_to_search)
+                        .replace(R.id.fragmentPlaceholder, feedFragment)
+                        .commit();
+                //((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
 
 //                Log.i(TAG, "success: " + json.toString());
             }
