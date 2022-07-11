@@ -20,6 +20,7 @@ import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Room.RecipeDatabase;
+import com.example.recipeapp.Room.RecipesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,33 +78,17 @@ public class DetailsViewModel extends ViewModel {
     }
 
     public void bookmark() {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-        executor.execute(() -> {
-            RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase();
-            if(recipe.isBookmarked == null) {
-                recipeDatabase.runInTransaction(() -> {
-                    recipe.isBookmarked = (recipeDatabase.recipeDao().getRecipeById(recipe.id) > 0);
-                    changeBookmark(handler, recipeDatabase);
-                });
+        RecipesRepository.getRepository().bookmark(recipe, result -> {
+            if(result == RecipesRepository.BookmarkCallback.BookmarkResult.BOOKMARKED) {
+                bookmarkToast.postValue(R.string.recipe_bookmarked);
             }
             else {
-                changeBookmark(handler, recipeDatabase);
+                bookmarkToast.postValue(R.string.recipe_unbookmarked);
             }
         });
     }
 
-    private void changeBookmark(Handler handler, RecipeDatabase recipeDatabase) {
-        recipe.isBookmarked = !recipe.isBookmarked;
-        if(recipe.isBookmarked) {
-            recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().insertRecipe(recipe));
-            handler.post(() -> bookmarkToast.postValue(R.string.recipe_bookmarked));
-        }
-        else {
-            recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().delete(recipe));
-            handler.post(() -> bookmarkToast.postValue(R.string.recipe_unbookmarked));
-        }
-    }
+
 
     public Recipe getRecipe() {
         return recipe;

@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.util.Executors;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.API.ApiCallParams;
@@ -21,8 +22,8 @@ import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.viewmodels.FeedViewModel;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,8 +32,18 @@ import retrofit2.Response;
 public class RecipesRepository {
 
     private static final String TAG = "RecipesRepo";
+    private static RecipesRepository recipesRepository;
     private final RecipeDao recipeDao = RecipeDatabase.getRecipeDatabase().recipeDao();;
     private LiveData<List<Recipe>> bookmarkedRecipes;
+    ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+    Handler handler = new Handler(Looper.getMainLooper());
+
+    public static RecipesRepository getRepository() {
+        if(recipesRepository == null) {
+            recipesRepository = new RecipesRepository();
+        }
+        return recipesRepository;
+    }
 
     public LiveData<List<Recipe>> fetch(DataSource dataSource, ApiCallParams params) {
         switch (dataSource) {
@@ -70,6 +81,41 @@ public class RecipesRepository {
             }
         });
         return bookmarkedRecipes;
+    }
+
+    public void bookmark(Recipe recipe, BookmarkCallback callback) {
+        executor.execute(() -> {
+            RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase();
+            if (recipe.isBookmarked == null) {
+                recipeDatabase.runInTransaction(() -> {
+                    recipe.isBookmarked = (recipeDatabase.recipeDao().getRecipeById(recipe.id) > 0);
+                    changeBookmark(recipe, callback);
+                });
+            } else {
+                changeBookmark(recipe, callback);
+            }
+        });
+    }
+
+    private void changeBookmark(Recipe recipe, BookmarkCallback callback) {
+        RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase();
+        recipe.isBookmarked = !recipe.isBookmarked;
+        if(recipe.isBookmarked) {
+            recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().insertRecipe(recipe));
+            handler.post(() -> callback.onBookmarkResult(BookmarkCallback.BookmarkResult.BOOKMARKED));
+        }
+        else {
+            recipeDatabase.runInTransaction(() -> recipeDatabase.recipeDao().delete(recipe));
+            handler.post(() -> callback.onBookmarkResult(BookmarkCallback.BookmarkResult.UNBOOKMARKED));
+        }
+    }
+
+    public interface BookmarkCallback {
+        void onBookmarkResult(BookmarkResult result);
+        enum BookmarkResult {
+            BOOKMARKED,
+            UNBOOKMARKED
+        }
     }
 
     public enum DataSource {

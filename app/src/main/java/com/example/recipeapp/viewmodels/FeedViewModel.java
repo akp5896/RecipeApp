@@ -16,7 +16,7 @@ public class FeedViewModel extends ViewModel {
     public LiveData<List<Recipe>> allRecipes;
 
     public FeedViewModel() {
-        repo = new RecipesRepository();
+        repo = RecipesRepository.getRepository();
     }
 
     public void fetch(RecipesRepository.DataSource dataSource, ApiCallParams params) {
