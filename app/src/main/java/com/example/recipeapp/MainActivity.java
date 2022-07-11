@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 //import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.Fragments.SuggestFragment;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SearchFragment()).commit();
                         return true;
                     case R.id.suggest:
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SuggestFragment()).commit();
                         return true;
                     default:
                         return true;

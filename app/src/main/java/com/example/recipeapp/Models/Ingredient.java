@@ -25,6 +25,7 @@ public abstract class Ingredient extends RetrofitAutocomplete implements Parcela
     @SerializedName("name")
     public abstract String getName();
     @SerializedName("id")
+    @Nullable
     public abstract Long getId();
 
     public static TypeAdapter<Ingredient> typeAdapter(Gson gson) {
