@@ -61,9 +61,10 @@ public class DetailsActivity extends AppCompatActivity {
         recipeById.enqueue(new Callback<Recipe>() {
             @Override
             public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
-                recipe.setIngredients(response.body().getIngredients());
-                for(Step item : recipe.getAnalyzedInstructions().get(0).results) {
+//                recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
+//                recipe.setIngredients(response.body().getIngredients());
+                recipe = response.body();
+                for(Step item : recipe.analyzedInstructions().get(0).results) {
                     steps.add(item.number + ". " + item.step);
                 }
                 stepsAdapter.notifyItemRangeChanged(0, steps.size());
