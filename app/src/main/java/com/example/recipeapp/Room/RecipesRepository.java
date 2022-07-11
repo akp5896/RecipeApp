@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class RecipesRepository {
 
     private static final String TAG = "RecipesRepo";
-    private RecipeDao recipeDao;
+    private final RecipeDao recipeDao = RecipeDatabase.getRecipeDatabase().recipeDao();;
     private LiveData<List<Recipe>> bookmarkedRecipes;
 
     public LiveData<List<Recipe>> fetch(DataSource dataSource, ApiCallParams params) {
@@ -45,7 +45,6 @@ public class RecipesRepository {
     }
 
     public LiveData<List<Recipe>> fetchLocal() {
-        this.recipeDao = RecipeDatabase.getRecipeDatabase().recipeDao();
         bookmarkedRecipes = recipeDao.getRecipes();
         return bookmarkedRecipes;
     }
