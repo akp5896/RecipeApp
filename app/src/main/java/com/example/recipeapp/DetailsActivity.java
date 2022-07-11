@@ -65,7 +65,7 @@ public class DetailsActivity extends AppCompatActivity {
 //                recipe.setIngredients(response.body().getIngredients());
                 recipe = response.body();
                 for(Step item : recipe.analyzedInstructions().get(0).results) {
-                    steps.add(item.number + ". " + item.step);
+                    steps.add(item.getNumber() + ". " + item.getStep());
                 }
                 stepsAdapter.notifyItemRangeChanged(0, steps.size());
             }

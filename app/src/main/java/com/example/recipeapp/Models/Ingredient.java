@@ -2,10 +2,15 @@ package com.example.recipeapp.Models;
 
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Retrofit.RetrofitAutocomplete;
 import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONArray;
@@ -15,37 +20,18 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-@Parcel
-public class Ingredient extends RetrofitAutocomplete{
+@AutoValue
+public abstract class Ingredient extends RetrofitAutocomplete implements Parcelable{
     @SerializedName("name")
-    String name;
+    public abstract String getName();
     @SerializedName("id")
-    Long id;
-    @SerializedName("title")
-    Long title;
+    public abstract Long getId();
 
-    @Override
-    public String getName() {
-        return name;
+    public static TypeAdapter<Ingredient> typeAdapter(Gson gson) {
+        return new AutoValue_Ingredient.GsonTypeAdapter(gson);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getTitle() {
-        return title;
-    }
-
-    public void setTitle(Long title) {
-        this.title = title;
+    public Ingredient create(String name, Long id) {
+        return new AutoValue_Ingredient(name, id);
     }
 }
