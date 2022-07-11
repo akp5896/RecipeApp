@@ -12,17 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.DetailsActivity;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
-import com.example.recipeapp.Retrofit.RecipeApi;
-import com.example.recipeapp.Retrofit.RetrofitClientInstance;
-import com.example.recipeapp.databinding.ItemBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
-import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -50,6 +47,8 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
     public RecipesAdapter(List<Recipe> recipes, Context context) {
         this.recipes = recipes;
         this.context = context;
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        
     }
 
     @Override

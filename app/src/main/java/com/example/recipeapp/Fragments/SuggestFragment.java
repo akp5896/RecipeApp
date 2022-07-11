@@ -83,6 +83,7 @@ public class SuggestFragment extends Fragment {
             call.enqueue(new Callback<List<Recipe>>() {
                 @Override
                 public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                    if(response.body() != null && response.body())
                     Call<Recipe> detailsCall = service.getRecipeById(response.body().get(0).id(), BuildConfig.API_KEY);
                     detailsCall.enqueue(new Callback<Recipe>() {
                         @Override
