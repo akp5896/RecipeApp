@@ -1,6 +1,7 @@
 package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +12,13 @@ import android.widget.Toast;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.databinding.ActivitySignUpBinding;
+import com.example.recipeapp.viewmodels.SignUpViewModel;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
     private static final String TAG = "SIGN UP ACTIVITY";
     ActivitySignUpBinding binding;
 
@@ -30,35 +30,16 @@ public class SignUpActivity extends AppCompatActivity {
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser user = new ParseUser();
+        binding.setViewModel(new SignUpViewModel());
 
-                user.put(USERNAME, binding.etLogin.getText().toString());
-                user.put(PASSWORD, binding.etLogin.getText().toString());
-                user.signUpInBackground((SignUpCallback) e -> {
-                    if(e != null) {
-                        Toast.makeText(SignUpActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, e.toString());
-                        return;
-                    }
-                    Preferences pref = new Preferences();
-                    Taste taste = new Taste();
-                    try {
-                        taste.save();
-                        pref.put(Preferences.KEY_USER_TASTE, taste);
-                        pref.saveInBackground(e1 -> {
-                            user.put(Preferences.PREFERENCES, pref);
-                            user.saveInBackground();
-                        });
-                    } catch (ParseException ex) {
-                        ex.printStackTrace();
-                    }
-                    Toast.makeText(SignUpActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+        binding.getViewModel().signUpResult.observe(this, signUpResult -> {
+            switch (signUpResult) {
+                case SUCCESS:
                     startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-                });
-
+                case ERROR_CREATING_PREFERENCES:
+                case ERROR_CREATING_TASTE:
+                case ERROR_CREATING_USER:
+                    Toast.makeText(SignUpActivity.this, signUpResult.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
