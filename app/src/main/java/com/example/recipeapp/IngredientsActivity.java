@@ -34,7 +34,7 @@ public class IngredientsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
-        ingredients = recipe.getIngredients();
+        ingredients = recipe.ingredients();
 
         adapter = new IngredientsAdapter(ingredients);
 
