@@ -1,5 +1,6 @@
 package com.example.recipeapp;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     FeedFragment feedFragment = new FeedFragment();
-    private GalleryHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        
-        handler = new GalleryHandler(this, ProfileSetup.getHeaderCallback(binding.drawer, this));
-        binding.drawer.ivProfilePic.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.onPickPhoto(), "Select Picture")));
+
+        // Should create a launcher in onCreate, couldn't do it in a later called callback
+        ActivityResultLauncher<Intent> launcher = GalleryHandler.getGalleryLauncher(ProfileSetup.getHeaderCallback(binding.drawer, this), this);
+        binding.drawer.ivProfilePic.setOnClickListener(v -> launcher.launch(Intent.createChooser(GalleryHandler.onPickPhoto(), "Select Picture")));
 
         ProfileSetup.initialize(binding.drawer, this);
         setNotifications();

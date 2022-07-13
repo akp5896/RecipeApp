@@ -14,7 +14,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.ParseFile;
 
@@ -24,14 +23,9 @@ import java.io.IOException;
 public class GalleryHandler {
     private static final String NAME = "myImage";
     private static final String INTENT_TYPE = "image/*";
-    public ActivityResultLauncher<Intent> launcher;
-
-    public GalleryHandler(AppCompatActivity activity, ActivityResultCallback<ActivityResult> callback) {
-        getGalleryLauncher(callback, activity);
-    }
 
     // Trigger gallery selection for a photo
-    public Intent onPickPhoto() {
+    public static Intent onPickPhoto() {
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent();
         intent.setType(INTENT_TYPE);
@@ -39,8 +33,8 @@ public class GalleryHandler {
         return intent;
     }
 
-    public void getGalleryLauncher(ActivityResultCallback<ActivityResult> callback, ComponentActivity activity) {
-        launcher = activity.registerForActivityResult(
+    public static ActivityResultLauncher<Intent> getGalleryLauncher(ActivityResultCallback<ActivityResult> callback, ComponentActivity activity) {
+        return activity.registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 callback);
     }
