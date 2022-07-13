@@ -3,9 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/drawable/ingr_back.xml" value="0.236" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/drawable/stroke_square.xml" value="0.236" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_details.xml" value="0.1933876811594203" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_edit_preferences.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_ingridients.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_login.xml" value="0.3578125" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_reviews.xml" value="0.2630208333333333" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/activity_sign_up.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/fragment_biography.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/fragment_feed.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/fragment_recommend_list.xml" value="0.3020833333333333" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/fragment_search.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/fragment_suggest.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/interactions.xml" value="0.3578125" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item.xml" value="0.3140625" />
-        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item_list.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item_ingredients.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/item_list.xml" value="0.5" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/network_automcomplete.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/recipe_item.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/review_item.xml" value="0.3578125" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/layout/search_spinner.xml" value="0.3140625" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/RecipeApp/app/src/main/res/menu/menu_main.xml" value="0.31614583333333335" />
+        <entry key="..\:/Users/stacypopova123/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.31614583333333335" />
       </map>
     </option>
   </component>

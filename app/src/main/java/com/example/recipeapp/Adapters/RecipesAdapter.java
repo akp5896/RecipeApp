@@ -79,7 +79,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
 
         public void bind(Recipe item) {
             binding.tvTitle.setText(item.getTitle());
-            Glide.with(context).load(item.getImage()).into(binding.ivImage);
+            Glide.with(context).load(item.getImage).into(binding.ivImage);
             binding.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

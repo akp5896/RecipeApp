@@ -6,18 +6,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 
-import com.example.recipeapp.Adapters.IngredientFilterAdapter;
-import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.DetailsViewModel;
 
 import org.parceler.Parcels;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -42,5 +36,8 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         viewModel.bookmarkToast.observe(this, messageId -> Toast.makeText(DetailsActivity.this, messageId, Toast.LENGTH_SHORT).show());
+
+        binding.options.like.setOnClickListener(v -> viewModel.onLike());
+        viewModel.liked.observe(this, aBoolean -> Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show());
     }
 }
