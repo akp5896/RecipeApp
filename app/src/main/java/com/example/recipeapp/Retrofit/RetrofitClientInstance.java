@@ -1,6 +1,7 @@
 package com.example.recipeapp.Retrofit;
 
 import com.example.recipeapp.Models.API.Step;
+import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Utils.RecipeDeserializer;
 import com.google.gson.GsonBuilder;
@@ -17,6 +18,7 @@ public class RetrofitClientInstance {
             GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(
                     new GsonBuilder()
                             .registerTypeAdapter(Recipe.class, new RecipeDeserializer())
+                            .registerTypeAdapter(Recipe.class, Ingredient.typeAdapter())
                             .create());
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
