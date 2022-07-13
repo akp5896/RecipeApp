@@ -2,6 +2,7 @@ package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.databinding.ActivitySignUpBinding;
+import com.example.recipeapp.viewmodels.LoginViewModel;
 import com.example.recipeapp.viewmodels.SignUpViewModel;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -30,7 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.setViewModel(new SignUpViewModel());
+        binding.setViewModel(ViewModelProviders.of(this).get(SignUpViewModel.class));
 
         binding.getViewModel().signUpResult.observe(this, signUpResult -> {
             switch (signUpResult) {
