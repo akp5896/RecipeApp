@@ -18,6 +18,9 @@
     <string name="instructions">Instructions:</string>
     <string name="Liked">Liked</string>
     <string name="login_issue">Issue with login</string>
+    <string name="login_failure">Unable to login: %1$s</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="invalid_credentials">Invalid credentials</string>
     <string name="liked">Liked</string>
     <string name="save">Save</string>
     <string name="exclude">Exclude:</string>

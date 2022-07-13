@@ -1,7 +1,10 @@
 package com.example.recipeapp.Models;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.Step;
@@ -15,18 +18,21 @@ import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.parse.ParseUser;
+import com.ryanharter.auto.value.parcel.ParcelAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcel;
 import org.parceler.Transient;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.sweers.autotransient.AutoTransient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,10 +56,12 @@ public abstract class Recipe implements Parcelable {
     @SerializedName("servings")
     public abstract Integer getServings();
     @SerializedName("analyzedInstructions")
-    @Transient
-    List<InstructionEnvelope<List<Step>>> analyzedInstructions;
+    @ParcelAdapter(AnalyzedInstructionsAdapter.class)
+    @Nullable
+    public abstract List<InstructionEnvelope<List<Step>>> analyzedInstructions();
     @SerializedName("extendedIngredients")
-    List<Ingredient> ingredients;
+    @Nullable
+    public abstract List<Ingredient> ingredients();
     @SerializedName("cuisines")
     public abstract List<String> getCuisines();
     @SerializedName("diets")
@@ -96,19 +104,36 @@ public abstract class Recipe implements Parcelable {
         return new AutoValue_Recipe.GsonTypeAdapter(gson);
     }
 
-    public List<InstructionEnvelope<List<Step>>> getAnalyzedInstructions() {
-        return analyzedInstructions;
+    public static class AnalyzedInstructionsAdapter implements com.ryanharter.auto.value.parcel.TypeAdapter<List<InstructionEnvelope<List<Step>>>> {
+
+        @Override
+        public List<InstructionEnvelope<List<Step>>> fromParcel(Parcel in) {
+            List<Step> steps = new ArrayList<>();
+            in.readList(steps, Step.class.getClassLoader());
+            InstructionEnvelope<List<Step>> envelope = new InstructionEnvelope<>();
+            envelope.results = steps;
+            return new ArrayList<InstructionEnvelope<List<Step>>>(){{add(envelope);}};
+        }
+
+        @Override
+        public void toParcel(List<InstructionEnvelope<List<Step>>> value, Parcel dest) {
+            dest.writeList(value.get(0).results);
+        }
     }
 
-    public void setAnalyzedInstructions(List<InstructionEnvelope<List<Step>>> analyzedInstructions) {
-        this.analyzedInstructions = analyzedInstructions;
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
+//    public List<InstructionEnvelope<List<Step>>> getAnalyzedInstructions() {
+//        return analyzedInstructions;
+//    }
+//
+//    public void setAnalyzedInstructions(List<InstructionEnvelope<List<Step>>> analyzedInstructions) {
+//        this.analyzedInstructions = analyzedInstructions;
+//    }
+//
+//    public List<Ingredient> getIngredients() {
+//        return ingredients;
+//    }
+//
+//    public void setIngredients(List<Ingredient> ingredients) {
+//        this.ingredients = ingredients;
+//    }
 }
