@@ -36,6 +36,10 @@ public class IngredientsActivity extends AppCompatActivity {
 
         ingredients = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
 
+        ingredients = ingredients.stream().limit(2).collect(Collectors.toList());
+
+
+
         adapter = new IngredientsAdapter(ingredients);
 
         binding.rvIngredients.setLayoutManager(new LinearLayoutManager(this));

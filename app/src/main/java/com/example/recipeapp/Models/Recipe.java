@@ -73,6 +73,7 @@ public class Recipe {
     public List<Step> analyzedInstructions;
     @Nullable
     @ColumnInfo
+    @SerializedName("extendedIngredients")
     public List<Ingredient> ingredients;
     @SerializedName("cuisines")
     @ColumnInfo

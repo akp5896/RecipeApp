@@ -20,18 +20,27 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoValue
-public abstract class Ingredient extends RetrofitAutocomplete implements Parcelable{
+@Parcel
+public class Ingredient extends RetrofitAutocomplete {
     @SerializedName("name")
-    public abstract String getName();
+    String name;
     @SerializedName("id")
-    public abstract Long getId();
+    Long id;
 
-    public static TypeAdapter<Ingredient> typeAdapter(Gson gson) {
-        return new AutoValue_Ingredient.GsonTypeAdapter(gson);
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public Ingredient create(String name, Long id) {
-        return new AutoValue_Ingredient(name, id);
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
