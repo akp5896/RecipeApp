@@ -164,3 +164,8 @@ Base uri https://spoonacular.com/
 | HTTP VERB | Endpoint | Desciprtion|
 |----------|------|------------|
 | GET | complex-search | search |
+| GET | /recipes/{id}/information | Detailed informtaions about recipes |
+| GET | /food/ingredients/autocomplete | Autocomplete for ingredients search |
+| GET | /recipes/autocomplete | Autocomplete for recipe title search |
+| GET | /food/ingredients/{id}/substitutes | Get ingredient substitues by id |
+| GET | /recipes/{id}/tasteWidget.json | get taste components |

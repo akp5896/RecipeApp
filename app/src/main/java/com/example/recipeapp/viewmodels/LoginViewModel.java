@@ -1,46 +1,55 @@
 package com.example.recipeapp.viewmodels;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
-import androidx.databinding.BaseObservable;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.example.recipeapp.MainActivity;
-import com.example.recipeapp.SignUpActivity;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
-public class LoginViewModel extends BaseObservable {
+public class LoginViewModel extends ViewModel {
 
     private static final String TAG = "Logging in: ";
+    private static final int INVALID_LOGIN_PARAMS = 101;
+    private String username = "";
+    private String password = "";
 
-    private String username;
-    private String password;
+
+    public MutableLiveData<Boolean> startSignUp = new MutableLiveData<>();
+    public MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
 
     public LoginViewModel() {
-
     }
 
-    public void login(View view) {
+    public void login() {
         ParseUser.logInInBackground(
                 username,
                 password,
-                (user, e) -> {
-                    Context context = view.getContext();
-                    if(e != null) {
-                        Log.i(TAG, "Issue with login" + e);
-                        Toast.makeText(context, "Unable to login", Toast.LENGTH_SHORT).show();
-                        return;
+                new LogInCallback() {
+                    @Override
+                    public void done(ParseUser user, ParseException e) {
+                        if(e != null) {
+                            Log.i(TAG, "Issue with login" + e);
+                            switch (e.getCode()) {
+                                case INVALID_LOGIN_PARAMS:
+                                case ParseException.USERNAME_MISSING:
+                                case ParseException.PASSWORD_MISSING:
+                                    loginResult.setValue(LoginResult.PARSE_INVALID_CREDENTIALS);
+                                    break;
+                                default:
+                                    loginResult.setValue(LoginResult.PARSE_ERROR);
+                            }
+                            return;
+                        }
+                        loginResult.setValue(LoginResult.SUCCESS);
                     }
-                    context.startActivity(new Intent(context, MainActivity.class));
                 });
     }
 
-    public void signUp(View view) {
-        Context context = view.getContext();
-        context.startActivity(new Intent(context, SignUpActivity.class));
+    public void signUp() {
+        startSignUp.setValue(true);
     }
 
     public String getUsername() {
@@ -57,5 +66,11 @@ public class LoginViewModel extends BaseObservable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public enum LoginResult {
+        SUCCESS,
+        PARSE_ERROR,
+        PARSE_INVALID_CREDENTIALS;
     }
 }

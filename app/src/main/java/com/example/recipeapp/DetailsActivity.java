@@ -50,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         Glide.with(this).load(recipe.getImage()).into(binding.ivImage);
         binding.tvServings.setText(String.format("%s\nservings", recipe.getServings().toString()));
-        binding.tvTime.setText(String.format("%s minutes", recipe.getTimeToCook().toString()));
+        binding.tvTime.setText(String.format("%s minutes", recipe.getReadyInMinutes().toString()));
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -58,14 +58,15 @@ public class DetailsActivity extends AppCompatActivity {
         binding.rvSteps.setAdapter(stepsAdapter);
 
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-        Call<Recipe> recipeById = service.getRecipeById(recipe.getId(), BuildConfig.API_KEY);
+        Call<Recipe> recipeById = service.getRecipeById(recipe.id(), BuildConfig.API_KEY);
         recipeById.enqueue(new Callback<Recipe>() {
             @Override
             public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
-                recipe.setIngredients(response.body().getIngredients());
-                for(Step item : recipe.getAnalyzedInstructions().get(0).results) {
-                    steps.add(item.number + ". " + item.step);
+//                recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
+//                recipe.setIngredients(response.body().getIngredients());
+                recipe = response.body();
+                for(Step item : recipe.analyzedInstructions().get(0).results) {
+                    steps.add(item.getNumber() + ". " + item.getStep());
                 }
                 stepsAdapter.notifyItemRangeChanged(0, steps.size());
             }
