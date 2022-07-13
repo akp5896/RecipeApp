@@ -8,6 +8,9 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
+import android.widget.Toast;
+
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipeapp.LoginActivity;
 import com.example.recipeapp.Models.Parse.Preferences;
