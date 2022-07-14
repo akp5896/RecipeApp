@@ -21,6 +21,9 @@ import com.example.recipeapp.viewmodels.FeedViewModel;
 
 import java.util.List;
 
+/**
+ * Extension of FeedFragemnt used to show the recipes retrieved from local storage, available offline.
+ */
 public class BookmarkFeedFragment extends FeedFragment {
 
     @Override

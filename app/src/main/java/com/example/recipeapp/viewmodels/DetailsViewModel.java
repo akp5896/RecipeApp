@@ -57,8 +57,6 @@ public class DetailsViewModel extends ViewModel {
                 @Override
                 public void onResponse(Call<Recipe> call, Response<Recipe> response) {
                       recipe = response.body();
-//                    recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
-//                    recipe.setIngredients(response.body().getIngredients());
                 }
 
                 @Override
