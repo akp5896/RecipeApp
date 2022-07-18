@@ -75,17 +75,6 @@ public class Recipe {
     @Transient
     double userRating = INVALID_RATING;
 
-    public void getTaste(Preferences current) {
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-        Call<Taste> call = service.getTasteById(id, BuildConfig.API_KEY);
-        try {
-            Response<Taste> response = call.execute();
-            setUserRating(Recommendation.getRecipeDistance(Recipe.this, response.body(), current));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void getTaste(Callback<Taste> callback) {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Taste> call = service.getTasteById(id, BuildConfig.API_KEY);

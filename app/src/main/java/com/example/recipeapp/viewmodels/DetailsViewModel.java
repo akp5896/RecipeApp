@@ -1,7 +1,5 @@
 package com.example.recipeapp.viewmodels;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -10,20 +8,14 @@ import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.Adapters.StepsAdapter;
-import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.R;
-import com.example.recipeapp.Retrofit.RecipeApi;
-import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Repositories.RecipesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +25,7 @@ public class DetailsViewModel extends ViewModel {
     private static final String TAG = "DetailsViewModel";
     public MutableLiveData<List<Ingredient>> showIngredients = new MutableLiveData<>();
     private MutableLiveData<List<StepViewModel>> steps = new MutableLiveData<>();
+    RecipesRepository repo = RecipesRepository.getRepository();
 
     private Recipe recipe;
 
@@ -48,20 +41,7 @@ public class DetailsViewModel extends ViewModel {
         steps.setValue(new ArrayList<>());
         setDetails();
         if(recipe.getIngredients() == null) {
-            RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-            Call<Recipe> recipeById = service.getRecipeById(recipe.getId(), BuildConfig.API_KEY);
-            recipeById.enqueue(new Callback<Recipe>() {
-                @Override
-                public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                    recipe.setAnalyzedInstructions(response.body().getAnalyzedInstructions());
-                    recipe.setIngredients(response.body().getIngredients());
-                }
-
-                @Override
-                public void onFailure(Call<Recipe> call, Throwable t) {
-                    Log.e(TAG, "Something went wrong: " + t);
-                }
-            });
+            repo.reloadRecipe(recipe.getId());
         }
     }
 
@@ -71,6 +51,10 @@ public class DetailsViewModel extends ViewModel {
 
     private void setDetails() {
         List<StepViewModel> stepViewModels = new ArrayList<>();
+        if(recipe.getAnalyzedInstructions() == null) {
+            Log.w(TAG, "Failed to load instructions");
+            return;
+        }
         for(Step item : recipe.getAnalyzedInstructions().get(0).results) {
             stepViewModels.add(new StepViewModel(item.getStep(), item.getNumber()));
         }
