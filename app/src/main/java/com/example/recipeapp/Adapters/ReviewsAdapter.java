@@ -16,11 +16,12 @@ import com.example.recipeapp.R;
 import com.example.recipeapp.viewmodels.ReviewItemViewModel;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.BindableViewHolder> {
 
-    private List<ReviewItemViewModel> data = new ArrayList<>();
+    private final LinkedList<ReviewItemViewModel> data = new LinkedList<>();
     MutableLiveData<ReviewItemViewModel> itemClicked;
 
     @NonNull
@@ -48,7 +49,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Bindable
     }
 
     public void addAtTheBeginning(ReviewItemViewModel item) {
-        data.add(0, item);
+        data.addFirst(item);
         notifyItemInserted(0);
     }
 

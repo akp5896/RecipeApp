@@ -39,6 +39,7 @@ public class ReviewsViewModel extends ViewModel {
     public MutableLiveData<Boolean> takePicture = new MutableLiveData<>();
     public MutableLiveData<String> reviewSaved = new MutableLiveData<>();
     private MutableLiveData<List<ReviewItemViewModel>> data;
+    public final MutableLiveData<ReviewItemViewModel> post = new MutableLiveData<>();
 
     public MutableLiveData<List<ReviewItemViewModel>> getData() {
         data = ReviewRepository.getReviewRepository().getReviews(reviewTo);
@@ -126,6 +127,6 @@ public class ReviewsViewModel extends ViewModel {
                 reviewSaved.setValue("Save successfully");
             }
         });
-        adapter.addAtTheBeginning(new ReviewItemViewModel(review.getAuthor().getUsername(), review.getBody(), review.getMedia()));
+        post.postValue(new ReviewItemViewModel(review.getAuthor().getUsername(), review.getBody(), review.getMedia()));
     }
 }

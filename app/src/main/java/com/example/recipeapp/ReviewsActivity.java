@@ -62,12 +62,9 @@ public class ReviewsActivity extends AppCompatActivity {
         adapter = new ReviewsAdapter();
         binding.rvReviews.setAdapter(adapter);
 
-        viewModel.getData().observe(this, new Observer<List<ReviewItemViewModel>>() {
-            @Override
-            public void onChanged(List<ReviewItemViewModel> reviewItemViewModels) {
-                adapter.updateItems(reviewItemViewModels);
-            }
-        });
+        viewModel.getData().observe(this, reviewItemViewModels -> adapter.updateItems(reviewItemViewModels));
+
+        viewModel.post.observe(this, reviewItemViewModel -> adapter.addAtTheBeginning(reviewItemViewModel));
     }
 
     @NonNull
