@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipeapp.BuildConfig;
+import com.example.recipeapp.Models.API.RecipeTitle;
 import com.example.recipeapp.Models.API.SearchApiCallParams;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.Taste;
@@ -104,6 +105,11 @@ public class RecipesRepository {
 
     public void getIngredientAutocomplete(String query, Callback<List<Ingredient>> callback) {
         Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
+        call.enqueue(callback);
+    }
+
+    public void getTitleAutocomplete(String query, Callback<List<RecipeTitle>> callback) {
+        Call<List<RecipeTitle>> call = service.getTitleAutocomplete(BuildConfig.API_KEY, query, 5);
         call.enqueue(callback);
     }
 

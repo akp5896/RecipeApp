@@ -69,9 +69,7 @@ public class SearchFragment extends Fragment {
 
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
-
-
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        
         binding.edExclude.setAdapter(
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
@@ -92,7 +90,7 @@ public class SearchFragment extends Fragment {
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
                         (query, callback) -> {
-                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
+                            RecipesRepository.getRepository().getTitleAutocomplete(query, callback);
                         }));
 
         includedAdapter = new IngredientFilterAdapter(included, R.layout.item);
