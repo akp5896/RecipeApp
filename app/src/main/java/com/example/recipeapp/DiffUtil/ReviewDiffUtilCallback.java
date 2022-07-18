@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import com.example.recipeapp.viewmodels.ReviewItemViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ReviewDiffUtilCallback extends DiffUtil.Callback {
     private List<ReviewItemViewModel> oldList;
@@ -27,7 +28,9 @@ public class ReviewDiffUtilCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+        ReviewItemViewModel oldModel = oldList.get(oldItemPosition);
+        ReviewItemViewModel newModel = newList.get(newItemPosition);
+        return Objects.equals(oldModel.authorName, newModel.authorName) && Objects.equals(oldModel.body, newModel.body);
     }
 
     @Override

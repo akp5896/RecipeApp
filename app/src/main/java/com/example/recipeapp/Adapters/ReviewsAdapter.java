@@ -41,9 +41,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Bindable
     }
 
     public void updateItems(List<ReviewItemViewModel> items) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReviewDiffUtilCallback(data, items));
         data.clear();
         data.addAll(items);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReviewDiffUtilCallback(data, items));
         diffResult.dispatchUpdatesTo(this);
     }
 

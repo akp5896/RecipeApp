@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapp.Adapters.ReviewsAdapter;
 import com.example.recipeapp.Models.Parse.Review;
+import com.example.recipeapp.Repositories.ReviewRepository;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -37,28 +38,11 @@ public class ReviewsViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> takePicture = new MutableLiveData<>();
     public MutableLiveData<String> reviewSaved = new MutableLiveData<>();
-    private MutableLiveData<List<ReviewItemViewModel>> data = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<List<ReviewItemViewModel>> data;
 
     public MutableLiveData<List<ReviewItemViewModel>> getData() {
-        loadData();
+        data = ReviewRepository.getReviewRepository().getReviews(reviewTo);
         return data;
-    }
-
-    private void loadData() {
-        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
-        query.include(Review.KEY_AUTHOR);
-        query.whereEqualTo(Review.KEY_REVIEW_TO, reviewTo);
-        query.addDescendingOrder("createdAt");
-        try {
-            List<Review> reviews = query.find();
-            List<ReviewItemViewModel> viewData = new ArrayList<>();
-            for (Review item : reviews) {
-                viewData.add(new ReviewItemViewModel(item.getAuthor().getUsername(), item.getBody(), item.getMedia()));
-            }
-            data.setValue(viewData);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 
     public void takePhoto() {
@@ -143,22 +127,5 @@ public class ReviewsViewModel extends ViewModel {
             }
         });
         adapter.addAtTheBeginning(new ReviewItemViewModel(review.getAuthor().getUsername(), review.getBody(), review.getMedia()));
-    }
-
-
-
-    @androidx.databinding.BindingAdapter("itemViewModels")
-    public static void bindItemViewModels(RecyclerView recyclerView, List<ReviewItemViewModel> data) {
-        adapter = getOrCreateAdapter(recyclerView);
-        adapter.updateItems(data);
-    }
-
-    private static ReviewsAdapter getOrCreateAdapter(RecyclerView recyclerView) {
-        if(recyclerView.getAdapter() != null) {
-            return (ReviewsAdapter) recyclerView.getAdapter();
-        }
-        ReviewsAdapter adapter = new ReviewsAdapter();
-        recyclerView.setAdapter(adapter);
-        return adapter;
     }
 }

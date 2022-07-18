@@ -22,18 +22,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.recipeapp.Adapters.ReviewsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.databinding.ActivityReviewsBinding;
+import com.example.recipeapp.viewmodels.ReviewItemViewModel;
 import com.example.recipeapp.viewmodels.ReviewsViewModel;
 import com.example.recipeapp.viewmodels.SignUpViewModel;
 
 import java.io.File;
+import java.util.List;
 
 public class ReviewsActivity extends AppCompatActivity {
     private static final String TAG = "ReviewsActivity";
     ActivityReviewsBinding binding;
     ReviewsViewModel viewModel;
     ActivityResultLauncher<Intent> galleryLauncher;
+    ReviewsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,16 @@ public class ReviewsActivity extends AppCompatActivity {
 
         viewModel.takePicture.observe(this, takePicture -> galleryLauncher.launch(Intent.createChooser(viewModel.onPickPhoto(), "Select Picture")));
         viewModel.reviewSaved.observe(this, s -> Toast.makeText(ReviewsActivity.this, s, Toast.LENGTH_LONG).show());
+
+        adapter = new ReviewsAdapter();
+        binding.rvReviews.setAdapter(adapter);
+
+        viewModel.getData().observe(this, new Observer<List<ReviewItemViewModel>>() {
+            @Override
+            public void onChanged(List<ReviewItemViewModel> reviewItemViewModels) {
+                adapter.updateItems(reviewItemViewModels);
+            }
+        });
     }
 
     @NonNull
