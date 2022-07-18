@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private static final long ALARM_INTERVAL = 20 * 60 * 1000;
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    FeedFragment feedFragment = new FeedFragment();
+    BookmarkFeedFragment feedFragment = new BookmarkFeedFragment();
+    SearchFragment searchFragment = new SearchFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
                         return true;
                     case R.id.search:
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SearchFragment()).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, searchFragment).commit();
                         return true;
                     case R.id.suggest:
                         return true;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         if(item.getItemId() == R.id.bookmark) {
-            fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new BookmarkFeedFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
         }
         return true;
     }

@@ -53,6 +53,7 @@ public class SearchFragment extends Fragment {
     List<String> excluded = new ArrayList<>();
     IngredientFilterAdapter includedAdapter;
     IngredientFilterAdapter excludedAdapter;
+    SearchFeedFragment fragment;
 
     public SearchFragment() {
     }
@@ -141,8 +142,13 @@ public class SearchFragment extends Fragment {
         ApiCallParams params = new ApiCallParams(putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
                 putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()));
-
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentPlaceholder, SearchFeedFragment.newInstance(params)).commit();
+        if(fragment == null) {
+            fragment = SearchFeedFragment.newInstance(params);
+        }
+        else {
+            fragment.updateRecipeFeed(params);
+        }
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
     }
 
     private String putWithEmptyCheck(CharSequence chars) {

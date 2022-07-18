@@ -48,4 +48,9 @@ public class SearchFeedFragment extends FeedFragment {
             }
         });
     }
+
+    public void updateRecipeFeed(ApiCallParams params) {
+        this.params = params;
+        viewModel.fetch(RecipesRepository.DataSource.API_CALL, params);
+    }
 }

@@ -56,4 +56,5 @@ public class FeedFragment extends Fragment {
         binding = FragmentFeedBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
+
 }
