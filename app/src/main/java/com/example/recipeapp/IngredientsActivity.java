@@ -21,8 +21,6 @@ public class IngredientsActivity extends AppCompatActivity {
 
     private static final String TAG = "INGR ACTIVITY";
 
-    public static final String RECIPE = "recipe";
-
     List<Ingredient> ingredients;
 
     ActivityIngridientsBinding binding;
@@ -34,7 +32,7 @@ public class IngredientsActivity extends AppCompatActivity {
         binding = ActivityIngridientsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ingredients = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
+        ingredients = Parcels.unwrap(getIntent().getParcelableExtra(DetailsActivity.INGREDIENTS));
 
         adapter = new IngredientsAdapter(ingredients);
 

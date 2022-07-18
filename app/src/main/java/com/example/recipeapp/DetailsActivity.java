@@ -37,6 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
     private static final String TAG = "DETAILS ACTIVITY";
     ActivityDetailsBinding binding;
     public static final String RECIPE = "recipe";
+    public static final String INGREDIENTS = "ingredients";
 
     DetailsViewModel viewModel;
 
@@ -50,7 +51,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         viewModel.showIngredients.observe(this, ingredients -> {
             Intent i = new Intent(DetailsActivity.this, IngredientsActivity.class);
-            i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(ingredients));
+            i.putExtra(DetailsActivity.INGREDIENTS, Parcels.wrap(ingredients));
             startActivity(i);
         });
     }
