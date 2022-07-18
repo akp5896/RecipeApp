@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.SearchApiCallParams;
+import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
@@ -78,6 +80,11 @@ public class RecipesRepository {
         return bookmarkedRecipes;
     }
 
+    public void getTaste(Long id, Callback<Taste> callback) {
+        Call<Taste> call = service.getTasteById(id, BuildConfig.API_KEY);
+        call.enqueue(callback);
+    }
+
     public LiveData<Recipe> reloadRecipe(Long id) {
         Call<Recipe> recipeById = service.getRecipeById(id, BuildConfig.API_KEY);
         MutableLiveData<Recipe> recipeData = new MutableLiveData<>();
@@ -93,6 +100,11 @@ public class RecipesRepository {
             }
         });
         return recipeData;
+    }
+
+    public void getIngredientAutocomplete(String query, Callback<List<Ingredient>> callback) {
+        Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
+        call.enqueue(callback);
     }
 
     public void bookmark(Recipe recipe, BookmarkCallback callback) {

@@ -17,6 +17,7 @@ import com.example.recipeapp.Models.API.SearchApiCallParams;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.API.RecipeTitle;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
@@ -76,16 +77,14 @@ public class SearchFragment extends Fragment {
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
                         (query, callback) -> {
-                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
-                            call.enqueue(callback);
+                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
                         }));
         binding.edInclude.setAdapter(
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
                         (query, callback) -> {
-                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
-                            call.enqueue(callback);
+                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
                         }));
 
         binding.etTitle.setAdapter(
@@ -93,8 +92,7 @@ public class SearchFragment extends Fragment {
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
                         (query, callback) -> {
-                            Call<List<RecipeTitle>> call = service.getTitleAutocomplete(BuildConfig.API_KEY, query, 5);
-                            call.enqueue(callback);
+                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
                         }));
 
         includedAdapter = new IngredientFilterAdapter(included, R.layout.item);

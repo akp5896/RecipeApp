@@ -95,12 +95,6 @@ public class Recipe {
     @Transient
     double userRating = INVALID_RATING;
 
-    public void getTaste(Callback<Taste> callback) {
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-        Call<Taste> call = service.getTasteById(id, BuildConfig.API_KEY);
-        call.enqueue(callback);
-    }
-
     public double getUserRating() {
         return userRating;
     }

@@ -77,7 +77,7 @@ public class DetailsViewModel extends ViewModel {
 
     public void onLike() {
         liked.postValue(true);
-        recipe.getTaste(new Callback<Taste>() {
+        RecipesRepository.getRepository().getTaste(recipe.getId(), new Callback<Taste>() {
             @Override
             public void onResponse(Call<Taste> call, Response<Taste> response) {
                 Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);

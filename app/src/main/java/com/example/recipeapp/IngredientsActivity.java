@@ -39,7 +39,7 @@ public class IngredientsActivity extends AppCompatActivity {
         // Since there are limited number of call on free api, and a lot of ingredients, this line is used for testing.
         //ingredients = ingredients.stream().limit(2).collect(Collectors.toList());
 
-        adapter = new IngredientsAdapter(ingredients);
+        adapter = new IngredientsAdapter(ingredients, this);
 
         binding.rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         binding.rvIngredients.setAdapter(adapter);
