@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.DetailsActivity;
+import com.example.recipeapp.DiffUtil.RecipeDiffUtilCallback;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -63,9 +65,10 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
     }
 
     public void updateList(List<Recipe> recipes) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new RecipeDiffUtilCallback(this.recipes, recipes));
         this.recipes.clear();
         this.recipes.addAll(recipes);
-        notifyDataSetChanged();
+        diffResult.dispatchUpdatesTo(this);
     }
 
     class RecipesViewHolder extends RecyclerView.ViewHolder{
