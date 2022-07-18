@@ -3,10 +3,9 @@ package com.example.recipeapp.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.recipeapp.Models.API.ApiCallParams;
+import com.example.recipeapp.Models.API.SearchApiCallParams;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Room.RecipesRepository;
-import com.example.recipeapp.Room.RecipeDatabase;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class FeedViewModel extends ViewModel {
         repo = RecipesRepository.getRepository();
     }
 
-    public void fetch(RecipesRepository.DataSource dataSource, ApiCallParams params) {
+    public void fetch(RecipesRepository.DataSource dataSource, SearchApiCallParams params) {
         allRecipes = repo.fetch(dataSource, params);
     }
 }

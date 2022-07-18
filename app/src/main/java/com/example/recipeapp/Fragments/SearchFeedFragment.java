@@ -4,34 +4,25 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.example.recipeapp.Adapters.RecipesAdapter;
-import com.example.recipeapp.Models.API.ApiCallParams;
+import com.example.recipeapp.Models.API.SearchApiCallParams;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.R;
 import com.example.recipeapp.Room.RecipesRepository;
-import com.example.recipeapp.viewmodels.FeedViewModel;
 
 import java.util.List;
 
 public class SearchFeedFragment extends FeedFragment {
 
-    private ApiCallParams params;
+    private SearchApiCallParams params;
 
     public SearchFeedFragment() {
         // Required empty public constructor
     }
 
-    public static SearchFeedFragment newInstance(ApiCallParams params) {
+    public static SearchFeedFragment newInstance(SearchApiCallParams params) {
         SearchFeedFragment fragment = new SearchFeedFragment();
         fragment.params = params;
         return fragment;
@@ -49,7 +40,7 @@ public class SearchFeedFragment extends FeedFragment {
         });
     }
 
-    public void updateRecipeFeed(ApiCallParams params) {
+    public void updateRecipeFeed(SearchApiCallParams params) {
         this.params = params;
         viewModel.fetch(RecipesRepository.DataSource.API_CALL, params);
     }

@@ -7,22 +7,15 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.bumptech.glide.util.Executors;
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.MainActivity;
-import com.example.recipeapp.Models.API.ApiCallParams;
+import com.example.recipeapp.Models.API.SearchApiCallParams;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
-import com.example.recipeapp.viewmodels.FeedViewModel;
 
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 import retrofit2.Call;
@@ -45,7 +38,7 @@ public class RecipesRepository {
         return recipesRepository;
     }
 
-    public LiveData<List<Recipe>> fetch(DataSource dataSource, ApiCallParams params) {
+    public LiveData<List<Recipe>> fetch(DataSource dataSource, SearchApiCallParams params) {
         switch (dataSource) {
             case LOCAL_SQL_DB:
                 return fetchLocal();
@@ -60,7 +53,7 @@ public class RecipesRepository {
         return bookmarkedRecipes;
     }
 
-    public LiveData<List<Recipe>> fetchApi(ApiCallParams params) {
+    public LiveData<List<Recipe>> fetchApi(SearchApiCallParams params) {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, params.getTitle(), params.getCuisine(), params.getExcludeCuisine(),
                 params.getIncluded(), params.getExcluded(),
