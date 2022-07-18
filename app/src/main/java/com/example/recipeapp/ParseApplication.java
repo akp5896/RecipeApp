@@ -52,7 +52,7 @@ public class ParseApplication extends Application {
                 .clientKey(BuildConfig.PARSE_CLIENT_KEY)  // should correspond to Client key env variable
                 .server("https://parseapi.back4app.com").build());
 
-        //createNotificationChannel();
+        createNotificationChannel();
         RecipeDatabase.createRecipeDatabase(this);
     }
 

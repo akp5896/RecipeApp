@@ -48,13 +48,16 @@ public class Recommendation {
             Log.e(TAG, "Cannot find general preferences");
             return;
         }
-
+        int time = currentPreferences.getMaxTime().intValue();
+        if(time == 0) {
+            time = 180;
+        }
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getSortedRecipes(BuildConfig.API_KEY,
                 getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_CUISINE),
                 getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_DIET),
                 RecipeApi.RANDOM_ORDER,
-                String.valueOf(currentPreferences.getMaxTime().intValue()),
+                String.valueOf(time),
                 RECIPES_REQUESTED,
                 RecipeApi.RECIPE_INFORMATION_VALUE);
         call.enqueue(getSortingCallback(currentPreferences, callback));

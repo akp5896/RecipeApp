@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -30,6 +31,10 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
         Recommendation.recommend(new RecommendCallback() {
             @Override
             public void OnRecommendationReturned(List<Recipe> recipes) {
+                if(recipes == null || recipes.size() == 0) {
+                    Log.w(NotificationAlarmReceiver.class.toString(), "No recipes returned or return values is null");
+                    return;
+                }
                 Recipe recipe = recipes.get(0);
 
                 Intent i = new Intent(context, DetailsActivity.class);
