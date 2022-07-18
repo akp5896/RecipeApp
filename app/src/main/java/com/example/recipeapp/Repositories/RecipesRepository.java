@@ -1,4 +1,4 @@
-package com.example.recipeapp.Room;
+package com.example.recipeapp.Repositories;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +14,8 @@ import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Room.RecipeDao;
+import com.example.recipeapp.Room.RecipeDatabase;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -30,6 +32,7 @@ public class RecipesRepository {
     private LiveData<List<Recipe>> bookmarkedRecipes;
     ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
     Handler handler = new Handler(Looper.getMainLooper());
+    RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
 
     public static RecipesRepository getRepository() {
         if(recipesRepository == null) {
@@ -54,7 +57,6 @@ public class RecipesRepository {
     }
 
     public LiveData<List<Recipe>> fetchApi(SearchApiCallParams params) {
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, params.getTitle(), params.getCuisine(), params.getExcludeCuisine(),
                 params.getIncluded(), params.getExcluded(),
                 params.getType(), params.getTime(), RecipeApi.RECIPE_INFORMATION_VALUE);
@@ -74,6 +76,23 @@ public class RecipesRepository {
             }
         });
         return bookmarkedRecipes;
+    }
+
+    public LiveData<Recipe> reloadRecipe(Long id) {
+        Call<Recipe> recipeById = service.getRecipeById(id, BuildConfig.API_KEY);
+        MutableLiveData<Recipe> recipeData = new MutableLiveData<>();
+        recipeById.enqueue(new Callback<Recipe>() {
+            @Override
+            public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                recipeData.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Recipe> call, Throwable t) {
+                Log.e(TAG, "Something went wrong: " + t);
+            }
+        });
+        return recipeData;
     }
 
     public void bookmark(Recipe recipe, BookmarkCallback callback) {

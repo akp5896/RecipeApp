@@ -36,9 +36,8 @@ public class IngredientsActivity extends AppCompatActivity {
 
         ingredients = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
 
-        ingredients = ingredients.stream().limit(2).collect(Collectors.toList());
-
-
+        // Since there are limited number of call on free api, and a lot of ingredients, this line is used for testing.
+        //ingredients = ingredients.stream().limit(2).collect(Collectors.toList());
 
         adapter = new IngredientsAdapter(ingredients);
 

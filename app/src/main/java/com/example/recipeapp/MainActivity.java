@@ -12,15 +12,12 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.recipeapp.Fragments.BookmarkFeedFragment;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
-import com.example.recipeapp.Room.RecipesRepository;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.example.recipeapp.databinding.ActivityMainBinding;
-import com.example.recipeapp.viewmodels.FeedViewModel;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;

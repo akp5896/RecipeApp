@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.recipeapp.Models.API.SearchApiCallParams;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Room.RecipesRepository;
+import com.example.recipeapp.Repositories.RecipesRepository;
 
 import java.util.List;
 

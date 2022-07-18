@@ -83,7 +83,6 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
                     Log.i(TAG, "Couldn't retrieve substitutes");
                 }
             });
-
         }
     }
 }
