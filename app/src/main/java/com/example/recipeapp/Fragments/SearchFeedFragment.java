@@ -42,6 +42,9 @@ public class SearchFeedFragment extends FeedFragment {
 
     public void updateRecipeFeed(SearchApiCallParams params) {
         this.params = params;
+        if(viewModel == null) {
+            throw new NullPointerException("Fragment is not initialized");
+        }
         viewModel.fetch(RecipesRepository.DataSource.API_CALL, params);
     }
 }

@@ -69,7 +69,7 @@ public class SearchFragment extends Fragment {
 
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
-        
+
         binding.edExclude.setAdapter(
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
