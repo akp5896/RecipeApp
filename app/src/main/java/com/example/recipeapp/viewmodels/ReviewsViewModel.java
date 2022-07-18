@@ -39,12 +39,6 @@ public class ReviewsViewModel extends ViewModel {
     public MutableLiveData<String> reviewSaved = new MutableLiveData<>();
     private MutableLiveData<List<ReviewItemViewModel>> data = new MutableLiveData<>(new ArrayList<>());
 
-    public ReviewsViewModel(String title, String body, Long reviewTo) {
-        this.title = title;
-        this.body = body;
-        this.reviewTo = reviewTo;
-    }
-
     public MutableLiveData<List<ReviewItemViewModel>> getData() {
         loadData();
         return data;
@@ -86,6 +80,10 @@ public class ReviewsViewModel extends ViewModel {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public void setReviewTo(Long reviewTo) {
+        this.reviewTo = reviewTo;
     }
 
     public Intent onPickPhoto() {

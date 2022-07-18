@@ -7,9 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapp.BR;
+import com.example.recipeapp.DiffUtil.ReviewDiffUtilCallback;
 import com.example.recipeapp.R;
 import com.example.recipeapp.viewmodels.ReviewItemViewModel;
 
@@ -39,8 +41,10 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Bindable
     }
 
     public void updateItems(List<ReviewItemViewModel> items) {
+        data.clear();
         data.addAll(items);
-        notifyDataSetChanged();
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReviewDiffUtilCallback(data, items));
+        diffResult.dispatchUpdatesTo(this);
     }
 
     public void addAtTheBeginning(ReviewItemViewModel item) {

@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.databinding.ActivityReviewsBinding;
 import com.example.recipeapp.viewmodels.ReviewsViewModel;
+import com.example.recipeapp.viewmodels.SignUpViewModel;
 
 import java.io.File;
 
@@ -39,14 +41,18 @@ public class ReviewsActivity extends AppCompatActivity {
         binding = ActivityReviewsBinding.inflate(getLayoutInflater());
         String title = getIntent().getStringExtra(DetailsActivity.RECIPE);
         Long id = getIntent().getLongExtra(DetailsActivity.RECIPE_ID, 0);
-        binding.setViewModel(new ReviewsViewModel(title, getString(R.string.write_review), id));
+        viewModel = ViewModelProviders.of(this).get(ReviewsViewModel.class);
+        binding.setViewModel(viewModel);
+
+        viewModel.setTitle(title);
+        viewModel.setBody(getString(R.string.write_review));
+        viewModel.setReviewTo(id);
+
         binding.executePendingBindings();
         setContentView(binding.getRoot());
         galleryLauncher = getGalleryLauncher();
-        viewModel = binding.getViewModel();
 
         viewModel.takePicture.observe(this, takePicture -> galleryLauncher.launch(Intent.createChooser(viewModel.onPickPhoto(), "Select Picture")));
-
         viewModel.reviewSaved.observe(this, s -> Toast.makeText(ReviewsActivity.this, s, Toast.LENGTH_LONG).show());
     }
 

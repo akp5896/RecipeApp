@@ -4,6 +4,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -13,7 +14,7 @@ import com.parse.ParseFile;
 import java.util.List;
 
 
-public class ReviewItemViewModel {
+public class ReviewItemViewModel extends ViewModel {
     public String authorName;
     public String body;
     public ParseFile media;

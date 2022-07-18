@@ -119,7 +119,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void onReview(View v) {
         Intent i = new Intent(DetailsActivity.this, ReviewsActivity.class);
         i.putExtra(DetailsActivity.RECIPE, recipe.getTitle());
-        i.putExtra(DetailsActivity.RECIPE_ID, recipe.getId());
+        i.putExtra(DetailsActivity.RECIPE_ID, recipe.id());
         startActivity(i);
     }
 }
