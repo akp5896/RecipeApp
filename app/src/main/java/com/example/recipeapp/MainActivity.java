@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(item.getItemId() == R.id.accept_recipe) {
             Toast.makeText(this, "Now ready to accept shared recipes", Toast.LENGTH_LONG).show();
-            new ShareRecipe().startDiscovery(this, ParseUser.getCurrentUser().getUsername());
+            ShareRecipe.startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         }
         return true;
     }

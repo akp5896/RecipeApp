@@ -33,17 +33,13 @@ import java.nio.charset.StandardCharsets;
 public class ShareRecipe {
 
     private static final String TAG = "Share class";
-    Role role = null;
-    Recipe recipe;
 
-    public void startAdvertising(Context context, String username, Recipe recipe) {
+    public static void startAdvertising(Context context, String username, Recipe recipe) {
         AdvertisingOptions advertisingOptions =
                 new AdvertisingOptions.Builder().setStrategy(Strategy.P2P_STAR).build();
-        role = Role.SENDER;
-        this.recipe = recipe;
         Nearby.getConnectionsClient(context)
                 .startAdvertising(
-                        username, context.getString(R.string.app_name), getConnectionLifecycleCallback(context), advertisingOptions)
+                        username, context.getString(R.string.app_name), getConnectionLifecycleCallback(context, Role.SENDER, recipe), advertisingOptions)
                 .addOnSuccessListener(
                         (Void unused) -> {
                             Log.i(TAG, "Advertisement started");
@@ -54,12 +50,11 @@ public class ShareRecipe {
                         });
     }
 
-    public void startDiscovery(Context context, String username) {
+    public static void startDiscovery(Context context, String username) {
         DiscoveryOptions discoveryOptions =
                 new DiscoveryOptions.Builder().setStrategy(Strategy.P2P_STAR).build();
-        role = Role.RECEIVER;
         Nearby.getConnectionsClient(context)
-                .startDiscovery(context.getString(R.string.app_name), getEndpointDiscoveryCallback(context, username), discoveryOptions)
+                .startDiscovery(context.getString(R.string.app_name), getEndpointDiscoveryCallback(context, username, Role.RECEIVER, null), discoveryOptions)
                 .addOnSuccessListener(
                         (Void unused) -> {
                             Log.i(TAG, "Discovering started");
@@ -70,13 +65,13 @@ public class ShareRecipe {
                         });
     }
 
-    public EndpointDiscoveryCallback getEndpointDiscoveryCallback(Context context, String username) {
+    public static EndpointDiscoveryCallback getEndpointDiscoveryCallback(Context context, String username, Role role, Recipe recipe) {
         return new EndpointDiscoveryCallback() {
             @Override
             public void onEndpointFound(String endpointId, DiscoveredEndpointInfo info) {
                 // An endpoint was found. We request a connection to it.
                 Nearby.getConnectionsClient(context)
-                        .requestConnection(username, endpointId, getConnectionLifecycleCallback(context))
+                        .requestConnection(username, endpointId, getConnectionLifecycleCallback(context, role, recipe))
                         .addOnSuccessListener(
                                 (Void unused) -> {
                                     // We successfully requested a connection. Now both sides
@@ -98,7 +93,7 @@ public class ShareRecipe {
         };
     }
 
-    public ConnectionLifecycleCallback getConnectionLifecycleCallback(Context context) {
+    public static ConnectionLifecycleCallback getConnectionLifecycleCallback(Context context, Role role, Recipe recipe) {
         return new ConnectionLifecycleCallback() {
             @Override
             public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
@@ -161,7 +156,7 @@ public class ShareRecipe {
     }
 
     @NonNull
-    private PayloadCallback getPayloadCallback(Context context) {
+    private static PayloadCallback getPayloadCallback(Context context) {
         return new PayloadCallback() {
             @Override
             public void onPayloadReceived(@NonNull String s, @NonNull Payload payload) {

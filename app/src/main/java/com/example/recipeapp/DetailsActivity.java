@@ -112,7 +112,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void shareRecipe(Recipe recipe) {
         Toast.makeText(this, R.string.sharing_started, Toast.LENGTH_LONG).show();
-        new ShareRecipe().startAdvertising(this, ParseUser.getCurrentUser().getUsername(), recipe);
+        ShareRecipe.startAdvertising(this, ParseUser.getCurrentUser().getUsername(), recipe);
     }
 
 
