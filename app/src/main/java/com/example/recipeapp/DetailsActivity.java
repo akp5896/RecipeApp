@@ -44,7 +44,6 @@ public class DetailsActivity extends AppCompatActivity {
     public static final String RECIPE = "recipe";
     public static final String INGREDIENTS = "ingredients";
 
-    Recipe recipe;
     DetailsViewModel viewModel;
     StepsAdapter adapter;
 
@@ -52,7 +51,7 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
-        recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
+        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
         viewModel = new DetailsViewModel(recipe);
         binding.setViewModel(viewModel);
 
@@ -63,7 +62,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         binding.options.like.setOnClickListener(v -> viewModel.onLike());
-        binding.options.share.setOnClickListener(v -> onShare());
+        binding.options.share.setOnClickListener(v -> onShare(recipe));
 
         viewModel.liked.observe(this, aBoolean -> Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show());
 
@@ -100,18 +99,18 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void onShare() {
+    private void onShare(Recipe recipe) {
         new AlertDialog.Builder(DetailsActivity.this)
                 .setTitle(R.string.choose_sharing)
                 .setMessage(R.string.share_question)
                 .setPositiveButton(
                         R.string.share_widget, (dialog, which) -> viewModel.shareWidget())
-                .setNegativeButton(R.string.share_recipe, (dialog, which) -> shareRecipe())
+                .setNegativeButton(R.string.share_recipe, (dialog, which) -> shareRecipe(recipe))
                 .setIcon(android.R.drawable.ic_menu_share)
                 .show();
     }
 
-    private void shareRecipe() {
+    private void shareRecipe(Recipe recipe) {
         Toast.makeText(this, R.string.sharing_started, Toast.LENGTH_LONG).show();
         new ShareRecipe().startAdvertising(this, ParseUser.getCurrentUser().getUsername(), recipe);
     }
