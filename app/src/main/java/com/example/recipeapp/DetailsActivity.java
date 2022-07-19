@@ -4,10 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -16,36 +14,20 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 
-import com.example.recipeapp.Adapters.IngredientFilterAdapter;
-import com.example.recipeapp.Models.Ingredient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.recipeapp.Adapters.StepsAdapter;
-import com.example.recipeapp.Models.API.RecipeWidget;
-import com.example.recipeapp.Models.Parse.Preferences;
-import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.Models.API.Step;
-import com.example.recipeapp.Retrofit.RecipeApi;
-import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Utils.ShareRecipe;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.StepViewModel;
 import com.parse.ParseUser;
-import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.DetailsViewModel;
 
 import org.parceler.Parcels;
@@ -53,12 +35,7 @@ import org.parceler.Parcels;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -98,14 +75,14 @@ public class DetailsActivity extends AppCompatActivity {
                 Uri localBitmapUri = getLocalBitmapUri(resource);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, localBitmapUri);
                 shareIntent.setType("image/*");
-                Intent chooser = Intent.createChooser(shareIntent, getString(R.string.share_recipe));
-                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+                Intent chooseIntent = Intent.createChooser(shareIntent, getString(R.string.share_recipe));
+                List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(chooseIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
                 for (ResolveInfo resolveInfo : resInfoList) {
                     String packageName = resolveInfo.activityInfo.packageName;
                     grantUriPermission(packageName, localBitmapUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
-                startActivity(chooser);
+                startActivity(chooseIntent);
             }
 
             @Override
