@@ -1,45 +1,26 @@
 package com.example.recipeapp.viewmodels;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.DetailsActivity;
 import com.example.recipeapp.Models.API.RecipeWidget;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.R;
 import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.parse.ParseUser;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +31,7 @@ import retrofit2.Response;
 public class DetailsViewModel extends ViewModel {
     private static final String TAG = "DetailsViewModel";
     public MutableLiveData<List<Ingredient>> showIngredients = new MutableLiveData<>();
-    private MutableLiveData<List<StepViewModel>> steps = new MutableLiveData<>();
+    public MutableLiveData<List<StepViewModel>> steps = new MutableLiveData<>();
     RecipesRepository repo = RecipesRepository.getRepository();
 
     private Recipe recipe;
@@ -62,15 +43,26 @@ public class DetailsViewModel extends ViewModel {
     public MutableLiveData<String> widgetLoaded = new MutableLiveData<>();
     public MutableLiveData<Boolean> liked = new MutableLiveData<>();
 
-    public DetailsViewModel(Recipe recipe) {
-        this.recipe = recipe;
-        servings = recipe.getServings().toString();
-        time = recipe.getReadyInMinutes().toString();
-        image = recipe.getImage();
+    public DetailsViewModel(Recipe passedRecipe) {
+        this.recipe = passedRecipe;
+        servings = passedRecipe.getServings().toString();
+        time = passedRecipe.getReadyInMinutes().toString();
+        image = passedRecipe.getImage();
         steps.setValue(new ArrayList<>());
         setDetails();
-        if(recipe.getIngredients() == null) {
-            repo.reloadRecipe(recipe.getId());
+        if(passedRecipe.getIngredients() == null) {
+            repo.reloadRecipe(passedRecipe.getId(), new Callback<Recipe>() {
+                @Override
+                public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                    recipe = response.body();
+                    setDetails();
+                }
+
+                @Override
+                public void onFailure(Call<Recipe> call, Throwable t) {
+                    Log.e(TAG, "Something went wrong: " + t);
+                }
+            });
         }
     }
 
@@ -117,21 +109,6 @@ public class DetailsViewModel extends ViewModel {
     @androidx.databinding.BindingAdapter("recipePhoto")
     public static void bindItemViewModels(ImageView imageView, String image) {
         Glide.with(imageView.getContext()).load(image).into(imageView);
-    }
-
-    @androidx.databinding.BindingAdapter("stepsViewModel")
-    public static void bindItemViewModels(RecyclerView recyclerView, List<StepViewModel> data) {
-        StepsAdapter adapter = getOrCreateAdapter(recyclerView);
-        adapter.updateItems(data);
-    }
-
-    private static StepsAdapter getOrCreateAdapter(RecyclerView recyclerView) {
-        if(recyclerView.getAdapter() != null) {
-            return (StepsAdapter) recyclerView.getAdapter();
-        }
-        StepsAdapter adapter = new StepsAdapter();
-        recyclerView.setAdapter(adapter);
-        return adapter;
     }
 
     public void shareWidget() {

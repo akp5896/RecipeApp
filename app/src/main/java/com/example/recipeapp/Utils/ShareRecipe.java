@@ -103,7 +103,7 @@ public class ShareRecipe {
             @Override
             public void onConnectionInitiated(String endpointId, ConnectionInfo connectionInfo) {
                 new AlertDialog.Builder(context)
-                        .setTitle("Accept connection to " + connectionInfo.getEndpointName())
+                        .setTitle("Sharing recipe with " + connectionInfo.getEndpointName())
                         .setMessage("Confirm the code matches on both devices: " + connectionInfo.getAuthenticationDigits())
                         .setPositiveButton(
                                 "Accept",

@@ -43,6 +43,7 @@ import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Utils.ShareRecipe;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
+import com.example.recipeapp.viewmodels.StepViewModel;
 import com.parse.ParseUser;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.DetailsViewModel;
@@ -68,6 +69,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     Recipe recipe;
     DetailsViewModel viewModel;
+    StepsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +113,14 @@ public class DetailsActivity extends AppCompatActivity {
 
             }
         }));
+        adapter = new StepsAdapter();
+        binding.rvSteps.setAdapter(adapter);
+        viewModel.steps.observe(this, new Observer<List<StepViewModel>>() {
+            @Override
+            public void onChanged(List<StepViewModel> stepViewModels) {
+                adapter.updateItems(stepViewModels);
+            }
+        });
     }
 
     private void onShare() {
