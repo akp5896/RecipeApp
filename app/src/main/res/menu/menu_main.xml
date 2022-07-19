@@ -14,5 +14,6 @@
         android:icon="@drawable/ic_baseline_cell_tower_24"
         android:title="@string/accept_recipe"
         android:iconTint="@color/white"
-        app:showAsAction="ifRoom" />
+        android:foreground="?android:attr/selectableItemBackground"
+    app:showAsAction="ifRoom" />
 </menu>
