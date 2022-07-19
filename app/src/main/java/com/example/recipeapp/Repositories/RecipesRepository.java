@@ -51,20 +51,8 @@ public class RecipesRepository {
         return numberOfLikes;
     }
 
-    public LiveData<Recipe> reloadRecipe(Long id) {
+    public void reloadRecipe(Long id, Callback<Recipe> callback) {
         Call<Recipe> recipeById = service.getRecipeById(id, BuildConfig.API_KEY);
-        MutableLiveData<Recipe> recipeData = new MutableLiveData<>();
-        recipeById.enqueue(new Callback<Recipe>() {
-            @Override
-            public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                recipeData.postValue(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<Recipe> call, Throwable t) {
-                Log.e(TAG, "Something went wrong: " + t);
-            }
-        });
-        return recipeData;
+        recipeById.enqueue(callback);
     }
 }
