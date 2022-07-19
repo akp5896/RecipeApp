@@ -93,7 +93,7 @@ public class DetailsActivity extends AppCompatActivity {
                 Uri localBitmapUri = getLocalBitmapUri(resource);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, localBitmapUri);
                 shareIntent.setType("image/*");
-                Intent chooser = Intent.createChooser(shareIntent, null);
+                Intent chooser = Intent.createChooser(shareIntent, getString(R.string.share_recipe));
                 List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
 
                 for (ResolveInfo resolveInfo : resInfoList) {
