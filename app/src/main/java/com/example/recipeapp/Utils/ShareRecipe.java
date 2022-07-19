@@ -8,7 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.recipeapp.DetailsActivity;
+import com.example.recipeapp.Activities.DetailsActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.google.android.gms.nearby.Nearby;

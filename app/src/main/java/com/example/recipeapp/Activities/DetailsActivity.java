@@ -1,4 +1,4 @@
-package com.example.recipeapp;
+package com.example.recipeapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,16 +24,11 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.R;
 import com.example.recipeapp.Utils.ShareRecipe;
-import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.StepViewModel;
 import com.parse.ParseUser;
-import com.example.recipeapp.Models.Parse.ParseRecipe;
-import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.DetailsViewModel;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 
 import org.parceler.Parcels;
 

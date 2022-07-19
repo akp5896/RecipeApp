@@ -1,24 +1,14 @@
 package com.example.recipeapp.viewmodels;
 
-import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProviders;
-import android.widget.Toast;
 
-import androidx.lifecycle.MutableLiveData;
-
-import com.example.recipeapp.LoginActivity;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
-import com.example.recipeapp.SignUpActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class SignUpViewModel extends ViewModel {

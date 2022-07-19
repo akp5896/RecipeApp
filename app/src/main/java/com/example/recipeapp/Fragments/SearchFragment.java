@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
-import com.example.recipeapp.MainActivity;
+import com.example.recipeapp.Activities.MainActivity;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.RecipeTitle;

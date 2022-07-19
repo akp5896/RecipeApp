@@ -10,8 +10,7 @@ import android.text.Html;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.recipeapp.DetailsActivity;
-import com.example.recipeapp.IngredientsActivity;
+import com.example.recipeapp.Activities.DetailsActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 
