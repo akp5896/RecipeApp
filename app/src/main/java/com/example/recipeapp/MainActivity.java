@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         if(item.getItemId() == R.id.accept_recipe) {
+            Toast.makeText(this, "Now ready to accept shared recipes", Toast.LENGTH_LONG).show();
             new ShareRecipe().startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         }
         return true;
