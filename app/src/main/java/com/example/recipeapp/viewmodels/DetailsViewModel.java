@@ -15,6 +15,7 @@ import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
+import com.example.recipeapp.Models.Parse.ParseRecipe;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.Retrofit.RecipeApi;
@@ -32,10 +33,10 @@ public class DetailsViewModel extends ViewModel {
     private static final String TAG = "DetailsViewModel";
     public MutableLiveData<List<Ingredient>> showIngredients = new MutableLiveData<>();
     public MutableLiveData<List<StepViewModel>> steps = new MutableLiveData<>();
+    public MutableLiveData<Integer> numberOfLikes;
     RecipesRepository repo = RecipesRepository.getRepository();
 
     private Recipe recipe;
-
     private final String servings;
     private final String time;
     private final String image;
@@ -64,6 +65,7 @@ public class DetailsViewModel extends ViewModel {
                 }
             });
         }
+        numberOfLikes = RecipesRepository.getRepository().getLikes(recipe.getId());
     }
 
     public MutableLiveData<List<StepViewModel>> getSteps() {

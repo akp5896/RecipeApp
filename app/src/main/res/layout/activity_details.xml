@@ -11,7 +11,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
-
+        <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="32"
+            android:text="0"
+            android:id="@+id/tvLikes"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
         <ImageView
             android:id="@+id/ivImage"
             android:layout_width="match_parent"

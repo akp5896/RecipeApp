@@ -28,7 +28,12 @@ import com.example.recipeapp.Utils.ShareRecipe;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.StepViewModel;
 import com.parse.ParseUser;
+import com.example.recipeapp.Models.Parse.ParseRecipe;
+import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.DetailsViewModel;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
 import org.parceler.Parcels;
 
@@ -65,6 +70,7 @@ public class DetailsActivity extends AppCompatActivity {
         binding.options.share.setOnClickListener(v -> onShare(recipe));
 
         viewModel.liked.observe(this, aBoolean -> Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show());
+        viewModel.numberOfLikes.observe(this, numberOfLikes -> binding.tvLikes.setText(String.valueOf(numberOfLikes)));
 
         viewModel.widgetLoaded.observe(this, url -> Glide.with(getApplicationContext()).asBitmap().load(url).into(new CustomTarget<Bitmap>() {
             @Override
