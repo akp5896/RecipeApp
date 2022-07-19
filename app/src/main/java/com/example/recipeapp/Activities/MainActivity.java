@@ -1,4 +1,4 @@
-package com.example.recipeapp;
+package com.example.recipeapp.Activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.R;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.example.recipeapp.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;

@@ -1,21 +1,18 @@
-package com.example.recipeapp;
+package com.example.recipeapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.example.recipeapp.Activities.DetailsActivity;
 import com.example.recipeapp.Adapters.IngredientsAdapter;
 import com.example.recipeapp.Models.Ingredient;
-import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.databinding.ActivityIngridientsBinding;
 
 import org.parceler.Parcels;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class IngredientsActivity extends AppCompatActivity {
 
