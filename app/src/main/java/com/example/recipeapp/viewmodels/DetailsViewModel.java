@@ -26,12 +26,10 @@ public class DetailsViewModel extends ViewModel {
     private static final String TAG = "DetailsViewModel";
     public MutableLiveData<List<Ingredient>> showIngredients = new MutableLiveData<>();
     private MutableLiveData<List<StepViewModel>> steps = new MutableLiveData<>();
+    public MutableLiveData<Integer> numberOfLikes;
     RecipesRepository repo = RecipesRepository.getRepository();
 
-    public MutableLiveData<Integer> numberOfLikes;
-
     private Recipe recipe;
-
     private final String servings;
     private final String time;
     private final String image;

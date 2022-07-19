@@ -30,7 +30,6 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
         Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
         viewModel = new DetailsViewModel(recipe);
