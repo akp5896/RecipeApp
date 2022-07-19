@@ -3,6 +3,7 @@ package com.example.recipeapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -20,8 +21,6 @@ public class IngredientsActivity extends AppCompatActivity {
 
     private static final String TAG = "INGR ACTIVITY";
 
-    public static final String RECIPE = "recipe";
-
     List<Ingredient> ingredients;
 
     ActivityIngridientsBinding binding;
@@ -33,8 +32,10 @@ public class IngredientsActivity extends AppCompatActivity {
         binding = ActivityIngridientsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
-        ingredients = recipe.getIngredients();
+        ingredients = Parcels.unwrap(getIntent().getParcelableExtra(DetailsActivity.INGREDIENTS));
+
+        // Since there are limited number of call on free api, and a lot of ingredients, this line is used for testing.
+        //ingredients = ingredients.stream().limit(2).collect(Collectors.toList());
 
         adapter = new IngredientsAdapter(ingredients);
 

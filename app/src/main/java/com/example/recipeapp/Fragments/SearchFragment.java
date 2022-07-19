@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.Adapters.StepsAdapter;
+import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
@@ -46,8 +46,8 @@ public class SearchFragment extends Fragment {
     FragmentSearchBinding binding;
     List<String> included = new ArrayList<>();
     List<String> excluded = new ArrayList<>();
-    StepsAdapter includedAdapter;
-    StepsAdapter excludedAdapter;
+    IngredientFilterAdapter includedAdapter;
+    IngredientFilterAdapter excludedAdapter;
 
     public SearchFragment() {
     }
@@ -101,11 +101,11 @@ public class SearchFragment extends Fragment {
                             call.enqueue(callback);
                         }));
 
-        includedAdapter = new StepsAdapter(included, R.layout.item);
+        includedAdapter = new IngredientFilterAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
         binding.rvInclude.setLayoutManager(getFlexboxLayoutManager());
 
-        excludedAdapter = new StepsAdapter(excluded, R.layout.item);
+        excludedAdapter = new IngredientFilterAdapter(excluded, R.layout.item);
         binding.rvExclude.setAdapter(excludedAdapter);
         binding.rvExclude.setLayoutManager(getFlexboxLayoutManager());
 
@@ -144,9 +144,11 @@ public class SearchFragment extends Fragment {
                 FeedFragment feedFragment = ((MainActivity) getActivity()).getFeedFragment();
                 feedFragment.getRecipes().clear();
                 feedFragment.getRecipes().addAll(response.body().results);
-                ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
-
-//                Log.i(TAG, "success: " + json.toString());
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.animator.search_to_feed, R.animator.feed_to_search)
+                        .replace(R.id.fragmentPlaceholder, feedFragment)
+                        .commit();
             }
 
             @Override
