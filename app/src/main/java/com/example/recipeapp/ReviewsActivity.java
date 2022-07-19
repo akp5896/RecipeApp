@@ -51,8 +51,7 @@ public class ReviewsActivity extends AppCompatActivity {
         viewModel.setTitle(title);
         viewModel.setBody(getString(R.string.write_review));
         viewModel.setReviewTo(id);
-
-        binding.executePendingBindings();
+        
         setContentView(binding.getRoot());
         galleryLauncher = getGalleryLauncher();
 
@@ -64,7 +63,11 @@ public class ReviewsActivity extends AppCompatActivity {
 
         viewModel.getData().observe(this, reviewItemViewModels -> adapter.updateItems(reviewItemViewModels));
 
-        viewModel.post.observe(this, reviewItemViewModel -> adapter.addAtTheBeginning(reviewItemViewModel));
+        viewModel.post.observe(this, reviewItemViewModel -> {
+            adapter.addAtTheBeginning(reviewItemViewModel);
+            binding.rvReviews.smoothScrollToPosition(0);
+            binding.ivPhoto.setVisibility(View.GONE);
+        });
     }
 
     @NonNull
