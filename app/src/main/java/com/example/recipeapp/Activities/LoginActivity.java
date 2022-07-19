@@ -1,4 +1,4 @@
-package com.example.recipeapp;
+package com.example.recipeapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.recipeapp.R;
 import com.example.recipeapp.viewmodels.LoginViewModel;
 import com.parse.ParseUser;
 import com.example.recipeapp.databinding.ActivityLoginBinding;
