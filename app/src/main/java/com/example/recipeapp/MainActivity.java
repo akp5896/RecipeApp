@@ -105,24 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-<<<<<<< HEAD
-=======
-        if(item.getItemId() == R.id.bookmark) {
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(() -> {
-                RecipeDatabase recipeDatabase = ((ParseApplication) getApplicationContext()).getRecipeDatabase();
-                recipeDatabase.runInTransaction(() -> {
-                    List<Recipe> recipes = recipeDatabase.recipeDao().getRecipes();
-                    handler.post(
-                            () -> fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, FeedFragment.newInstance(recipes)).commit());
-                });
-            });
-        }
         if(item.getItemId() == R.id.accept_recipe) {
             new ShareRecipe().startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         }
->>>>>>> 5e566ac... now users can share and accept the link to recipes within the app with nearby share
         return true;
     }
 
