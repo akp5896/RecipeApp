@@ -22,6 +22,10 @@
     <string name="unknown_error">Unknown error</string>
     <string name="invalid_credentials">Invalid credentials</string>
     <string name="liked">Liked</string>
+    <string name="save">Save</string>
+    <string name="exclude">Exclude:</string>
+    <string name="fish">this is extremely long and overcomplicated biography that only takes up valuable space that could have been used for something else</string>
+    <string name="no_bio">No biography yet.</string>
     <string name="try_recipe">Try %1$s!</string>
     <string name="connection_rejected">Connection was rejected</string>
     <string name="connection_broken">Connection broke</string>

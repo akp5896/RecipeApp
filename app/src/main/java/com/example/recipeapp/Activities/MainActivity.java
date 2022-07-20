@@ -1,5 +1,6 @@
 package com.example.recipeapp.Activities;
 
+
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -10,8 +11,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.recipeapp.Utils.GalleryHandler;
+import com.example.recipeapp.Utils.ProfileSetup;
+import com.example.recipeapp.databinding.ProfileLayoutBinding;
+
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -65,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Should create a launcher in onCreate, couldn't do it in a later called callback
+        ActivityResultLauncher<Intent> launcher = GalleryHandler.getGalleryLauncher(ProfileSetup.getHeaderCallback(binding.drawer, this), this);
+        binding.drawer.ivProfilePic.setOnClickListener(v -> launcher.launch(Intent.createChooser(GalleryHandler.onPickPhoto(), "Select Picture")));
+        ProfileSetup.initialize(binding.drawer, this);
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -79,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
         //ShareRecipe.startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         setNotifications();
         binding.bottomNavigation.setSelectedItemId(R.id.search);
+
+    }
+
+    public ProfileLayoutBinding getProfileLayoutBinding() {
+        return binding.drawer;
     }
 
     private void setNotifications() {

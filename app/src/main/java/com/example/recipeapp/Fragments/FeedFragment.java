@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.recipeapp.Adapters.RecipesAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Utils.LeftSwipeListener;
 import com.example.recipeapp.databinding.FragmentFeedBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
 import com.example.recipeapp.Room.RecipesRepository;
@@ -26,7 +27,7 @@ import com.example.recipeapp.viewmodels.FeedViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends LeftSwipeDrawerFragment {
     FragmentFeedBinding binding;
     RecipesAdapter adapter;
     List<Recipe> recipes = new ArrayList<>();
