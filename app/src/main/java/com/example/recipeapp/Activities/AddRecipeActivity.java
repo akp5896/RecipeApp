@@ -17,6 +17,7 @@ import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityAddRecipeBinding;
@@ -52,22 +53,19 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         viewModel.addedIngredient.observe(this, s -> {
             ingredientsAdapter.notifyItemInserted(viewModel.getIngredients().size() - 1);
-            binding.edExclude.setText(null);
+            binding.edIngredients.setText(null);
         });
 
         stepsAdapter = new StepsAdapter();
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
         binding.rvSteps.setAdapter(stepsAdapter);
 
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-
-        binding.edExclude.setAdapter(
+        binding.edIngredients.setAdapter(
                 new AutoCompleteAdapter<Ingredient>(
                         this,
                         android.R.layout.simple_dropdown_item_1line,
                         (query, callback) -> {
-                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
-                            call.enqueue(callback);
+                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
                         }));
 
         viewModel.addedStep.observe(this, step -> {

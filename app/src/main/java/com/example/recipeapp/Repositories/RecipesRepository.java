@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.ApiCallParams;
+import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.ParseRecipe;
 import com.example.recipeapp.Models.Parse.ParseRecipeData;
 import com.example.recipeapp.Models.Recipe;
@@ -90,6 +91,11 @@ public class RecipesRepository {
 
     public MutableLiveData<List<Recipe>> fetchParse() {
         return fetchParse(null);
+    }
+
+    public void getIngredientAutocomplete(String query, Callback<List<Ingredient>> callback) {
+        Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
+        call.enqueue(callback);
     }
 
     public MutableLiveData<List<Recipe>> fetchParse(String username) {

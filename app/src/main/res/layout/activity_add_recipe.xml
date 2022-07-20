@@ -49,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
         <AutoCompleteTextView
-            android:id="@+id/edExclude"
+            android:id="@+id/edIngredients"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:minHeight="25dp"
@@ -68,13 +68,13 @@
             android:textAllCaps="false"
             android:onClick="@{() -> viewModel.addIngredient()}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/edExclude" />
+            app:layout_constraintTop_toTopOf="@+id/edIngredients" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/edExclude" />
+            app:layout_constraintTop_toBottomOf="@+id/edIngredients" />
 
         <EditText
             android:id="@+id/edSteps"
