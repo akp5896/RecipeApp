@@ -3,6 +3,7 @@ package com.example.recipeapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,9 +61,7 @@ public class AddRecipeActivity extends AppCompatActivity {
                 new AutoCompleteAdapter<Ingredient>(
                         this,
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getIngredientAutocomplete(query)));
 
         viewModel.addedStep.observe(this, step -> {
             stepsAdapter.add(new StepViewModel(step.getStep(), step.getNumber()));

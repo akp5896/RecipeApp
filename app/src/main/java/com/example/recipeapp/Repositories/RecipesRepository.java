@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.ApiCallParams;
+import com.example.recipeapp.Models.API.RecipeTitle;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.ParseRecipe;
 import com.example.recipeapp.Models.Parse.ParseRecipeData;
@@ -15,7 +16,6 @@ import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
-import com.example.recipeapp.Room.RecipeDao;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -93,9 +93,21 @@ public class RecipesRepository {
         return fetchParse(null);
     }
 
-    public void getIngredientAutocomplete(String query, Callback<List<Ingredient>> callback) {
+    public MutableLiveData<List<Ingredient>> getIngredientAutocomplete(String query) {
         Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
-        call.enqueue(callback);
+        MutableLiveData<List<Ingredient>> result = new MutableLiveData<>();
+        call.enqueue(new Callback<List<Ingredient>>() {
+            @Override
+            public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {
+                result.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Ingredient>> call, Throwable t) {
+                Log.e(TAG, "Autocomplete search failed: " + t);
+            }
+        });
+        return result;
     }
 
     public MutableLiveData<List<Recipe>> fetchParse(String username) {
@@ -129,5 +141,22 @@ public class RecipesRepository {
             }
         });
         return response;
+    }
+
+    public MutableLiveData<List<RecipeTitle>> getTitleAutocomplete(String query) {
+        Call<List<RecipeTitle>> call = service.getTitleAutocomplete(BuildConfig.API_KEY, query, 5);
+        MutableLiveData<List<RecipeTitle>> result = new MutableLiveData<>();
+        call.enqueue(new Callback<List<RecipeTitle>>() {
+            @Override
+            public void onResponse(Call<List<RecipeTitle>> call, Response<List<RecipeTitle>> response) {
+                result.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<RecipeTitle>> call, Throwable t) {
+                Log.e(TAG, "Autocomplete search failed: " + t);
+            }
+        });
+        return result;
     }
 }
