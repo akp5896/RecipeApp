@@ -1,5 +1,6 @@
 package com.example.recipeapp.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -22,20 +23,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileActivity extends AppCompatActivity {
-
-    ActivityUserProfileBinding binding;
-    UserProfileViewModel viewModel;
     public static final String USERNAME = "username";
-    RecipesAdapter adapter = new RecipesAdapter(new ArrayList<>(), this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityUserProfileBinding.inflate(getLayoutInflater());
+        ActivityUserProfileBinding binding = ActivityUserProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        viewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
+        UserProfileViewModel viewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
         binding.setViewModel(viewModel);
+        
         binding.rvRecipes.setLayoutManager(new LinearLayoutManager(this));
+        RecipesAdapter adapter = new RecipesAdapter(new ArrayList<>(), this);
         binding.rvRecipes.setAdapter(adapter);
 
         String username = getIntent().getStringExtra(USERNAME);

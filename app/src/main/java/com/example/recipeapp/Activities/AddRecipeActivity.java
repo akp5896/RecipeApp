@@ -33,21 +33,17 @@ import java.util.List;
 import retrofit2.Call;
 
 public class AddRecipeActivity extends AppCompatActivity {
-    ActivityAddRecipeBinding binding;
-    AddRecipeViewModel viewModel;
-    IngredientFilterAdapter ingredientsAdapter;
-    StepsAdapter stepsAdapter;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityAddRecipeBinding.inflate(getLayoutInflater());
+        ActivityAddRecipeBinding binding = ActivityAddRecipeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        viewModel = ViewModelProviders.of(this).get(AddRecipeViewModel.class);
+        AddRecipeViewModel viewModel = ViewModelProviders.of(this).get(AddRecipeViewModel.class);
         binding.setViewModel(viewModel);
 
-        ingredientsAdapter = new IngredientFilterAdapter(viewModel.getIngredients(), R.layout.item);
+        IngredientFilterAdapter ingredientsAdapter = new IngredientFilterAdapter(viewModel.getIngredients(), R.layout.item);
         binding.rvIngredients.setAdapter(ingredientsAdapter);
         binding.rvIngredients.setLayoutManager(getFlexboxLayoutManager());
 
@@ -56,7 +52,7 @@ public class AddRecipeActivity extends AppCompatActivity {
             binding.edIngredients.setText(null);
         });
 
-        stepsAdapter = new StepsAdapter();
+        StepsAdapter stepsAdapter = new StepsAdapter();
         binding.rvSteps.setLayoutManager(new LinearLayoutManager(this));
         binding.rvSteps.setAdapter(stepsAdapter);
 
