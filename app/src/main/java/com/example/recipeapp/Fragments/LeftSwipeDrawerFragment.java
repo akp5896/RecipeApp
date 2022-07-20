@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewbinding.ViewBinding;
 
-import com.example.recipeapp.MainActivity;
+
+import com.example.recipeapp.Activities.MainActivity;
 import com.example.recipeapp.Utils.LeftSwipeListener;
 import com.example.recipeapp.databinding.FragmentFeedBinding;
 

@@ -12,17 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.DetailsActivity;
+import com.example.recipeapp.Activities.DetailsActivity;
+import com.example.recipeapp.Models.Parse.ParseRecipe;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
-import com.example.recipeapp.Retrofit.RecipeApi;
-import com.example.recipeapp.Retrofit.RetrofitClientInstance;
-import com.example.recipeapp.databinding.ItemBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -87,6 +83,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, R.string.liked, Toast.LENGTH_SHORT).show();
+                    ParseRecipe.likeById(item.getId());
                     item.getTaste(new Callback<Taste>() {
                         @Override
                         public void onResponse(Call<Taste> call, Response<Taste> response) {

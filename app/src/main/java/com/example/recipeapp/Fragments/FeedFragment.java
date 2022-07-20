@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.recipeapp.Adapters.RecipesAdapter;
-import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Utils.LeftSwipeListener;

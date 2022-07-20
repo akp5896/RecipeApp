@@ -1,29 +1,15 @@
-package com.example.recipeapp;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-<<<<<<< HEAD
-import androidx.lifecycle.ViewModelProviders;
-=======
->>>>>>> 5d103bb570fab376fde1acffe149bde8cafab1cc
+package com.example.recipeapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.example.recipeapp.Models.Parse.Preferences;
-import com.example.recipeapp.Models.Parse.Taste;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.ActivitySignUpBinding;
-<<<<<<< HEAD
-import com.example.recipeapp.viewmodels.LoginViewModel;
-=======
->>>>>>> 5d103bb570fab376fde1acffe149bde8cafab1cc
 import com.example.recipeapp.viewmodels.SignUpViewModel;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
 
