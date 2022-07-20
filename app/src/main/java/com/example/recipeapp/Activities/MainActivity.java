@@ -3,8 +3,6 @@ package com.example.recipeapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-//import androidx.databinding.BindingAdapter;
-//import androidx.databinding.DataBindingUtil;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
 import com.example.recipeapp.Fragments.SuggestFragment;
@@ -63,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     FeedFragment feedFragment = new FeedFragment();
+    SearchFragment searchFragment = new SearchFragment();
+    SuggestFragment suggestFragment = new SuggestFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
                         return true;
                     case R.id.search:
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SearchFragment()).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, searchFragment).commit();
                         return true;
                     case R.id.suggest:
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SuggestFragment()).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, suggestFragment).commit();
                         return true;
                     default:
                         return true;

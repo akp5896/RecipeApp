@@ -48,8 +48,6 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
     public RecipesAdapter(List<Recipe> recipes, Context context) {
         this.recipes = recipes;
         this.context = context;
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        
     }
 
     @Override
