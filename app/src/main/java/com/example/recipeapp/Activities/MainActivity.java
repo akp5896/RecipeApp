@@ -1,6 +1,20 @@
 package com.example.recipeapp.Activities;
 
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import com.example.recipeapp.Fragments.FeedFragment;
+import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.Fragments.SuggestFragment;
+import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
+import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.NotificationAlarmReceiver;
+import com.example.recipeapp.Utils.RecommendCallback;
+import com.example.recipeapp.Utils.Recommendation;
+import com.example.recipeapp.databinding.ActivityMainBinding;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -48,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     UserFeedFragment userFeedFragment = new UserFeedFragment();
+    SearchFragment searchFragment = new SearchFragment();
+    SuggestFragment suggestFragment = new SuggestFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, userFeedFragment).commit();
                         return true;
                     case R.id.search:
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SearchFragment()).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, searchFragment).commit();
                         return true;
                     case R.id.suggest:
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, suggestFragment).commit();
                         return true;
                     default:
                         return true;
