@@ -5,11 +5,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.BuildConfig;
@@ -22,11 +26,14 @@ import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.LeftSwipeListener;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
+import com.example.recipeapp.databinding.ProfileLayoutBinding;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +47,7 @@ import retrofit2.Response;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends LeftSwipeDrawerFragment {
 
     private static final String TAG = "Search fragment";
     FragmentSearchBinding binding;
@@ -67,8 +74,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
 
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
