@@ -38,6 +38,7 @@
     <string name="sharing_started">Sharing started</string>
     <string name="saving_success">Saving successful</string>
     <string name="saveing_fail">Saving failed</string>
+    <string name="or_search_by_username">Or search by username:</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>
