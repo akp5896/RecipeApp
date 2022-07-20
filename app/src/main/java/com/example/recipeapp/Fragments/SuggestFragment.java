@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.recipeapp.Activities.DetailsActivity;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
+import com.example.recipeapp.Adapters.IngredientFilterAdapter;
+import com.example.recipeapp.Adapters.IngredientsAdapter;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.DetailsActivity;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
@@ -40,7 +42,7 @@ public class SuggestFragment extends Fragment {
     private static final String TAG = "Suggest activity";
     public static final int MINIMIZE_MISSING = 2;
     FragmentSuggestBinding binding;
-    StepsAdapter iHaveAdapter;
+    IngredientFilterAdapter iHaveAdapter;
     List<String> iHave = new ArrayList<>();
 
     public SuggestFragment() {
@@ -65,7 +67,7 @@ public class SuggestFragment extends Fragment {
                             call.enqueue(callback);
                         }));
 
-        iHaveAdapter = new StepsAdapter(iHave, R.layout.item);
+        iHaveAdapter = new IngredientFilterAdapter(iHave, R.layout.item);
         binding.rvIngredients.setAdapter(iHaveAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -83,21 +85,22 @@ public class SuggestFragment extends Fragment {
             call.enqueue(new Callback<List<Recipe>>() {
                 @Override
                 public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                    if(response.body() != null && response.body())
-                    Call<Recipe> detailsCall = service.getRecipeById(response.body().get(0).id(), BuildConfig.API_KEY);
-                    detailsCall.enqueue(new Callback<Recipe>() {
-                        @Override
-                        public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                            Intent i = new Intent(getContext(), DetailsActivity.class);
-                            i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(response.body()));
-                            startActivity(i);
-                        }
+                    if(response.body() != null && response.body().size() != 0) {
+                        Call<Recipe> detailsCall = service.getRecipeById(response.body().get(0).getId(), BuildConfig.API_KEY);
+                        detailsCall.enqueue(new Callback<Recipe>() {
+                            @Override
+                            public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                                Intent i = new Intent(getContext(), DetailsActivity.class);
+                                i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(response.body()));
+                                startActivity(i);
+                            }
 
-                        @Override
-                        public void onFailure(Call<Recipe> call, Throwable t) {
-                            Log.e(TAG, "Recipes search failed: " + t);
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<Recipe> call, Throwable t) {
+                                Log.e(TAG, "Recipes search failed: " + t);
+                            }
+                        });
+                    }
                 }
 
                 @Override

@@ -1,5 +1,6 @@
 package com.example.recipeapp.Retrofit;
 
+import com.example.recipeapp.Models.API.RecipeWidget;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -84,4 +85,7 @@ public interface RecipeApi {
                                               @Query(RANKING) int ranking,
                                               @Query(INGREDIENTS) String ingredients);
 
+    @GET("/recipes/{id}/card")
+    Call<RecipeWidget<String>> getRecipeWidget(@Path(ID) Long id,
+                                               @Query(API_KEY) String apiKey);
 }

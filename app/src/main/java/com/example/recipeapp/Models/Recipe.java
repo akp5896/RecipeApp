@@ -37,44 +37,37 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@AutoValue
-public abstract class Recipe implements Parcelable {
+@org.parceler.Parcel
+public class Recipe {
     private static final String TAG = "TASTE";
     private static final double INVALID_RATING = -1;
     @SerializedName("title")
-    public abstract String getTitle();
+    String title;
     @SerializedName("image")
-    public abstract String getImage();
+    String image;
     @SerializedName("id")
-    public abstract Long id();
+    Long id;
     @SerializedName("readyInMinutes")
-    @Nullable
-    public abstract Integer getReadyInMinutes();
+    Integer readyInMinutes;
     @SerializedName("healthScore")
-    @Nullable
-    public abstract Double getHealthScore();
+    Double healthScore;
     @SerializedName("pricePerServing")
-    @Nullable
-    public abstract Double getPricePerServing();
+    Double pricePerServing;
     @SerializedName("servings")
-    @Nullable
-    public abstract Integer getServings();
+    Integer servings;
     @SerializedName("analyzedInstructions")
-    @ParcelAdapter(AnalyzedInstructionsAdapter.class)
     @Nullable
-    public abstract List<InstructionEnvelope<List<Step>>> analyzedInstructions();
+    @Transient
+    List<InstructionEnvelope<List<Step>>> analyzedInstructions;
     @SerializedName("extendedIngredients")
     @Nullable
-    public abstract List<Ingredient> ingredients();
+    List<Ingredient> ingredients;
     @SerializedName("cuisines")
-    @Nullable
-    public abstract List<String> getCuisines();
+    List<String> cuisines;
     @SerializedName("diets")
-    @Nullable
-    public abstract List<String> getDiets();
+    List<String> diets;
     @SerializedName("summary")
-    @Nullable
-    public abstract String getSummary();
+    public String summary;
 
     /**
      * Set to an invalid value to make debugging easier
@@ -82,20 +75,9 @@ public abstract class Recipe implements Parcelable {
     @Transient
     double userRating = INVALID_RATING;
 
-    public void getTaste(Preferences current) {
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-        Call<Taste> call = service.getTasteById(id(), BuildConfig.API_KEY);
-        try {
-            Response<Taste> response = call.execute();
-            setUserRating(Recommendation.getRecipeDistance(Recipe.this, response.body(), current));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void getTaste(Callback<Taste> callback) {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-        Call<Taste> call = service.getTasteById(id(), BuildConfig.API_KEY);
+        Call<Taste> call = service.getTasteById(id, BuildConfig.API_KEY);
         call.enqueue(callback);
     }
 
@@ -107,40 +89,101 @@ public abstract class Recipe implements Parcelable {
         this.userRating = userRating;
     }
 
-    public static TypeAdapter<Recipe> typeAdapter(Gson gson) {
-        return new AutoValue_Recipe.GsonTypeAdapter(gson);
+    public String getTitle() {
+        return title;
     }
 
-    public static class AnalyzedInstructionsAdapter implements com.ryanharter.auto.value.parcel.TypeAdapter<List<InstructionEnvelope<List<Step>>>> {
-
-        @Override
-        public List<InstructionEnvelope<List<Step>>> fromParcel(Parcel in) {
-            List<Step> steps = new ArrayList<>();
-            in.readList(steps, Step.class.getClassLoader());
-            InstructionEnvelope<List<Step>> envelope = new InstructionEnvelope<>();
-            envelope.results = steps;
-            return new ArrayList<InstructionEnvelope<List<Step>>>(){{add(envelope);}};
-        }
-
-        @Override
-        public void toParcel(List<InstructionEnvelope<List<Step>>> value, Parcel dest) {
-            dest.writeList(value.get(0).results);
-        }
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-//    public List<InstructionEnvelope<List<Step>>> getAnalyzedInstructions() {
-//        return analyzedInstructions;
-//    }
-//
-//    public void setAnalyzedInstructions(List<InstructionEnvelope<List<Step>>> analyzedInstructions) {
-//        this.analyzedInstructions = analyzedInstructions;
-//    }
-//
-//    public List<Ingredient> getIngredients() {
-//        return ingredients;
-//    }
-//
-//    public void setIngredients(List<Ingredient> ingredients) {
-//        this.ingredients = ingredients;
-//    }
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getReadyInMinutes() {
+        return readyInMinutes;
+    }
+
+    public void setReadyInMinutes(Integer readyInMinutes) {
+        this.readyInMinutes = readyInMinutes;
+    }
+
+    public Double getHealthScore() {
+        return healthScore;
+    }
+
+    public void setHealthScore(Double healthScore) {
+        this.healthScore = healthScore;
+    }
+
+    public Double getPricePerServing() {
+        return pricePerServing;
+    }
+
+    public void setPricePerServing(Double pricePerServing) {
+        this.pricePerServing = pricePerServing;
+    }
+
+    public Integer getServings() {
+        return servings;
+    }
+
+    public void setServings(Integer servings) {
+        this.servings = servings;
+    }
+
+    @Nullable
+    public List<InstructionEnvelope<List<Step>>> getAnalyzedInstructions() {
+        return analyzedInstructions;
+    }
+
+    public void setAnalyzedInstructions(@Nullable List<InstructionEnvelope<List<Step>>> analyzedInstructions) {
+        this.analyzedInstructions = analyzedInstructions;
+    }
+
+    @Nullable
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(@Nullable List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public List<String> getCuisines() {
+        return cuisines;
+    }
+
+    public void setCuisines(List<String> cuisines) {
+        this.cuisines = cuisines;
+    }
+
+    public List<String> getDiets() {
+        return diets;
+    }
+
+    public void setDiets(List<String> diets) {
+        this.diets = diets;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 }

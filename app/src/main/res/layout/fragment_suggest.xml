@@ -29,6 +29,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvIHave" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edIngredients"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
@@ -38,12 +43,6 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edIngredients" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvIngredients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/edIngredients"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSuggest"
             android:layout_width="match_parent"
