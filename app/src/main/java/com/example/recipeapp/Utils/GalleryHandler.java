@@ -42,15 +42,8 @@ public class GalleryHandler {
     public static Bitmap loadFromUri(Uri photoUri, Activity loadActivity) {
         Bitmap image = null;
         try {
-            // check version of Android on device
-            if(Build.VERSION.SDK_INT > 27){
-                // on newer versions of Android, use the new decodeBitmap method
-                ImageDecoder.Source source = ImageDecoder.createSource(loadActivity.getContentResolver(), photoUri);
-                image = ImageDecoder.decodeBitmap(source);
-            } else {
-                // support older versions of Android by using getBitmap
-                image = MediaStore.Images.Media.getBitmap(loadActivity.getContentResolver(), photoUri);
-            }
+            ImageDecoder.Source source = ImageDecoder.createSource(loadActivity.getContentResolver(), photoUri);
+            image = ImageDecoder.decodeBitmap(source);
         } catch (IOException e) {
             e.printStackTrace();
         }
