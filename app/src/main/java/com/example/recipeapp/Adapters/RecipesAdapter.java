@@ -13,14 +13,10 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-<<<<<<< HEAD
 import com.example.recipeapp.Activities.DetailsActivity;
 import com.example.recipeapp.Models.Parse.ParseRecipe;
-=======
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.DetailsActivity;
 import com.example.recipeapp.DiffUtil.RecipeDiffUtilCallback;
->>>>>>> 3c95181... diffutil added
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -65,16 +61,12 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
         return recipes.size();
     }
 
-<<<<<<< HEAD
-=======
     public void updateList(List<Recipe> recipes) {
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new RecipeDiffUtilCallback(this.recipes, recipes));
         this.recipes.clear();
         this.recipes.addAll(recipes);
         diffResult.dispatchUpdatesTo(this);
     }
-
->>>>>>> 3c95181... diffutil added
     class RecipesViewHolder extends RecyclerView.ViewHolder{
 
         RecipeItemBinding binding;
@@ -86,7 +78,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
 
         public void bind(Recipe item) {
             binding.tvTitle.setText(item.getTitle());
-            Glide.with(context).load(item.getImage()).into(binding.ivImage);
+            Glide.with(context).load(item.getImage()).error(R.drawable.ic_launcher_background).into(binding.ivImage);
             binding.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.Fragments.UserFeedFragment;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.example.recipeapp.Utils.ShareRecipe;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final long ALARM_INTERVAL = 20 * 60 * 1000;
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    FeedFragment feedFragment = new FeedFragment();
+    UserFeedFragment userFeedFragment = new UserFeedFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.feed:
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, userFeedFragment).commit();
                         return true;
                     case R.id.search:
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new SearchFragment()).commit();
@@ -75,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
                     37);
 
         }
-        Intent i = new Intent(MainActivity.this, AddRecipeActivity.class);
-        startActivity(i);
         //ShareRecipe.startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         setNotifications();
         binding.bottomNavigation.setSelectedItemId(R.id.search);
@@ -114,10 +113,6 @@ public class MainActivity extends AppCompatActivity {
             ShareRecipe.startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         }
         return true;
-    }
-
-    public FeedFragment getFeedFragment() {
-        return feedFragment;
     }
 
     public ActivityMainBinding getBinding() {

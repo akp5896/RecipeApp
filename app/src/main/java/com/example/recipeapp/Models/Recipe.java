@@ -57,8 +57,7 @@ public class Recipe {
     Integer servings;
     @SerializedName("analyzedInstructions")
     @Nullable
-    @Transient
-    List<InstructionEnvelope<List<Step>>> analyzedInstructions;
+    List<Step> analyzedInstructions;
     @SerializedName("extendedIngredients")
     @Nullable
     List<Ingredient> ingredients;
@@ -74,6 +73,22 @@ public class Recipe {
      */
     @Transient
     double userRating = INVALID_RATING;
+    public Recipe(){}
+    public Recipe(String title, String image, Long id, Integer readyInMinutes, Double healthScore, Double pricePerServing, Integer servings, @Nullable List<Step> analyzedInstructions, @Nullable List<Ingredient> ingredients, List<String> cuisines, List<String> diets, String summary) {
+        this.title = title;
+        this.image = image;
+        this.id = id;
+        this.readyInMinutes = readyInMinutes;
+        this.healthScore = healthScore;
+        this.pricePerServing = pricePerServing;
+        this.servings = servings;
+        this.analyzedInstructions = analyzedInstructions;
+        this.ingredients = ingredients;
+        this.cuisines = cuisines;
+        this.diets = diets;
+        this.summary = summary;
+        this.userRating = userRating;
+    }
 
     public void getTaste(Callback<Taste> callback) {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
@@ -146,11 +161,11 @@ public class Recipe {
     }
 
     @Nullable
-    public List<InstructionEnvelope<List<Step>>> getAnalyzedInstructions() {
+    public List<Step> getAnalyzedInstructions() {
         return analyzedInstructions;
     }
 
-    public void setAnalyzedInstructions(@Nullable List<InstructionEnvelope<List<Step>>> analyzedInstructions) {
+    public void setAnalyzedInstructions(@Nullable List<Step> analyzedInstructions) {
         this.analyzedInstructions = analyzedInstructions;
     }
 

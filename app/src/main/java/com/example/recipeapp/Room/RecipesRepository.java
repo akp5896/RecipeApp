@@ -11,15 +11,22 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.MainActivity;
 import com.example.recipeapp.Models.API.ApiCallParams;
+import com.example.recipeapp.Models.API.Step;
+import com.example.recipeapp.Models.Parse.ParseRecipeData;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Retrofit.Envelope;
+import com.example.recipeapp.Retrofit.InstructionEnvelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.viewmodels.FeedViewModel;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,12 +40,6 @@ public class RecipesRepository {
     private static final String TAG = "RecipesRepo";
     private RecipeDao recipeDao;
     private LiveData<List<Recipe>> bookmarkedRecipes;
-
-    public LiveData<List<Recipe>> fetchLocal() {
-        this.recipeDao = RecipeDatabase.getRecipeDatabase().recipeDao();
-        bookmarkedRecipes = recipeDao.getRecipes();
-        return bookmarkedRecipes;
-    }
 
     public LiveData<List<Recipe>> fetchApi(ApiCallParams params) {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
@@ -62,13 +63,34 @@ public class RecipesRepository {
         });
         return bookmarkedRecipes;
     }
-<<<<<<< HEAD
-=======
 
-    private String putWithEmptyCheck(CharSequence chars) {
-        if(chars == null || chars.toString().equals(""))
-            return null;
-        return chars.toString();
+    public MutableLiveData<List<Recipe>> fetchParse() {
+        ParseQuery<ParseRecipeData> query = ParseQuery.getQuery(ParseRecipeData.class);
+        query.setLimit(10);
+        query.orderByDescending(ParseObject.KEY_CREATED_AT);
+        MutableLiveData<List<Recipe>> response = new MutableLiveData<>();
+        query.findInBackground(new FindCallback<ParseRecipeData>() {
+            @Override
+            public void done(List<ParseRecipeData> recipes, ParseException e) {
+                List<Recipe> result = new ArrayList<>();
+                for(ParseRecipeData recipeData : recipes) {
+                    Recipe recipe = new Recipe(recipeData.getTitle(),
+                            "",
+                            0L,
+                            recipeData.getTime(),
+                            0d,
+                            0d,
+                            recipeData.getServings(),
+                            recipeData.getSteps(),
+                            recipeData.getIngredients(),
+                            new ArrayList<>(),
+                            new ArrayList<>(),
+                            recipeData.getSummary());
+                    result.add(recipe);
+                }
+                response.postValue(result);
+            }
+        });
+        return response;
     }
->>>>>>> 7911c1e... call to api moved to viewmodel
 }

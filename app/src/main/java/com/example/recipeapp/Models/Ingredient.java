@@ -38,4 +38,8 @@ public class Ingredient extends RetrofitAutocomplete{
         this.name = name;
         this.id = id;
     }
+    public Ingredient(String name) {
+        this.name = name;
+        this.id = 0L;
+    }
 }

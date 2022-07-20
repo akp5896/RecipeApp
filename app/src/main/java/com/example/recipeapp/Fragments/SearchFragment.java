@@ -143,7 +143,6 @@ public class SearchFragment extends Fragment {
                 putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()));
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentPlaceholder, SearchFeedFragment.newInstance(params)).commit();
-        ((MainActivity)(getActivity())).getBinding().bottomNavigation.setSelectedItemId(R.id.feed);
     }
 
     private String putWithEmptyCheck(CharSequence chars) {
