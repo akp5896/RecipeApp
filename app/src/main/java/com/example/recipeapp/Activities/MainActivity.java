@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import com.example.recipeapp.Utils.GalleryHandler;
 import com.example.recipeapp.Utils.ProfileSetup;
 import com.example.recipeapp.databinding.ProfileLayoutBinding;
+
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -74,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         // Should create a launcher in onCreate, couldn't do it in a later called callback
         ActivityResultLauncher<Intent> launcher = GalleryHandler.getGalleryLauncher(ProfileSetup.getHeaderCallback(binding.drawer, this), this);
         binding.drawer.ivProfilePic.setOnClickListener(v -> launcher.launch(Intent.createChooser(GalleryHandler.onPickPhoto(), "Select Picture")));
-
         ProfileSetup.initialize(binding.drawer, this);
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
