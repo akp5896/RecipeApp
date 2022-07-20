@@ -4,9 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -16,11 +13,6 @@ import android.view.ViewGroup;
 
 import com.example.recipeapp.Adapters.RecipesAdapter;
 import com.example.recipeapp.Models.Recipe;
-import com.example.recipeapp.R;
-import com.example.recipeapp.Utils.LeftSwipeListener;
-import com.example.recipeapp.databinding.FragmentFeedBinding;
-import com.example.recipeapp.databinding.RecipeItemBinding;
-import com.example.recipeapp.Room.RecipesRepository;
 import com.example.recipeapp.databinding.FragmentFeedBinding;
 import com.example.recipeapp.viewmodels.FeedViewModel;
 

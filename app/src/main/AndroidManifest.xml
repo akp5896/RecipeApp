@@ -28,6 +28,9 @@
         android:theme="@style/Theme.RecipeApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.UserProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.AddRecipeActivity"
             android:exported="false" />
         <activity
@@ -63,7 +66,7 @@
             <!-- ressource file to create -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

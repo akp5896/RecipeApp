@@ -9,6 +9,7 @@ import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.ParseRecipeData;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class AddRecipeViewModel extends ViewModel {
         parseRecipeData.setServings(Integer.parseInt(servings));
         parseRecipeData.setIngredients(ingredients);
         parseRecipeData.setSteps(steps);
+        parseRecipeData.setAuthor(ParseUser.getCurrentUser().getUsername());
         parseRecipeData.saveInBackground(e -> {
             if(e != null) {
                 Log.w(TAG, "Something went wrong: " + e);

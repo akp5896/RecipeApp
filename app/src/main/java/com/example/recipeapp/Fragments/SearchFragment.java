@@ -1,5 +1,6 @@
 package com.example.recipeapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.example.recipeapp.Activities.UserProfileActivity;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
@@ -129,6 +131,12 @@ public class SearchFragment extends LeftSwipeDrawerFragment {
         });
 
         binding.btnSearch.setOnClickListener(v -> searchListener());
+
+        binding.btnSearchUsername.setOnClickListener(v -> {
+            Intent i = new Intent(getContext(), UserProfileActivity.class);
+            i.putExtra(UserProfileActivity.USERNAME, binding.edUsername.getText().toString());
+            startActivity(i);
+        });
     }
 
     private void searchListener() {

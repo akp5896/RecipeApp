@@ -19,12 +19,16 @@ public class ParseRecipeData extends ParseObject {
     public static final String KEY_SERVINGS = "servings";
     public static final String KEY_INGREDIENTS = "ingredients";
     public static final String KEY_STEPS = "steps";
+    public static final String KEY_AUTHOR = "author";
 
     public void setTitle(String title) {
         put(KEY_TITLE, title);
     }
-    public void setSummary(String title) {
-        put(KEY_SUMMARY, title);
+    public void setAuthor(String author) {
+        put(KEY_TITLE, author);
+    }
+    public void setSummary(String summary) {
+        put(KEY_SUMMARY, summary);
     }
     public void setTime(int time) {
         put(KEY_TIME, time);
@@ -41,6 +45,10 @@ public class ParseRecipeData extends ParseObject {
             toLoad.add(step.getNumber() + ". " + step.getStep());
         }
         put(KEY_STEPS, toLoad);
+    }
+
+    public String getAuthor() {
+        return getString(KEY_AUTHOR);
     }
 
     public String getTitle() {
