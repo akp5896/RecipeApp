@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
                     37);
 
         }
+        Intent i = new Intent(MainActivity.this, AddRecipeActivity.class);
+        startActivity(i);
         //ShareRecipe.startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         setNotifications();
         binding.bottomNavigation.setSelectedItemId(R.id.search);

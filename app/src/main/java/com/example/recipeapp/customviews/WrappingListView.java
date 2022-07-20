@@ -1,4 +1,4 @@
-package com.example.recipeapp.CustomViews;
+package com.example.recipeapp.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;

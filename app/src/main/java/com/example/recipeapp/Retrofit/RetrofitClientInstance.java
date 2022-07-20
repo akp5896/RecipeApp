@@ -11,12 +11,9 @@ public class RetrofitClientInstance {
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
-            GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(
-                    new GsonBuilder().registerTypeAdapterFactory(AutoValueGsonFactory.create())
-                            .create());
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(gsonConverterFactory)
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;

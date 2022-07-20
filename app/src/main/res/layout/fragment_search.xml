@@ -116,7 +116,7 @@
 
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <com.example.recipeapp.CustomViews.SearchSpinnerView
+        <com.example.recipeapp.customviews.SearchSpinnerView
             android:id="@+id/spinnerType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/checkboxExcludeCuisine" />
 
-        <com.example.recipeapp.CustomViews.SearchSpinnerView
+        <com.example.recipeapp.customviews.SearchSpinnerView
             app:hasIcon="true"
             android:id="@+id/spinnerCuisine"
             android:layout_width="0dp"

@@ -26,6 +26,7 @@ import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Utils.ShareRecipe;
+import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.StepViewModel;
 import com.parse.ParseUser;
 import com.example.recipeapp.viewmodels.DetailsViewModel;
