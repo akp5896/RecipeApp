@@ -31,6 +31,8 @@ public interface RecipeApi {
     String RECIPE_INFORMATION_VALUE = "true";
     String SORT = "sort";
     String DIET = "diet";
+    String RANKING = "ranking";
+    String INGREDIENTS = "ingredients";
 
     @GET("/recipes/complexSearch")
     Call<Envelope<List<Recipe>>> getAllRecipes(@Query(API_KEY) String apiKey);
@@ -77,6 +79,11 @@ public interface RecipeApi {
                                                   @Query(NUMBER) int numberOfResults,
                                                   @Query(ADD_RECIPE_INFORMATION) String addRecipeInformation
     );
+
+    @GET("/recipes/findByIngredients")
+    Call<List<Recipe>> getRecipeByIngredients(@Query(API_KEY) String apiKey,
+                                              @Query(RANKING) int ranking,
+                                              @Query(INGREDIENTS) String ingredients);
 
     @GET("/recipes/{id}/card")
     Call<RecipeWidget<String>> getRecipeWidget(@Path(ID) Long id,

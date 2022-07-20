@@ -27,6 +27,8 @@
     <string name="fish">this is extremely long and overcomplicated biography that only takes up valuable space that could have been used for something else</string>
     <string name="no_bio">No biography yet.</string>
     <string name="try_recipe">Try %1$s!</string>
+    <string name="i_have">I have...</string>
+    <string name="add">Add</string>
     <string name="connection_rejected">Connection was rejected</string>
     <string name="connection_broken">Connection broke</string>
     <string name="unknow_error">Unknown error occurred</string>

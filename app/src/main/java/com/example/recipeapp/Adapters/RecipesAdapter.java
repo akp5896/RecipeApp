@@ -19,6 +19,8 @@ import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.RecipeItemBinding;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
