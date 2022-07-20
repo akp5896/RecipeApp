@@ -1,26 +1,51 @@
 package com.example.recipeapp.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Models.Parse.ParseRecipeData;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddRecipeViewModel extends ViewModel {
+    private static final String TAG = "Add recipe: ";
     private String title;
     private String summary;
     private String time;
     private String servings;
     private String currentIngredient;
     private String currentStep;
-    private String cuisine;
     List<String> ingredients = new ArrayList<>();
     public MutableLiveData<String> addedIngredient = new MutableLiveData<>();
     List<Step> steps = new ArrayList<>();
     public MutableLiveData<Step> addedStep = new MutableLiveData<>();
+
+    public MutableLiveData<Boolean> savingResult = new MutableLiveData<>();
+
+    public void saveRecipe() {
+        ParseRecipeData parseRecipeData = new ParseRecipeData();
+        parseRecipeData.setTitle(title);
+        parseRecipeData.setSummary(summary);
+        parseRecipeData.setTime(Integer.parseInt(time));
+        parseRecipeData.setServings(Integer.parseInt(servings));
+        parseRecipeData.setIngredients(ingredients);
+        parseRecipeData.setSteps(steps);
+        parseRecipeData.saveInBackground(e -> {
+            if(e != null) {
+                Log.w(TAG, "Something went wrong: " + e);
+                savingResult.postValue(false);
+                return;
+            }
+            savingResult.postValue(true);
+        });
+    }
 
     public void addStep() {
         Step step = new Step(steps.size() + 1, currentStep);
@@ -99,13 +124,5 @@ public class AddRecipeViewModel extends ViewModel {
 
     public void setCurrentStep(String currentStep) {
         this.currentStep = currentStep;
-    }
-
-    public String getCuisine() {
-        return cuisine;
-    }
-
-    public void setCuisine(String cuisine) {
-        this.cuisine = cuisine;
     }
 }

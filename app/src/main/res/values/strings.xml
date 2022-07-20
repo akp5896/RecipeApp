@@ -32,6 +32,8 @@
     <string name="share_recipe">Share recipe</string>
     <string name="accept_recipe">accept_recipe</string>
     <string name="sharing_started">Sharing started</string>
+    <string name="saving_success">Saving successful</string>
+    <string name="saveing_fail">Saving failed</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

@@ -75,25 +75,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/edExclude" />
-        <com.example.recipeapp.customviews.SearchSpinnerView
-            app:hasIcon="true"
-            android:id="@+id/spinnerCuisine"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxHeight="200dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvIngredients"
-            />
+
         <EditText
             android:id="@+id/edSteps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="25dp"
             android:hint="Steps: "
+            android:minHeight="25dp"
             android:text="@={viewModel.currentStep}"
-            app:layout_constraintTop_toBottomOf="@id/spinnerCuisine"
+            app:layout_constraintTop_toBottomOf="@id/rvIngredients"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnAdd"/>
+            tools:layout_editor_absoluteY="422dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:onClick="@{() -> viewModel.addStep()}"
@@ -114,6 +107,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddRecipe"
             android:text="Upload"
+            android:onClick="@{() -> viewModel.saveRecipe()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

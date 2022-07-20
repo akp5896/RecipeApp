@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
@@ -69,11 +70,20 @@ public class AddRecipeActivity extends AppCompatActivity {
                             call.enqueue(callback);
                         }));
 
-        binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
-
         viewModel.addedStep.observe(this, step -> {
             stepsAdapter.add(new StepViewModel(step.getStep(), step.getNumber()));
             binding.edSteps.setText(null);
+        });
+
+        viewModel.savingResult.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean result) {
+                if(result) {
+                    Toast.makeText(AddRecipeActivity.this, getString(R.string.saving_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AddRecipeActivity.this, R.string.saveing_fail, Toast.LENGTH_SHORT).show();
+                }
+            }
         });
     }
 
