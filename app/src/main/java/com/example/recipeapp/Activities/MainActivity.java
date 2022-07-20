@@ -93,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
         setNotifications();
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
+        binding.drawer.fabAddRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AddRecipeActivity.class));
+            }
+        });
     }
 
     public ProfileLayoutBinding getProfileLayoutBinding() {
