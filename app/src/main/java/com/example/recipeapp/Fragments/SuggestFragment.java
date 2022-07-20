@@ -47,22 +47,15 @@ public class SuggestFragment extends Fragment {
 
     private static final String TAG = "Suggest activity";
     FragmentSuggestBinding binding;
-    IngredientFilterAdapter iHaveAdapter;
-    SuggestViewModel viewModel;
 
     public SuggestFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(SuggestViewModel.class);
+        SuggestViewModel viewModel = ViewModelProviders.of(this).get(SuggestViewModel.class);
         binding.setViewModel(viewModel);
 
         binding.edIngredients.setAdapter(
@@ -73,7 +66,7 @@ public class SuggestFragment extends Fragment {
                             RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
                         }));
 
-        iHaveAdapter = new IngredientFilterAdapter(viewModel.getiHave(), R.layout.item);
+        IngredientFilterAdapter iHaveAdapter = new IngredientFilterAdapter(viewModel.getiHave(), R.layout.item);
         binding.rvIngredients.setAdapter(iHaveAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);
