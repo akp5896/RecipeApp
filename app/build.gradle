@@ -76,6 +76,7 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation "androidx.preference:preference:1.2.0"
     implementation 'com.google.auto.value:auto-value:1.5.2'
     annotationProcessor 'com.google.auto.value:auto-value:1.5.2'
 

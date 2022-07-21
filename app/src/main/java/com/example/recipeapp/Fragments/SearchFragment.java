@@ -27,6 +27,7 @@ import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.RecipeTitle;
+import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.Retrofit.Envelope;
@@ -80,6 +81,7 @@ public class SearchFragment extends LeftSwipeDrawerFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        excluded.addAll(Settings.getBanned());
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
 
