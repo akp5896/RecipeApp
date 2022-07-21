@@ -12,4 +12,12 @@
     <color name="orange">#f5b342</color>
     <color name="transparent_white">#AAFFFFFF</color>
     <color name="transparent_theme">#333700B3</color>
+    <color name="primary_orange">#ffa726</color>
+    <color name="light_orange">#ffd95b</color>
+    <color name="dark_orange">#c77800</color>
+    <color name="secondary_blue">#3f51b5</color>
+    <color name="light_blue">#757de8</color>
+    <color name="dark_blue">#002984</color>
+    <color name="text_on_primary">#000000</color>
+    <color name="text_on_secondary">#ffffff</color>
 </resources>

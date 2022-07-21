@@ -1,72 +1,67 @@
 package com.example.recipeapp.Adapters;
 
-
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recipeapp.BR;
 import com.example.recipeapp.R;
+import com.example.recipeapp.viewmodels.StepViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
-
-    List<String> items;
-    int layoutId = R.layout.item;
+public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.BindableViewHolder>{
+    private List<StepViewModel> data = new ArrayList<>();
 
     @NonNull
     @Override
-    public StepsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View todoView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        return new StepsViewHolder(todoView);
-    }
-
-    public StepsAdapter(List<String> items, int layoutId)
-    {
-        this.items = items;
-        this.layoutId = layoutId;
+    public BindableViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ViewDataBinding binding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.item_list,
+                parent,
+                false
+        );
+        return new BindableViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StepsViewHolder holder, int position) {
-        String item = items.get(position);
-        holder.bind(item);
+    public void onBindViewHolder(@NonNull BindableViewHolder holder, int position) {
+        holder.bind(data.get(position));
+    }
+
+    public void updateItems(List<StepViewModel> items) {
+        data.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void add(StepViewModel item) {
+        data.add(item);
+        notifyItemInserted(data.size() - 1);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return data.size();
     }
 
+    public class BindableViewHolder extends RecyclerView.ViewHolder {
 
-    // General ViewHolder used to display simple string lists, for example, in autocomplete
-    class StepsViewHolder extends RecyclerView.ViewHolder{
+        private ViewDataBinding binding;
 
-        TextView tvText;
-        ConstraintLayout layout;
-
-        public StepsViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvText = itemView.findViewById(R.id.text);
-            layout = itemView.findViewById(R.id.layout);
+        public BindableViewHolder(@NonNull ViewDataBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
-        public void bind(String item) {
-            tvText.setText(item);
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int i = getAdapterPosition();
-                    items.remove(i);
-                    notifyItemRemoved(i);
-                }
-            });
+        public void bind(StepViewModel item) {
+            binding.setVariable(BR.itemViewModel, item);
         }
     }
 }

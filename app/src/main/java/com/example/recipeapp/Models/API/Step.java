@@ -9,15 +9,33 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-@AutoValue
-public abstract class Step implements Parcelable{
+@Parcel
+public class Step{
     @SerializedName("number")
-    public abstract int getNumber();
+    int number;
     @SerializedName("step")
-    public abstract String getStep();
+    String step;
 
-    public static TypeAdapter<Step> typeAdapter(Gson gson) {
-        return new AutoValue_Step.GsonTypeAdapter(gson);
+    public Step() {}
+
+    public int getNumber() {
+        return number;
     }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getStep() {
+        return step;
+    }
+
+    public void setStep(String step) {
+        this.step = step;
+    }
+
+    public Step(int number, String step) {
+        this.number = number;
+        this.step = step;
+    }
 }

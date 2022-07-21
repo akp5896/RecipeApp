@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.recipeapp.viewmodels.AddRecipeViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@color/primary_orange"
+        tools:context=".Activities.AddRecipeActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@drawable/recipe_background"
+        tools:context=".Activities.AddRecipeActivity">
+        <EditText
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title"
+            android:text="@={viewModel.title}"
+            android:id="@+id/edTitle"
+            />
+        <EditText
+            app:layout_constraintTop_toBottomOf="@id/edTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/summary"
+            android:text="@={viewModel.summary}"
+            android:id="@+id/edSummary"
+            />
+        <EditText
+            app:layout_constraintTop_toBottomOf="@id/edSummary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/time"
+            android:id="@+id/edTime"
+            android:text="@={viewModel.time}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edServings"
+            />
+        <EditText
+            app:layout_constraintTop_toBottomOf="@id/edSummary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/servings"
+            android:text="@={viewModel.servings}"
+            android:id="@+id/edServings"
+            app:layout_constraintStart_toEndOf="@+id/edTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <AutoCompleteTextView
+            android:layout_margin="5dp"
+            android:id="@+id/edIngredients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="25dp"
+            android:text="@={viewModel.currentIngredient}"
+            android:hint="@string/ingredients"
+            app:layout_constraintTop_toBottomOf="@id/edTime"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@null"
+            android:text="@string/add"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_on_secondary"
+            android:textAllCaps="false"
+            android:onClick="@{() -> viewModel.addIngredient()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edIngredients" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edIngredients" />
+
+        <EditText
+            android:layout_margin="5dp"
+            android:id="@+id/edSteps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/steps"
+            android:minHeight="25dp"
+            android:text="@={viewModel.currentStep}"
+            app:layout_constraintTop_toBottomOf="@id/rvIngredients"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="422dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_on_secondary"
+            android:onClick="@{() -> viewModel.addStep()}"
+            android:id="@+id/btnAddSteps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@null"
+            android:text="@string/add"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edSteps" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSteps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edSteps" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_on_secondary"
+            android:id="@+id/btnAddRecipe"
+            android:text="@string/upload"
+            android:onClick="@{() -> viewModel.saveRecipe()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

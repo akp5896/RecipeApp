@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.recipeapp.Activities.DetailsActivity;
 import com.example.recipeapp.Adapters.ReviewsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.databinding.ActivityReviewsBinding;

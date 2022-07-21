@@ -11,12 +11,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".LoginActivity">
+        android:padding="10dp"
+        android:background="@color/primary_orange"
+        tools:context=".Activities.LoginActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/recipe_background"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <EditText
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/etLogin"
+            android:hint="@string/login"
             android:inputType="text"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
@@ -24,6 +34,8 @@
             />
 
         <EditText
+            android:padding="10dp"
+            android:hint="@string/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/etLogin"
@@ -41,9 +53,11 @@
             android:id="@+id/btnSignUp"
             app:layout_constraintTop_toBottomOf="@+id/etPass"
             android:text="@string/sign_up"
-            android:background="@color/blue"
+            android:background="@drawable/button_background"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/text_on_secondary"
             android:onClick="@{() -> viewModel.signUp()}"
             />
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

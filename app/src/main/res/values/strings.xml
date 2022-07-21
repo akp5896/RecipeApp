@@ -16,15 +16,40 @@
     <string name="ingredients">Ingredients</string>
     <string name="ingredients_title">Ingredients:</string>
     <string name="instructions">Instructions:</string>
+    <string name="save">Save</string>
+    <string name="exclude">Exclude:</string>
     <string name="Liked">Liked</string>
     <string name="login_issue">Issue with login</string>
     <string name="login_failure">Unable to login: %1$s</string>
     <string name="unknown_error">Unknown error</string>
     <string name="invalid_credentials">Invalid credentials</string>
     <string name="liked">Liked</string>
+    <string name="fish">this is extremely long and overcomplicated biography that only takes up valuable space that could have been used for something else</string>
+    <string name="no_bio">No biography yet.</string>
     <string name="try_recipe">Try %1$s!</string>
     <string name="send">Send</string>
     <string name="write_review">Write a review!</string>
+    <string name="i_have">I have...</string>
+    <string name="connection_rejected">Connection was rejected</string>
+    <string name="connection_broken">Connection broke</string>
+    <string name="unknow_error">Unknown error occurred</string>
+    <string name="choose_sharing">Choose sharing method</string>
+    <string name="share_question">Do you want to share a widget or a recipe?</string>
+    <string name="share_widget">Share a widget</string>
+    <string name="share_recipe">Share recipe</string>
+    <string name="accept_recipe">accept_recipe</string>
+    <string name="sharing_started">Sharing started</string>
+    <string name="saving_success">Saving successful</string>
+    <string name="saveing_fail">Saving failed</string>
+    <string name="or_search_by_username">Or search by username:</string>
+    <string name="title">Title</string>
+    <string name="summary">Summary</string>
+    <string name="time">Time</string>
+    <string name="servings">Servings</string>
+    <string name="add">Add</string>
+    <string name="steps">Steps:</string>
+    <string name="upload">Upload</string>
+    <string name="password">Password</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>
@@ -70,5 +95,35 @@
         <item>fingerfood</item>
         <item>snack</item>
         <item>drink</item>
+    </string-array>
+    <string-array name="diets">
+        <item></item>
+        <item> Gluten Free</item>
+        <item> Ketogenic</item>
+        <item> Vegetarian</item>
+        <item> Lacto-Vegetarian</item>
+        <item> Ovo-Vegetarian</item>
+        <item> Vegan</item>
+        <item> Pescetarian</item>
+        <item> Paleo</item>
+        <item> Primal</item>
+        <item> Low FODMAP</item>
+        <item> Whole30</item>
+    </string-array>
+
+    <string-array name="intolerances">
+        <item></item>
+        <item>Dairy</item>
+        <item>Egg</item>
+        <item>Gluten</item>
+        <item>Grain</item>
+        <item>Peanut</item>
+        <item>Seafood</item>
+        <item>Sesame</item>
+        <item>Shellfish</item>
+        <item>Soy</item>
+        <item>Sulfite</item>
+        <item>Tree Nut</item>
+        <item>Wheat</item>
     </string-array>
 </resources>
