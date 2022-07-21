@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -62,9 +63,7 @@ public class SuggestFragment extends Fragment {
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getIngredientAutocomplete(query)));
 
         IngredientFilterAdapter iHaveAdapter = new IngredientFilterAdapter(viewModel.getiHave(), R.layout.item);
         binding.rvIngredients.setAdapter(iHaveAdapter);

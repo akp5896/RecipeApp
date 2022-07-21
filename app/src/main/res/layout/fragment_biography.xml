@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:padding="15dp"
     tools:context=".MainActivity">
     <com.google.android.material.textfield.TextInputLayout
+        android:background="@drawable/recipe_background"
+        android:backgroundTint="@color/secondary_blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/til"
@@ -15,9 +17,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:counterTextAppearance="@style/counterText"
+        app:counterTextColor="@color/text_on_secondary"
         app:counterOverflowTextAppearance="@style/counterOverride">
         <EditText
             android:id="@+id/etEditBio"
+            android:background="@drawable/recipe_background"
+            android:backgroundTint="@color/light_orange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -31,6 +36,8 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:background="@drawable/button_background"
+        android:textColor="@color/text_on_secondary"
         android:id="@+id/btnUpdate"
         android:layout_width="wrap_content"
         android:text="Save"

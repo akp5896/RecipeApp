@@ -98,7 +98,7 @@ public class RecipesRepository {
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, params.getTitle(), params.getCuisine(), params.getExcludeCuisine(),
                 params.getIncluded(), params.getExcluded(),
-                params.getType(), params.getTime(), RecipeApi.RECIPE_INFORMATION_VALUE);
+                params.getType(), params.getTime(), null, null, RecipeApi.RECIPE_INFORMATION_VALUE);
         bookmarkedRecipes = new MutableLiveData<>();
 
         call.enqueue(new Callback<Envelope<List<Recipe>>>() {

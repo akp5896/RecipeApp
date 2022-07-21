@@ -11,14 +11,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/orange"
+            android:background="@drawable/search_background"
             android:layout_margin="5dp"
             android:id="@+id/searchByApi"
+            android:padding="10dp"
             >
         <TextView
             android:id="@+id/tvSearch"
@@ -60,6 +62,7 @@
             app:layout_constraintTop_toTopOf="@+id/spinnerType" />
 
             <AutoCompleteTextView
+                android:layout_margin="5dp"
             android:id="@+id/edInclude"
             android:layout_width="0dp"
             android:minHeight="25dp"
@@ -71,11 +74,13 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnInclude"
-
+            android:background="@drawable/button_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stateListAnimator="@null"
+            android:layout_margin="5dp"
             android:text="Add"
+            android:textColor="@color/text_on_secondary"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edInclude" />
@@ -88,6 +93,7 @@
             app:layout_constraintTop_toBottomOf="@+id/edInclude" />
 
         <AutoCompleteTextView
+            android:layout_margin="5dp"
             android:id="@+id/edExclude"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -102,8 +108,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stateListAnimator="@null"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_background"
             android:text="Add"
             android:textAllCaps="false"
+            android:textColor="@color/text_on_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edExclude" />
 
@@ -118,9 +127,11 @@
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
             android:text="Search"
+            android:layout_margin="5dp"
             android:textAllCaps="false"
-
+            android:textColor="@color/text_on_secondary"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <com.example.recipeapp.customviews.SearchSpinnerView
@@ -147,12 +158,13 @@
             />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/search_background"
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/searchByName"
             app:layout_constraintTop_toBottomOf="@id/searchByApi"
             android:layout_margin="5dp"
-            android:background="@color/orange"
             >
             <TextView
                 app:layout_constraintTop_toTopOf="parent"
@@ -172,12 +184,15 @@
                 android:id="@+id/edUsername"
                 />
             <androidx.appcompat.widget.AppCompatButton
+                android:textColor="@color/text_on_secondary"
                 android:id="@+id/btnSearchUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Search"
                 android:textAllCaps="false"
                 app:layout_constraintTop_toBottomOf="@id/edUsername"
+                android:background="@drawable/button_background"
+                android:layout_margin="5dp"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
