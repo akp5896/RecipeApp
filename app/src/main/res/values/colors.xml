@@ -11,6 +11,7 @@
     <color name="light_gray">#CCCCCC</color>
     <color name="orange">#f5b342</color>
     <color name="transparent_white">#AAFFFFFF</color>
+    <color name="transparent_theme">#333700B3</color>
     <color name="primary_orange">#ffa726</color>
     <color name="light_orange">#ffd95b</color>
     <color name="dark_orange">#c77800</color>

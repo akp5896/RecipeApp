@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.recipeapp">
-
+    package="com.example.recipeapp"
+    android:usesCleartextTraffic="true"
+    >
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required for Nearby Connections -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -28,7 +30,12 @@
         android:theme="@style/Theme.RecipeApp"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.UserProfileActivity"
+            android:name=".ReviewsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.IngredientsActivity"
+            android:exported="false" />
+        <activity android:name=".Activities.UserProfileActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.AddRecipeActivity"
@@ -38,9 +45,6 @@
             android:exported="false" />
         <activity
             android:name=".Activities.SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.IngredientsActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.DetailsActivity"
@@ -57,6 +61,7 @@
         <activity
             android:name=".Activities.MainActivity"
             android:exported="true" />
+
         <receiver android:name=".Utils.NotificationAlarmReceiver" />
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -69,6 +74,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+>>>>>>> f7834780631bf1a9e9cd70f4ad3ec6263f26545c
     </application>
 
 </manifest>

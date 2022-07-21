@@ -43,6 +43,7 @@ public class DetailsActivity extends AppCompatActivity {
     private static final String TAG = "DETAILS ACTIVITY";
     ActivityDetailsBinding binding;
     public static final String RECIPE = "recipe";
+    public static final String RECIPE_ID = "id";
     public static final String INGREDIENTS = "ingredients";
 
     DetailsViewModel viewModel;

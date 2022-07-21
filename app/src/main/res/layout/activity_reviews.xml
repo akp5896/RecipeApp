@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.recipeapp.viewmodels.ReviewsViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary_orange"
+        tools:context=".ReviewsActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/recipe_background"
+        android:layout_height="match_parent"
+        tools:context=".ReviewsActivity">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvTitle"
+            android:text="@{viewModel.title}"
+            tools:text="Sample title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="10dp"
+            android:layout_marginBottom="-10dp"
+            android:textSize="18sp"
+            android:textColor="@color/text_on_secondary"
+            android:background="@color/secondary_blue"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/rvReviews"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintBottom_toTopOf="@+id/edReviewText"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivPhoto"
+            app:layout_constraintBottom_toTopOf="@id/edReviewText"
+            android:src="@drawable/heart"
+            android:visibility="gone"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minLines="3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/edReviewText"
+            android:background="@color/light_orange"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@={viewModel.body}"
+            />
+        <ImageView
+            android:id="@+id/camera"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            app:layout_constraintBottom_toTopOf="@id/edReviewText"
+            android:onClick="@{() -> viewModel.takePhoto()}"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/btnSend"
+            android:onClick="@{() -> viewModel.post()}"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_on_secondary"
+            android:text="@string/send"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
