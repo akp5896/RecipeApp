@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -25,6 +26,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
+import com.example.recipeapp.ReviewsActivity;
 import com.example.recipeapp.Utils.ShareRecipe;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.StepViewModel;
@@ -65,6 +67,15 @@ public class DetailsActivity extends AppCompatActivity {
 
         binding.options.like.setOnClickListener(v -> viewModel.onLike());
         binding.options.share.setOnClickListener(v -> onShare(recipe));
+        binding.options.review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DetailsActivity.this, ReviewsActivity.class);
+                i.putExtra(RECIPE, recipe.getTitle());
+                i.putExtra(RECIPE_ID, recipe.getId());
+                startActivity(i);
+            }
+        });
 
         viewModel.liked.observe(this, aBoolean -> Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show());
         viewModel.numberOfLikes.observe(this, numberOfLikes -> binding.tvLikes.setText(String.valueOf(numberOfLikes)));
