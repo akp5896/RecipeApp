@@ -38,6 +38,16 @@
     <string name="share_recipe">Share recipe</string>
     <string name="accept_recipe">accept_recipe</string>
     <string name="sharing_started">Sharing started</string>
+    <string name="saving_success">Saving successful</string>
+    <string name="saveing_fail">Saving failed</string>
+    <string name="or_search_by_username">Or search by username:</string>
+    <string name="title">Title</string>
+    <string name="summary">Summary</string>
+    <string name="time">Time</string>
+    <string name="servings">Servings</string>
+    <string name="add">Add</string>
+    <string name="steps">Steps:</string>
+    <string name="upload">Upload</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

@@ -41,6 +41,11 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.BindableView
         notifyDataSetChanged();
     }
 
+    public void add(StepViewModel item) {
+        data.add(item);
+        notifyItemInserted(data.size() - 1);
+    }
+
     @Override
     public int getItemCount() {
         return data.size();

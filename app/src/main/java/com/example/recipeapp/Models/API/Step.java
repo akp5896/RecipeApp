@@ -16,6 +16,8 @@ public class Step{
     @SerializedName("step")
     String step;
 
+    public Step() {}
+
     public int getNumber() {
         return number;
     }
@@ -29,6 +31,11 @@ public class Step{
     }
 
     public void setStep(String step) {
+        this.step = step;
+    }
+
+    public Step(int number, String step) {
+        this.number = number;
         this.step = step;
     }
 }

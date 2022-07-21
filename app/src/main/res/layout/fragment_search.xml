@@ -12,7 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp">
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/orange"
+            android:layout_margin="5dp"
+            android:id="@+id/searchByApi"
+            >
         <TextView
             android:id="@+id/tvSearch"
             android:layout_width="wrap_content"
@@ -116,7 +123,7 @@
 
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <com.example.recipeapp.CustomViews.SearchSpinnerView
+        <com.example.recipeapp.customviews.SearchSpinnerView
             android:id="@+id/spinnerType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -127,7 +134,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/checkboxExcludeCuisine" />
 
-        <com.example.recipeapp.CustomViews.SearchSpinnerView
+        <com.example.recipeapp.customviews.SearchSpinnerView
             app:hasIcon="true"
             android:id="@+id/spinnerCuisine"
             android:layout_width="0dp"
@@ -138,5 +145,40 @@
             app:layout_constraintTop_toBottomOf="@id/etTitle"
 
             />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchByName"
+            app:layout_constraintTop_toBottomOf="@id/searchByApi"
+            android:layout_margin="5dp"
+            android:background="@color/orange"
+            >
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:text="@string/or_search_by_username"
+                android:id="@+id/tvByUsername"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvByUsername"
+                android:hint="Enter username"
+                android:id="@+id/edUsername"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSearchUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toBottomOf="@id/edUsername"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

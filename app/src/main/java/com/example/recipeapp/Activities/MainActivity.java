@@ -50,6 +50,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
+import com.example.recipeapp.Fragments.UserFeedFragment;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.example.recipeapp.Utils.ShareRecipe;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private static final long ALARM_INTERVAL = 20 * 60 * 1000;
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    FeedFragment feedFragment = new FeedFragment();
+    UserFeedFragment userFeedFragment = new UserFeedFragment();
     SearchFragment searchFragment = new SearchFragment();
     SuggestFragment suggestFragment = new SuggestFragment();
 
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.feed:
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, userFeedFragment).commit();
                         return true;
                     case R.id.search:
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, searchFragment).commit();
@@ -132,6 +133,12 @@ public class MainActivity extends AppCompatActivity {
         setNotifications();
         binding.bottomNavigation.setSelectedItemId(R.id.search);
 
+        binding.drawer.fabAddRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AddRecipeActivity.class));
+            }
+        });
     }
 
     public ProfileLayoutBinding getProfileLayoutBinding() {
@@ -170,10 +177,6 @@ public class MainActivity extends AppCompatActivity {
             ShareRecipe.startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         }
         return true;
-    }
-
-    public FeedFragment getFeedFragment() {
-        return feedFragment;
     }
 
     public ActivityMainBinding getBinding() {

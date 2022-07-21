@@ -15,7 +15,7 @@
         app:searchIcon="@null"
         />
 
-    <com.example.recipeapp.CustomViews.WrappingListView
+    <com.example.recipeapp.customviews.WrappingListView
         android:id="@+id/suggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

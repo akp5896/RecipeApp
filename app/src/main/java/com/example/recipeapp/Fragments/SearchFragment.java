@@ -1,11 +1,14 @@
 package com.example.recipeapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,21 +18,23 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.example.recipeapp.Activities.UserProfileActivity;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.Activities.MainActivity;
+import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.RecipeTitle;
 import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Utils.LeftSwipeListener;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
-import com.example.recipeapp.databinding.ProfileLayoutBinding;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -86,27 +91,18 @@ public class SearchFragment extends LeftSwipeDrawerFragment {
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
-                            call.enqueue(callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getIngredientAutocomplete(query)));
         binding.edInclude.setAdapter(
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
-                            call.enqueue(callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getIngredientAutocomplete(query)));
 
         binding.etTitle.setAdapter(
                 new AutoCompleteAdapter<RecipeTitle>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            Call<List<RecipeTitle>> call = service.getTitleAutocomplete(BuildConfig.API_KEY, query, 5);
-                            call.enqueue(callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getTitleAutocomplete(query)));
 
         includedAdapter = new IngredientFilterAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
@@ -129,6 +125,12 @@ public class SearchFragment extends LeftSwipeDrawerFragment {
         });
 
         binding.btnSearch.setOnClickListener(v -> searchListener());
+
+        binding.btnSearchUsername.setOnClickListener(v -> {
+            Intent i = new Intent(getContext(), UserProfileActivity.class);
+            i.putExtra(UserProfileActivity.USERNAME, binding.edUsername.getText().toString());
+            startActivity(i);
+        });
     }
 
     private void searchListener() {
@@ -140,31 +142,11 @@ public class SearchFragment extends LeftSwipeDrawerFragment {
             cuisine = putWithEmptyCheck(binding.spinnerCuisine.getSelectedItem());
         }
 
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-        Call<Envelope<List<Recipe>>> call = service.getRecipesWithFilters(BuildConfig.API_KEY, putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
+        ApiCallParams params = new ApiCallParams(putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
-                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()),
-                Settings.getIntolerances(), Settings.getDiet(), RecipeApi.RECIPE_INFORMATION_VALUE);
+                putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()));
 
-        call.enqueue(new Callback<Envelope<List<Recipe>>>() {
-            @Override
-            public void onResponse(Call<Envelope<List<Recipe>>> call, Response<Envelope<List<Recipe>>> response) {
-                FeedFragment feedFragment = ((MainActivity) getActivity()).getFeedFragment();
-                feedFragment.getRecipes().clear();
-                feedFragment.getRecipes().addAll(response.body().results);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.animator.search_to_feed, R.animator.feed_to_search)
-                        .replace(R.id.fragmentPlaceholder, feedFragment)
-                        .commit();
-            }
-
-            @Override
-            public void onFailure(Call<Envelope<List<Recipe>>> call, Throwable t) {
-                Log.e(TAG, "Recipes search failed: " + t);
-            }
-        });
-
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentPlaceholder, SearchFeedFragment.newInstance(params)).commit();
     }
 
     private String putWithEmptyCheck(CharSequence chars) {

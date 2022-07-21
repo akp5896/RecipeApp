@@ -78,7 +78,7 @@ public class DetailsViewModel extends ViewModel {
             Log.w(TAG, "Failed to load instructions");
             return;
         }
-        for(Step item : recipe.getAnalyzedInstructions().get(0).results) {
+        for(Step item : recipe.getAnalyzedInstructions()) {
             stepViewModels.add(new StepViewModel(item.getStep(), item.getNumber()));
         }
         steps.setValue(stepViewModels);
