@@ -20,6 +20,7 @@ import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -152,7 +153,7 @@ public class RecipesRepository {
                 List<Recipe> result = new ArrayList<>();
                 for(ParseRecipeData recipeData : recipes) {
                     Recipe recipe = new Recipe(recipeData.getTitle(),
-                            "",
+                            getUri(recipeData.getMedia()),
                             0L,
                             recipeData.getTime(),
                             0d,
@@ -169,6 +170,13 @@ public class RecipesRepository {
             }
         });
         return response;
+    }
+
+    private String getUri(ParseFile media) {
+        if(media == null) {
+            return "";
+        }
+        return media.getUrl();
     }
 
     public MutableLiveData<List<RecipeTitle>> getTitleAutocomplete(String query) {

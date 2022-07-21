@@ -1,7 +1,13 @@
 package com.example.recipeapp.viewmodels;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,9 +15,12 @@ import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.ParseRecipeData;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +36,9 @@ public class AddRecipeViewModel extends ViewModel {
     public MutableLiveData<String> addedIngredient = new MutableLiveData<>();
     List<Step> steps = new ArrayList<>();
     public MutableLiveData<Step> addedStep = new MutableLiveData<>();
-
+    public MutableLiveData<Boolean> takePicture = new MutableLiveData<>();
     public MutableLiveData<Boolean> savingResult = new MutableLiveData<>();
+    Bitmap selectedImage;
 
     public void saveRecipe() {
         ParseRecipeData parseRecipeData = new ParseRecipeData();
@@ -39,6 +49,7 @@ public class AddRecipeViewModel extends ViewModel {
         parseRecipeData.setIngredients(ingredients);
         parseRecipeData.setSteps(steps);
         parseRecipeData.setAuthor(ParseUser.getCurrentUser().getUsername());
+        parseRecipeData.setMedia(bitmapToParseFile(selectedImage));
         parseRecipeData.saveInBackground(e -> {
             if(e != null) {
                 Log.w(TAG, "Something went wrong: " + e);
@@ -47,6 +58,14 @@ public class AddRecipeViewModel extends ViewModel {
             }
             savingResult.postValue(true);
         });
+    }
+
+    public Intent onPickPhoto() {
+        // Create intent for picking a photo from the gallery
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        return intent;
     }
 
     public void addStep() {
@@ -58,6 +77,10 @@ public class AddRecipeViewModel extends ViewModel {
     public void addIngredient() {
         ingredients.add(currentIngredient);
         addedIngredient.postValue(currentIngredient);
+    }
+
+    public void takePhoto() {
+        takePicture.setValue(true);
     }
 
     public List<String> getIngredients() {
@@ -126,5 +149,36 @@ public class AddRecipeViewModel extends ViewModel {
 
     public void setCurrentStep(String currentStep) {
         this.currentStep = currentStep;
+    }
+
+    public Bitmap loadFromUri(Uri photoUri, Activity loadActivity) {
+        Bitmap image = null;
+        try {
+            ImageDecoder.Source source = ImageDecoder.createSource(loadActivity.getContentResolver(), photoUri);
+            image = ImageDecoder.decodeBitmap(source);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    public Bitmap getSelectedImage() {
+        return selectedImage;
+    }
+
+    public void setSelectedImage(Bitmap selectedImage) {
+        this.selectedImage = selectedImage;
+    }
+
+    @Nullable
+    public static ParseFile bitmapToParseFile(Bitmap image) {
+        if(image == null)
+            return null;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bitmapBytes = stream.toByteArray();
+
+        ParseFile result = new ParseFile("myImage.jpg", bitmapBytes);
+        return result;
     }
 }

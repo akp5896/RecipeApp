@@ -3,6 +3,7 @@ package com.example.recipeapp.Models.Parse;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import org.json.JSONArray;
@@ -20,6 +21,18 @@ public class ParseRecipeData extends ParseObject {
     public static final String KEY_INGREDIENTS = "ingredients";
     public static final String KEY_STEPS = "steps";
     public static final String KEY_AUTHOR = "author";
+    public static final String KEY_MEDIA = "photo";
+
+    public void setMedia(ParseFile file) {
+        if(file == null) {
+            return;
+        }
+        put(KEY_MEDIA, file);
+    }
+
+    public ParseFile getMedia() {
+        return getParseFile(KEY_MEDIA);
+    }
 
     public void setTitle(String title) {
         put(KEY_TITLE, title);
