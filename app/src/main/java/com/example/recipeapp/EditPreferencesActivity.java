@@ -1,6 +1,7 @@
 package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.preference.PreferenceManager;
 
@@ -15,6 +16,7 @@ import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.CustomViews.MultipleSpinnerItem;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Settings;
+import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ActivityEditPreferencesBinding;
@@ -87,10 +89,7 @@ public class EditPreferencesActivity extends AppCompatActivity {
                 new AutoCompleteAdapter<Ingredient>(
                         this,
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            Call<List<Ingredient>> call = service.getIngredientAutocomplete(BuildConfig.API_KEY, query, 5);
-                            call.enqueue(callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getIngredientAutocomplete(query)));
         banned.addAll(Settings.getBanned());
         banAdapter = new IngredientFilterAdapter(banned, R.layout.item);
         binding.rvBan.setAdapter(banAdapter);

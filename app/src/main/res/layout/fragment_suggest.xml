@@ -16,7 +16,10 @@
         tools:context=".Fragments.SuggestFragment">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/search_background">
             <TextView
                 android:id="@+id/tvIHave"
                 android:layout_width="wrap_content"
@@ -44,6 +47,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/edIngredients"/>
             <androidx.appcompat.widget.AppCompatButton
+                android:background="@drawable/button_background"
+                android:textColor="@color/text_on_secondary"
                 android:id="@+id/btnAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,6 +59,8 @@
                 app:layout_constraintTop_toTopOf="@+id/edIngredients" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSuggest"
+                android:background="@drawable/button_background"
+                android:textColor="@color/text_on_secondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Suggest"
