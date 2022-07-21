@@ -13,7 +13,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapp.Adapters.ReviewsAdapter;
+import com.example.recipeapp.Models.Parse.RecipeReviewBuilder;
 import com.example.recipeapp.Models.Parse.Review;
+import com.example.recipeapp.Models.Parse.ReviewBuilder;
 import com.example.recipeapp.Repositories.ReviewRepository;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -111,11 +113,9 @@ public class ReviewsViewModel extends ViewModel {
     }
 
     public void post() {
-        Review review = new Review();
-        review.setBody(body);
-        review.setAuthor(ParseUser.getCurrentUser());
-        review.setMedia(bitmapToParseFile(selectedImage));
-        review.setReviewTo(reviewTo);
+        RecipeReviewBuilder recipeReviewBuilder = new RecipeReviewBuilder();
+        recipeReviewBuilder.build(body, ParseUser.getCurrentUser(), bitmapToParseFile(selectedImage), reviewTo);
+        Review review = recipeReviewBuilder.getReview();
         review.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
