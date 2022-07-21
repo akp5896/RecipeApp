@@ -19,8 +19,6 @@ import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.databinding.RecipeItemBinding;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -89,7 +87,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                     item.getTaste(new Callback<Taste>() {
                         @Override
                         public void onResponse(Call<Taste> call, Response<Taste> response) {
-                            Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
+                            Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.KEY_PREFERENCES);
                             preferences.updatePreferences(item, response.body());
                             preferences.saveInBackground();
                         }
