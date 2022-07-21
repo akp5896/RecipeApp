@@ -20,8 +20,24 @@
     <string name="exclude">Exclude:</string>
     <string name="Liked">Liked</string>
     <string name="login_issue">Issue with login</string>
+    <string name="login_failure">Unable to login: %1$s</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="invalid_credentials">Invalid credentials</string>
     <string name="liked">Liked</string>
+    <string name="fish">this is extremely long and overcomplicated biography that only takes up valuable space that could have been used for something else</string>
+    <string name="no_bio">No biography yet.</string>
     <string name="try_recipe">Try %1$s!</string>
+    <string name="i_have">I have...</string>
+    <string name="add">Add</string>
+    <string name="connection_rejected">Connection was rejected</string>
+    <string name="connection_broken">Connection broke</string>
+    <string name="unknow_error">Unknown error occurred</string>
+    <string name="choose_sharing">Choose sharing method</string>
+    <string name="share_question">Do you want to share a widget or a recipe?</string>
+    <string name="share_widget">Share a widget</string>
+    <string name="share_recipe">Share recipe</string>
+    <string name="accept_recipe">accept_recipe</string>
+    <string name="sharing_started">Sharing started</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

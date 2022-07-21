@@ -31,6 +31,7 @@ public class Preferences extends ParseObject {
     public static final String KEY_NAME = "name";
     public static final String KEY_COUNTER = "counter";
     private static final String TAG = "PREFERENCES";
+    public static final String PREFERENCES = "PREFERENCES";
 
     private static Preferences generalPreferences = null;
 

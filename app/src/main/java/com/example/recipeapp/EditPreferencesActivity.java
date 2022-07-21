@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.Adapters.CheckboxAdapter;
+import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.CustomViews.MultipleSpinnerItem;
 import com.example.recipeapp.Models.Ingredient;
@@ -36,7 +37,7 @@ public class EditPreferencesActivity extends AppCompatActivity {
     public static final String INTOLERANCES = "intolerances";
     public static final String BANNED = "banned";
     ActivityEditPreferencesBinding binding;
-    StepsAdapter banAdapter;
+    IngredientFilterAdapter banAdapter;
     List<String> banned = new ArrayList<>();
     PreferenceScreenViewModel viewModel;
     CheckboxAdapter cuisineAdapter;
@@ -91,7 +92,7 @@ public class EditPreferencesActivity extends AppCompatActivity {
                             call.enqueue(callback);
                         }));
         banned.addAll(Settings.getBanned());
-        banAdapter = new StepsAdapter(banned, R.layout.item);
+        banAdapter = new IngredientFilterAdapter(banned, R.layout.item);
         binding.rvBan.setAdapter(banAdapter);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);

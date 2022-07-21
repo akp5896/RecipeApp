@@ -8,6 +8,12 @@
         android:icon="@drawable/ic_logout"
         android:title="@string/logout"
         android:iconTint="@color/white"
-        app:showAsAction="always" />
-
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/accept_recipe"
+        android:icon="@drawable/ic_baseline_cell_tower_24"
+        android:title="@string/accept_recipe"
+        android:iconTint="@color/white"
+        android:foreground="?android:attr/selectableItemBackground"
+    app:showAsAction="ifRoom" />
 </menu>

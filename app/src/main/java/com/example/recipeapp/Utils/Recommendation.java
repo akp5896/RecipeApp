@@ -18,6 +18,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -45,6 +48,8 @@ public class Recommendation {
         }
 
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        // I think it's ok to live a call here, since Recommendations acts as a repository
+        // Should I rename it?
         Call<Envelope<List<Recipe>>> call = service.getSortedRecipes(BuildConfig.API_KEY,
                 getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_CUISINE),
                 getListRecommendation(currentPreferences, generalPreferences, Preferences.KEY_USER_DIET),
@@ -81,7 +86,7 @@ public class Recommendation {
                 List<Recipe> recipes = response.body().results;
                 Executor.Builder builder = new Executor.Builder();
                 for(Recipe recipe : recipes) {
-                    builder = builder.add(() -> recipe.getTaste(current));
+                    builder = builder.add(() -> getTaste(recipe, current));
                 }
                 builder = builder.callback(() -> {
                     Collections.sort(recipes, Comparator.comparingDouble(Recipe::getUserRating));
@@ -95,6 +100,17 @@ public class Recommendation {
                 Log.e(TAG, "Failed " + t);
             }
         };
+    }
+
+    public static void getTaste(Recipe recipe, Preferences current) {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        Call<Taste> call = service.getTasteById(recipe.getId(), BuildConfig.API_KEY);
+        try {
+            Response<Taste> response = call.execute();
+            recipe.setUserRating(Recommendation.getRecipeDistance(recipe, response.body(), current));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String getListRecommendation(Preferences current, Preferences general, String key) {
