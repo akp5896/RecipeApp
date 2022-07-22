@@ -121,7 +121,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/btnSearch"
-            app:layout_constraintTop_toBottomOf="@+id/edExclude" />
+            app:layout_constraintTop_toBottomOf="@+id/edExclude"
+            android:layout_marginBottom="15dp"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSearch"
@@ -129,7 +131,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"
             android:text="Search"
-            android:layout_margin="5dp"
             android:textAllCaps="false"
             android:textColor="@color/text_on_secondary"
             app:layout_constraintBottom_toBottomOf="parent" />
