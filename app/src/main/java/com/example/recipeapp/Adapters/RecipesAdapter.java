@@ -141,9 +141,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     37);
         }
-        ((MainActivity) context).fusedLocationClient.getLastLocation()
-                .addOnSuccessListener((Activity) context, onSuccess)
-                .addOnFailureListener(e -> Log.e(TAG, "error" + e));
+        if(context instanceof MainActivity) {
+            ((MainActivity) context).fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener((Activity) context, onSuccess)
+                    .addOnFailureListener(e -> Log.e(TAG, "error" + e));
+        }
     }
 }
 
