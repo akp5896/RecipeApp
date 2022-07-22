@@ -34,6 +34,17 @@ public class Ingredient extends RetrofitAutocomplete{
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Ingredient(String name, Long id) {
         this.name = name;
         this.id = id;

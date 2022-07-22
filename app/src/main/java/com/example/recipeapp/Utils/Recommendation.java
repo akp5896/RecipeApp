@@ -46,7 +46,16 @@ public class Recommendation {
             Log.e(TAG, "Cannot find general preferences");
             return;
         }
-
+        try {
+            currentPreferences.fetchIfNeeded();
+            generalPreferences.fetchIfNeeded();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int time = currentPreferences.getMaxTime().intValue();
+        if(time == 0) {
+            time = 180;
+        }
         RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         // I think it's ok to live a call here, since Recommendations acts as a repository
         // Should I rename it?

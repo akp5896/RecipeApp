@@ -2,13 +2,21 @@ package com.example.recipeapp.Models.Parse;
 
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Utils.Recommendation;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @ParseClassName("UserTaste")
@@ -52,7 +60,6 @@ public class Taste extends ParseObject {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
     public Double getSweetness() {

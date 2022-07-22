@@ -28,6 +28,10 @@ import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Repositories.RecipesRepository;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.databinding.ItemBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.parse.ParseGeoPoint;
@@ -76,6 +80,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
         this.recipes.addAll(recipes);
         diffResult.dispatchUpdatesTo(this);
     }
+
     class RecipesViewHolder extends RecyclerView.ViewHolder{
 
         RecipeItemBinding binding;
@@ -117,7 +122,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                             }
                         });
                     }
-                    item.getTaste(new Callback<Taste>() {
+                    RecipesRepository.getRepository().getTaste(item.getId(), new Callback<Taste>() {
                         @Override
                         public void onResponse(Call<Taste> call, Response<Taste> response) {
                             Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.KEY_PREFERENCES);

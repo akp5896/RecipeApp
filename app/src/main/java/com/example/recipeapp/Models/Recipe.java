@@ -1,9 +1,13 @@
 package com.example.recipeapp.Models;
 
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 import androidx.annotation.Nullable;
 
 import com.example.recipeapp.BuildConfig;
@@ -30,6 +34,7 @@ import com.ryanharter.auto.value.parcel.ParcelAdapter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 import org.parceler.Transient;
 
 import java.io.IOException;
@@ -41,43 +46,62 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@org.parceler.Parcel
+@Entity
+@Parcel
 public class Recipe {
     private static final String TAG = "TASTE";
     private static final double INVALID_RATING = -1;
+    @ColumnInfo
     @SerializedName("title")
-    String title;
+    public String title;
+    @ColumnInfo
     @SerializedName("image")
-    String image;
+    public String image;
+    @ColumnInfo
+    @PrimaryKey
     @SerializedName("id")
-    Long id;
+    public Long id;
+    @ColumnInfo
     @SerializedName("readyInMinutes")
-    Integer readyInMinutes;
+    public Integer readyInMinutes;
+    @ColumnInfo
     @SerializedName("healthScore")
-    Double healthScore;
+    public Double healthScore;
+    @ColumnInfo
     @SerializedName("pricePerServing")
-    Double pricePerServing;
+    public Double pricePerServing;
+    @ColumnInfo
     @SerializedName("servings")
-    Integer servings;
-    @SerializedName("analyzedInstructions")
+    public Integer servings;
     @Nullable
-    List<Step> analyzedInstructions;
+    @ColumnInfo
+    public List<Step> analyzedInstructions;
+    @Nullable
+    @ColumnInfo
     @SerializedName("extendedIngredients")
-    @Nullable
-    List<Ingredient> ingredients;
+    public List<Ingredient> ingredients;
     @SerializedName("cuisines")
-    List<String> cuisines;
+    @ColumnInfo
+    public List<String> cuisines;
     @SerializedName("diets")
-    List<String> diets;
+    @ColumnInfo
+    public List<String> diets;
     @SerializedName("summary")
+    @ColumnInfo
     public String summary;
+
+    @ColumnInfo
+    @Transient
+    public Boolean isBookmarked;
 
     /**
      * Set to an invalid value to make debugging easier
      */
     @Transient
     double userRating = INVALID_RATING;
+
     public Recipe(){}
+    @Ignore
     public Recipe(String title, String image, Long id, Integer readyInMinutes, Double healthScore, Double pricePerServing, Integer servings, @Nullable List<Step> analyzedInstructions, @Nullable List<Ingredient> ingredients, List<String> cuisines, List<String> diets, String summary) {
         this.title = title;
         this.image = image;
@@ -91,7 +115,6 @@ public class Recipe {
         this.cuisines = cuisines;
         this.diets = diets;
         this.summary = summary;
-        this.userRating = userRating;
     }
 
     public void getTaste(Callback<Taste> callback) {

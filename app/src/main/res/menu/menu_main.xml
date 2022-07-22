@@ -7,19 +7,25 @@
         android:id="@+id/logout"
         android:icon="@drawable/ic_logout"
         android:title="@string/logout"
-        android:iconTint="@color/white"
+        android:iconTint="@color/text_on_primary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bookmark"
+        android:icon="@drawable/ic_baseline_bookmark_24"
+        android:title="@string/bookmarks"
+        android:iconTint="@color/text_on_primary"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/accept_recipe"
         android:icon="@drawable/ic_baseline_cell_tower_24"
         android:title="@string/accept_recipe"
-        android:iconTint="@color/white"
+        android:iconTint="@color/text_on_primary"
         android:foreground="?android:attr/selectableItemBackground"
     app:showAsAction="ifRoom" />
     <item
         android:id="@+id/getNearby"
         android:icon="@drawable/ic_baseline_near_me_24"
         android:title="@string/get_nearby_recommendations"
-        android:iconTint="@color/white"
+        android:iconTint="@color/text_on_primary"
         app:showAsAction="ifRoom" />
 </menu>

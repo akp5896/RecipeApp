@@ -44,9 +44,6 @@ public class Settings {
     }
 
     public static List<String> getCuisines() {
-        if(cuisines.size() == 0) {
-            return null;
-        }
         return cuisines;
     }
 
@@ -55,9 +52,6 @@ public class Settings {
     }
 
     public static String getIntolerances() {
-        if(intolerances.size() == 0) {
-            return null;
-        }
         return String.join(",", intolerances);
     }
 
@@ -66,9 +60,6 @@ public class Settings {
     }
 
     public static String getBannedString() {
-        if(banned.size() == 0) {
-            return null;
-        }
         return String.join(",", banned);
     }
 

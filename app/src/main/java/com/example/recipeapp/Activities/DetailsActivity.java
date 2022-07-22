@@ -94,9 +94,11 @@ public class DetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        binding.options.bookmark.setOnClickListener(v -> viewModel.bookmark());
 
         viewModel.liked.observe(this, aBoolean -> Toast.makeText(DetailsActivity.this, R.string.liked, Toast.LENGTH_SHORT).show());
         viewModel.numberOfLikes.observe(this, numberOfLikes -> binding.tvLikes.setText(String.valueOf(numberOfLikes)));
+        viewModel.bookmarkToast.observe(this, messageId -> Toast.makeText(DetailsActivity.this, messageId, Toast.LENGTH_SHORT).show());
 
         viewModel.widgetLoaded.observe(this, url -> Glide.with(getApplicationContext()).asBitmap().load(url).into(new CustomTarget<Bitmap>() {
             @Override

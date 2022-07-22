@@ -9,6 +9,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
 import com.example.recipeapp.EditPreferencesActivity;
+import com.example.recipeapp.Fragments.BookmarkFeedFragment;
 import com.example.recipeapp.Fragments.FeedFragment;
 import com.example.recipeapp.Fragments.RecommendListFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     UserFeedFragment userFeedFragment = new UserFeedFragment();
     SearchFragment searchFragment = new SearchFragment();
     SuggestFragment suggestFragment = new SuggestFragment();
+    BookmarkFeedFragment feedFragment = new BookmarkFeedFragment();
     MainViewModel viewModel;
     public FusedLocationProviderClient fusedLocationClient;
 
@@ -207,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
                     RecommendListFragment.newInstance(recipes).show(fragmentManager, "");
                 }
             });
+        }
+        if(item.getItemId() == R.id.bookmark) {
+            fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
         }
         return true;
     }
