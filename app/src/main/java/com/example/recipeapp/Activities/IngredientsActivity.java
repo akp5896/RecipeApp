@@ -13,6 +13,7 @@ import com.example.recipeapp.databinding.ActivityIngridientsBinding;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientsActivity extends AppCompatActivity {
@@ -34,7 +35,9 @@ public class IngredientsActivity extends AppCompatActivity {
 
         // Since there are limited number of call on free api, and a lot of ingredients, this line is used for testing.
         //ingredients = ingredients.stream().limit(2).collect(Collectors.toList());
-
+        if(ingredients == null) {
+            ingredients = new ArrayList<>();
+        }
         adapter = new IngredientsAdapter(ingredients, this);
 
         binding.rvIngredients.setLayoutManager(new LinearLayoutManager(this));

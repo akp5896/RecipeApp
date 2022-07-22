@@ -62,7 +62,9 @@ public class DetailsViewModel extends ViewModel {
             repo.reloadRecipe(passedRecipe.getId(), new Callback<Recipe>() {
                 @Override
                 public void onResponse(Call<Recipe> call, Response<Recipe> response) {
-                    recipe = response.body();
+                    if(response.body() != null) {
+                        recipe = response.body();
+                    }
                     setDetails();
                 }
 
