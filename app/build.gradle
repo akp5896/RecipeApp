@@ -89,4 +89,6 @@ dependencies {
 
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.9'
     implementation 'com.ryanharter.auto.value:auto-value-parcel-adapter:0.2.9'
+
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
 }

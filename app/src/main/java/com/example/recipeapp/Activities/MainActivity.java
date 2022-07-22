@@ -3,13 +3,17 @@ package com.example.recipeapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
 import com.example.recipeapp.EditPreferencesActivity;
 import com.example.recipeapp.Fragments.FeedFragment;
+import com.example.recipeapp.Fragments.RecommendListFragment;
 import com.example.recipeapp.Fragments.SearchFragment;
 import com.example.recipeapp.Fragments.SuggestFragment;
+import com.example.recipeapp.Models.Parse.Like;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -29,8 +33,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -55,14 +61,24 @@ import com.example.recipeapp.R;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.example.recipeapp.Utils.ShareRecipe;
 import com.example.recipeapp.databinding.ActivityMainBinding;
+import com.example.recipeapp.viewmodels.LoginViewModel;
+import com.example.recipeapp.viewmodels.MainViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
     UserFeedFragment userFeedFragment = new UserFeedFragment();
     SearchFragment searchFragment = new SearchFragment();
     SuggestFragment suggestFragment = new SuggestFragment();
+    MainViewModel viewModel;
+    public FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        binding.setViewModel(viewModel);
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -139,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, AddRecipeActivity.class));
             }
         });
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     public ProfileLayoutBinding getProfileLayoutBinding() {
@@ -176,7 +199,27 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Now ready to accept shared recipes", Toast.LENGTH_LONG).show();
             ShareRecipe.startDiscovery(this, ParseUser.getCurrentUser().getUsername());
         }
+        if(item.getItemId() == R.id.getNearby) {
+            getLocation(viewModel.getLikesInLocationListener());
+            viewModel.recipesNearby.observe(this, new Observer<List<Pair<String, Long>>>() {
+                @Override
+                public void onChanged(List<Pair<String, Long>> recipes) {
+                    RecommendListFragment.newInstance(recipes).show(fragmentManager, "");
+                }
+            });
+        }
         return true;
+    }
+
+    private void getLocation(OnSuccessListener<? super Location> onSuccess) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    37);
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, onSuccess)
+                .addOnFailureListener(e -> Log.e(TAG, "error" + e));
     }
 
     public ActivityMainBinding getBinding() {

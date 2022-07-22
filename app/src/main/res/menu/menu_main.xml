@@ -16,4 +16,10 @@
         android:iconTint="@color/white"
         android:foreground="?android:attr/selectableItemBackground"
     app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/getNearby"
+        android:icon="@drawable/ic_baseline_near_me_24"
+        android:title="@string/get_nearby_recommendations"
+        android:iconTint="@color/white"
+        app:showAsAction="ifRoom" />
 </menu>

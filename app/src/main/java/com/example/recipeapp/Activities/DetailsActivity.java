@@ -26,10 +26,12 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.recipeapp.Adapters.StepsAdapter;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.ReviewsActivity;
 import com.example.recipeapp.Utils.ShareRecipe;
 import com.example.recipeapp.databinding.ActivityDetailsBinding;
 import com.example.recipeapp.viewmodels.StepViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.parse.ParseUser;
 import com.example.recipeapp.viewmodels.DetailsViewModel;
 
@@ -47,6 +49,9 @@ public class DetailsActivity extends AppCompatActivity {
     public static final String RECIPE = "recipe";
     public static final String RECIPE_ID = "id";
     public static final String INGREDIENTS = "ingredients";
+    public static final String RELOAD = "reload";
+
+    public FusedLocationProviderClient fusedLocationClient;
 
     DetailsViewModel viewModel;
     StepsAdapter adapter;
@@ -55,7 +60,17 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
-        Recipe recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
+        boolean reload = getIntent().getBooleanExtra(RELOAD, false);
+
+        Recipe recipe;
+        if(reload) {
+            recipe = new Recipe();
+            recipe.setId(getIntent().getLongExtra(RECIPE_ID, 0));
+        }
+        else {
+            recipe = Parcels.unwrap(getIntent().getParcelableExtra(RECIPE));
+        }
+
         viewModel = new DetailsViewModel(recipe);
         binding.setViewModel(viewModel);
 
@@ -64,6 +79,9 @@ public class DetailsActivity extends AppCompatActivity {
             i.putExtra(DetailsActivity.INGREDIENTS, Parcels.wrap(ingredients));
             startActivity(i);
         });
+
+        // To update the value once the recipe is loaded
+        viewModel.executePendingBindings.observe(this, aBoolean -> binding.invalidateAll());
 
         binding.options.like.setOnClickListener(v -> viewModel.onLike());
         binding.options.share.setOnClickListener(v -> onShare(recipe));
@@ -128,7 +146,6 @@ public class DetailsActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.sharing_started, Toast.LENGTH_LONG).show();
         ShareRecipe.startAdvertising(this, ParseUser.getCurrentUser().getUsername(), recipe);
     }
-
 
     public Uri getLocalBitmapUri(Bitmap bmp) {
         Uri bmpUri = null;

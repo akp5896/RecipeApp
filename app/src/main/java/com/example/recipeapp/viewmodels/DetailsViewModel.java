@@ -1,8 +1,10 @@
 package com.example.recipeapp.viewmodels;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
+import androidx.databinding.BaseObservable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,23 +36,19 @@ public class DetailsViewModel extends ViewModel {
     public MutableLiveData<List<Ingredient>> showIngredients = new MutableLiveData<>();
     public MutableLiveData<List<StepViewModel>> steps = new MutableLiveData<>();
     public MutableLiveData<Integer> numberOfLikes;
+    public MutableLiveData<Boolean> executePendingBindings = new MutableLiveData<>();
     RecipesRepository repo = RecipesRepository.getRepository();
 
     private Recipe recipe;
-    private final String servings;
-    private final String time;
-    private final String image;
+    private String servings;
+    private String time;
+    private String image;
 
     public MutableLiveData<String> widgetLoaded = new MutableLiveData<>();
     public MutableLiveData<Boolean> liked = new MutableLiveData<>();
 
     public DetailsViewModel(Recipe passedRecipe) {
         this.recipe = passedRecipe;
-        servings = passedRecipe.getServings().toString();
-        time = passedRecipe.getReadyInMinutes().toString();
-        image = passedRecipe.getImage();
-        steps.setValue(new ArrayList<>());
-        setDetails();
         if(passedRecipe.getIngredients() == null) {
             repo.reloadRecipe(passedRecipe.getId(), new Callback<Recipe>() {
                 @Override
@@ -65,6 +63,9 @@ public class DetailsViewModel extends ViewModel {
                 }
             });
         }
+        else {
+            setDetails();
+        }
         numberOfLikes = RecipesRepository.getRepository().getLikes(recipe.getId());
     }
 
@@ -73,6 +74,11 @@ public class DetailsViewModel extends ViewModel {
     }
 
     private void setDetails() {
+        servings = recipe.getServings().toString();
+        time = recipe.getReadyInMinutes().toString();
+        image = recipe.getImage();
+        steps.setValue(new ArrayList<>());
+        executePendingBindings.postValue(true);
         List<StepViewModel> stepViewModels = new ArrayList<>();
         if(recipe.getAnalyzedInstructions() == null) {
             Log.w(TAG, "Failed to load instructions");

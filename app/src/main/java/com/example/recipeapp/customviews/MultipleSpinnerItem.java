@@ -1,4 +1,4 @@
-package com.example.recipeapp.CustomViews;
+package com.example.recipeapp.customviews;
 
 public class MultipleSpinnerItem {
     private String title;

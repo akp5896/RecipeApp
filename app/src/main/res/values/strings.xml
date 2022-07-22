@@ -50,6 +50,7 @@
     <string name="steps">Steps:</string>
     <string name="upload">Upload</string>
     <string name="password">Password</string>
+    <string name="get_nearby_recommendations">Get nearby recommendations</string>
     <string-array name="cuisines">
         <item></item>
         <item>African</item>

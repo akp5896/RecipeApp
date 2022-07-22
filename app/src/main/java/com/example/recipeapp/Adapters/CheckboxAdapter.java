@@ -8,9 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.recipeapp.CustomViews.MultipleSpinnerItem;
+import com.example.recipeapp.customviews.MultipleSpinnerItem;
 import com.example.recipeapp.R;
 
 import java.util.ArrayList;

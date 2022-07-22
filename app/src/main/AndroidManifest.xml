@@ -74,7 +74,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
->>>>>>> f7834780631bf1a9e9cd70f4ad3ec6263f26545c
     </application>
 
 </manifest>

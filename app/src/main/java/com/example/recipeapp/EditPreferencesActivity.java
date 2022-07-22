@@ -1,7 +1,6 @@
 package com.example.recipeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.preference.PreferenceManager;
 
@@ -12,8 +11,7 @@ import android.widget.ArrayAdapter;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.Adapters.CheckboxAdapter;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
-import com.example.recipeapp.Adapters.StepsAdapter;
-import com.example.recipeapp.CustomViews.MultipleSpinnerItem;
+import com.example.recipeapp.customviews.MultipleSpinnerItem;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.Repositories.RecipesRepository;
@@ -29,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-
-import retrofit2.Call;
 
 public class EditPreferencesActivity extends AppCompatActivity {
 
