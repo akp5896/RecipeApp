@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.recipeapp.Models.API.SearchApiCallParams;
+import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Repositories.RecipesRepository;
 

@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.annotation.Nullable;
 
@@ -21,6 +22,10 @@ import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.parse.ParseUser;
@@ -51,7 +56,7 @@ public class Recipe {
     public String title;
     @ColumnInfo
     @SerializedName("image")
-    public String getImage;
+    public String image;
     @ColumnInfo
     @PrimaryKey
     @SerializedName("id")
@@ -95,6 +100,29 @@ public class Recipe {
     @Transient
     double userRating = INVALID_RATING;
 
+    public Recipe(){}
+    @Ignore
+    public Recipe(String title, String image, Long id, Integer readyInMinutes, Double healthScore, Double pricePerServing, Integer servings, @Nullable List<Step> analyzedInstructions, @Nullable List<Ingredient> ingredients, List<String> cuisines, List<String> diets, String summary) {
+        this.title = title;
+        this.image = image;
+        this.id = id;
+        this.readyInMinutes = readyInMinutes;
+        this.healthScore = healthScore;
+        this.pricePerServing = pricePerServing;
+        this.servings = servings;
+        this.analyzedInstructions = analyzedInstructions;
+        this.ingredients = ingredients;
+        this.cuisines = cuisines;
+        this.diets = diets;
+        this.summary = summary;
+    }
+
+    public void getTaste(Callback<Taste> callback) {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        Call<Taste> call = service.getTasteById(id, BuildConfig.API_KEY);
+        call.enqueue(callback);
+    }
+
     public double getUserRating() {
         return userRating;
     }
@@ -111,12 +139,12 @@ public class Recipe {
         this.title = title;
     }
 
-    public String getGetImage() {
-        return getImage;
+    public String getImage() {
+        return image;
     }
 
-    public void setGetImage(String getImage) {
-        this.getImage = getImage;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Long getId() {

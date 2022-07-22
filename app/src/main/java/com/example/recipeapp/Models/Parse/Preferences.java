@@ -27,14 +27,13 @@ public class Preferences extends ParseObject {
     public static final String KEY_USER_TASTE = "userTaste";
     public static final String KEY_USER_DIET = "diet";
     public static final String KEY_USER_CUISINE = "cuisine";
-
+    public static final String KEY_PREFERENCES = "preferences";
     public static final String KEY_NAME = "name";
     public static final String KEY_COUNTER = "counter";
     private static final String TAG = "PREFERENCES";
+    public static final String PREFERENCES = "PREFERENCES";
 
     private static Preferences generalPreferences = null;
-
-    public static final String PREFERENCES = "preferences";
 
     public Taste getTaste() {
         return (Taste) getParseObject(KEY_USER_TASTE);
@@ -107,7 +106,6 @@ public class Preferences extends ParseObject {
             gp.updatePreferences(recipe, newTaste);
             gp.saveInBackground();
         }
-
         increment(KEY_NUMBER_OF_VOTES);
         try {
             fetchIfNeeded();

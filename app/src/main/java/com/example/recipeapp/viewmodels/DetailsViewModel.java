@@ -3,12 +3,19 @@ package com.example.recipeapp.viewmodels;
 import android.util.Log;
 import android.widget.ImageView;
 
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.databinding.BaseObservable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.recipeapp.Adapters.StepsAdapter;
+
+import com.example.recipeapp.BuildConfig;
+import com.example.recipeapp.Models.API.RecipeWidget;
 import com.example.recipeapp.Models.API.Step;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.Preferences;
@@ -16,6 +23,11 @@ import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Repositories.RecipesRepository;
+import com.example.recipeapp.Models.Parse.ParseRecipe;
+import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.Repositories.RecipesRepository;
+import com.example.recipeapp.Retrofit.RecipeApi;
+import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -29,19 +41,40 @@ public class DetailsViewModel extends ViewModel {
     private static final String TAG = "DetailsViewModel";
     public MutableLiveData<List<Ingredient>> showIngredients = new MutableLiveData<>();
     public MutableLiveData<Integer> bookmarkToast = new MutableLiveData<>();
-    private MutableLiveData<List<StepViewModel>> steps = new MutableLiveData<>();
+    public MutableLiveData<List<StepViewModel>> steps = new MutableLiveData<>();
     public MutableLiveData<Boolean> liked = new MutableLiveData<>();
+    public MutableLiveData<String> widgetLoaded = new MutableLiveData<>();
     RecipesRepository repo = RecipesRepository.getRepository();
+    public MutableLiveData<Integer> numberOfLikes;
+    public MutableLiveData<Boolean> executePendingBindings = new MutableLiveData<>();
 
     private Recipe recipe;
+    private String servings;
+    private String time;
+    private String image;
+
+
 
     public DetailsViewModel(Recipe passedRecipe) {
         this.recipe = passedRecipe;
-        steps.setValue(new ArrayList<>());
-        setDetails();
-        if(recipe.getIngredients() == null) {
-            repo.reloadRecipe(recipe.getId());
+        if(passedRecipe.getIngredients() == null) {
+            repo.reloadRecipe(passedRecipe.getId(), new Callback<Recipe>() {
+                @Override
+                public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                    recipe = response.body();
+                    setDetails();
+                }
+
+                @Override
+                public void onFailure(Call<Recipe> call, Throwable t) {
+                    Log.e(TAG, "Something went wrong: " + t);
+                }
+            });
         }
+        else {
+            setDetails();
+        }
+        numberOfLikes = RecipesRepository.getRepository().getLikes(recipe.getId());
     }
 
     public MutableLiveData<List<StepViewModel>> getSteps() {
@@ -49,19 +82,23 @@ public class DetailsViewModel extends ViewModel {
     }
 
     private void setDetails() {
+        servings = recipe.getServings().toString();
+        time = recipe.getReadyInMinutes().toString();
+        image = recipe.getImage();
+        steps.setValue(new ArrayList<>());
+        executePendingBindings.postValue(true);
         List<StepViewModel> stepViewModels = new ArrayList<>();
-        if(recipe.analyzedInstructions == null) {
+        if(recipe.getAnalyzedInstructions() == null) {
             Log.w(TAG, "Failed to load instructions");
             return;
         }
-        for(Step item : recipe.analyzedInstructions) {
+        for(Step item : recipe.getAnalyzedInstructions()) {
             stepViewModels.add(new StepViewModel(item.getStep(), item.getNumber()));
         }
         steps.setValue(stepViewModels);
     }
 
-    public void showIngredients() {
-        showIngredients.setValue(recipe.ingredients);
+    public void showIngredients() {showIngredients.setValue(recipe.ingredients);
     }
 
     public void bookmark() {
@@ -92,9 +129,6 @@ public class DetailsViewModel extends ViewModel {
         });
     }
 
-
-
-
     public Recipe getRecipe() {
         return recipe;
     }
@@ -112,7 +146,7 @@ public class DetailsViewModel extends ViewModel {
     }
 
     public String getImage() {
-        return recipe.getImage;
+        return recipe.getImage();
     }
 
     @androidx.databinding.BindingAdapter("recipePhoto")
@@ -120,18 +154,18 @@ public class DetailsViewModel extends ViewModel {
         Glide.with(imageView.getContext()).load(image).into(imageView);
     }
 
-    @androidx.databinding.BindingAdapter("stepsViewModel")
-    public static void bindItemViewModels(RecyclerView recyclerView, List<StepViewModel> data) {
-        StepsAdapter adapter = getOrCreateAdapter(recyclerView);
-        adapter.updateItems(data);
-    }
+    public void shareWidget() {
+        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
+        service.getRecipeWidget(recipe.getId(), BuildConfig.API_KEY).enqueue(new Callback<RecipeWidget<String>>() {
+            @Override
+            public void onResponse(Call<RecipeWidget<String>> call, Response<RecipeWidget<String>> response) {
+                widgetLoaded.setValue(response.body().url);
+            }
 
-    private static StepsAdapter getOrCreateAdapter(RecyclerView recyclerView) {
-        if(recyclerView.getAdapter() != null) {
-            return (StepsAdapter) recyclerView.getAdapter();
-        }
-        StepsAdapter adapter = new StepsAdapter();
-        recyclerView.setAdapter(adapter);
-        return adapter;
+            @Override
+            public void onFailure(Call<RecipeWidget<String>> call, Throwable t) {
+                Log.w(TAG, "Cannot get recipe: " + t);
+            }
+        });
     }
 }

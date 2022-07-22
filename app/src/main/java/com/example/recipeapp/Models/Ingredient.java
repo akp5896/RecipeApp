@@ -21,11 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
-public class Ingredient extends RetrofitAutocomplete {
+public class Ingredient extends RetrofitAutocomplete{
     @SerializedName("name")
-    String name;
+    public String name;
     @SerializedName("id")
-    Long id;
+    public Long id;
+
+    public Ingredient(){}
 
     @Override
     public String getName() {
@@ -42,5 +44,13 @@ public class Ingredient extends RetrofitAutocomplete {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    public Ingredient(String name, Long id) {
+        this.name = name;
+        this.id = id;
+    }
+    public Ingredient(String name) {
+        this.name = name;
+        this.id = 0L;
     }
 }

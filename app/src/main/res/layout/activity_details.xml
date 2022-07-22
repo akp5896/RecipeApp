@@ -10,22 +10,15 @@
             type="com.example.recipeapp.viewmodels.DetailsViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@color/primary_orange">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include
-            layout="@layout/interactions"
-            android:id="@+id/options"
-            />
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_bookmark_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTime"
-            android:layout_marginEnd="10dp"
-            android:onClick="@{() -> viewModel.bookmark()}"
-            android:id="@+id/ivBookmark"
-            />
+        android:layout_height="match_parent"
+        android:background="@drawable/recipe_background"
+        android:padding="10dp">
         <ImageView
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
@@ -36,6 +29,16 @@
             android:minHeight="100dp"
             android:background="@drawable/bottom_border"
             />
+        <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="32"
+            android:text="0"
+            android:id="@+id/tvLikes"
+            android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
@@ -73,7 +76,6 @@
             tools:text="20\nServings"
             android:text="@{viewModel.servings}"
             />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSteps"
             android:layout_width="match_parent"
@@ -84,7 +86,6 @@
             app:layout_constraintVertical_bias="0.0"
             tools:layout_editor_absoluteX="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:stepsViewModel="@{viewModel.steps}"
             />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -97,10 +98,18 @@
             android:text="@string/ingredients"
             android:textAllCaps="false"
             android:textSize="20sp"
+            android:textColor="@color/text_on_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:onClick="@{() -> viewModel.showIngredients()}"
             />
 
+        <include
+            layout="@layout/interactions"
+            android:id="@+id/options"
+            app:layout_constraintTop_toTopOf="@+id/ivImage"
+            app:layout_constraintBottom_toBottomOf="@id/ivImage"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

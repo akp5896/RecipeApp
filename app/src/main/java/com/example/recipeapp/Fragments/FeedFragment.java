@@ -20,12 +20,20 @@ import com.example.recipeapp.viewmodels.FeedViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends LeftSwipeDrawerFragment {
     private static final String TAG = "FEED FRAGMENT";
     FragmentFeedBinding binding;
     RecipesAdapter adapter;
     List<Recipe> recipes = new ArrayList<>();
     FeedViewModel viewModel;
+
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public RecipesAdapter getAdapter() {
+        return adapter;
+    }
 
     public FeedFragment() {
         // Required empty public constructor

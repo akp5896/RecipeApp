@@ -11,6 +11,20 @@ import android.view.View;
 import com.example.recipeapp.Models.API.SearchApiCallParams;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Repositories.RecipesRepository;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.example.recipeapp.Adapters.RecipesAdapter;
+import com.example.recipeapp.Models.API.ApiCallParams;
+import com.example.recipeapp.Models.Recipe;
+import com.example.recipeapp.R;
+import com.example.recipeapp.viewmodels.FeedViewModel;
 
 import java.util.List;
 

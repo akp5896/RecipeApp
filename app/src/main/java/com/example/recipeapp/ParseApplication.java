@@ -14,7 +14,11 @@ import com.example.recipeapp.Room.RecipeDao;
 import com.example.recipeapp.Room.RecipeDatabase;
 import com.example.recipeapp.Models.Parse.CuisineCounter;
 import com.example.recipeapp.Models.Parse.DietCounter;
+import com.example.recipeapp.Models.Parse.Like;
+import com.example.recipeapp.Models.Parse.ParseRecipe;
+import com.example.recipeapp.Models.Parse.ParseRecipeData;
 import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Review;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Utils.NotificationAlarmReceiver;
 import com.parse.Parse;
@@ -43,7 +47,11 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Preferences.class);
         ParseObject.registerSubclass(Taste.class);
         ParseObject.registerSubclass(DietCounter.class);
+        ParseObject.registerSubclass(Review.class);
         ParseObject.registerSubclass(CuisineCounter.class);
+        ParseObject.registerSubclass(ParseRecipe.class);
+        ParseObject.registerSubclass(ParseRecipeData.class);
+        ParseObject.registerSubclass(Like.class);
 
         // set applicationId, and server server based on the values in the back4app settings.
         // any network interceptors must be added with the Configuration Builder given this syntax

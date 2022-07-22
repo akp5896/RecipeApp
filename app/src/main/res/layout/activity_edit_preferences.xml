@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <!-- binding object of ViewModel to the XML layout -->
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.recipeapp.viewmodels.PreferenceScreenViewModel" />
+    </data>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+            android:padding="10dp"
+            android:background="@color/primary_orange"
+        tools:context=".EditPreferencesActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@drawable/recipe_background"
+        tools:context=".EditPreferencesActivity">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Diet: "
+            android:textColor="@color/text_on_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/tvDiet"
+            />
+        <Spinner
+            android:id="@+id/spinnerDiet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            android:textColor="@color/text_on_primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDiet"
+            android:layout_margin="5dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cuisine: "
+            android:textColor="@color/text_on_primary"
+            app:layout_constraintTop_toBottomOf="@id/spinnerDiet"
+            android:id="@+id/tvCuisine"
+            />
+        <Spinner
+            android:id="@+id/spinnerCuisine"
+            android:textColor="@color/text_on_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerDiet"
+            android:layout_margin="5dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Intolerances: "
+            android:textColor="@color/text_on_primary"
+            app:layout_constraintTop_toBottomOf="@id/spinnerCuisine"
+            android:id="@+id/tvIntolerances"
+            />
+        <Spinner
+            android:id="@+id/spinnerIntolerances"
+            android:textColor="@color/text_on_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIntolerances"
+            android:layout_margin="5dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:textColor="@color/text_on_primary"
+            android:layout_height="wrap_content"
+            android:text="Ban ingredients: "
+            app:layout_constraintTop_toBottomOf="@id/spinnerIntolerances"
+            android:id="@+id/tvIngredients"
+            />
+        <AutoCompleteTextView
+            android:id="@+id/edBan"
+            android:layout_width="0dp"
+            android:textColor="@color/text_on_primary"
+            android:minHeight="25dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/exclude"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIngredients"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_on_secondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="20dp"
+            android:text="@string/save"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAdd"
+            android:background="@drawable/button_background"
+            android:textColor="@color/text_on_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@null"
+            android:text="Add"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edBan" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edBan"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

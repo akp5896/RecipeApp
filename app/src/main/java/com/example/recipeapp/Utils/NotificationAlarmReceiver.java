@@ -11,8 +11,7 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.recipeapp.DetailsActivity;
-import com.example.recipeapp.IngredientsActivity;
+import com.example.recipeapp.Activities.DetailsActivity;
 import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.R;
 
@@ -38,7 +37,7 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
                 Recipe recipe = recipes.get(0);
 
                 Intent i = new Intent(context, DetailsActivity.class);
-                i.putExtra(IngredientsActivity.RECIPE, Parcels.wrap(recipe));
+                i.putExtra(DetailsActivity.RECIPE, Parcels.wrap(recipe));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_IMMUTABLE);
 

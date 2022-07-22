@@ -1,30 +1,44 @@
 package com.example.recipeapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
+import com.example.recipeapp.Activities.UserProfileActivity;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
 import com.example.recipeapp.Models.API.SearchApiCallParams;
+import com.example.recipeapp.Activities.MainActivity;
+import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.API.RecipeTitle;
+import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.R;
 import com.example.recipeapp.Repositories.RecipesRepository;
+import com.example.recipeapp.Retrofit.Envelope;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.example.recipeapp.Utils.LeftSwipeListener;
 import com.example.recipeapp.databinding.FragmentSearchBinding;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +50,7 @@ import retrofit2.Call;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends LeftSwipeDrawerFragment {
 
     private static final String TAG = "Search fragment";
     FragmentSearchBinding binding;
@@ -65,8 +79,7 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
+        excluded.addAll(Settings.getBanned());
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
 
@@ -74,24 +87,18 @@ public class SearchFragment extends Fragment {
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getIngredientAutocomplete(query)));
         binding.edInclude.setAdapter(
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            RecipesRepository.getRepository().getIngredientAutocomplete(query, callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getIngredientAutocomplete(query)));
 
         binding.etTitle.setAdapter(
                 new AutoCompleteAdapter<RecipeTitle>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        (query, callback) -> {
-                            RecipesRepository.getRepository().getTitleAutocomplete(query, callback);
-                        }));
+                        query -> RecipesRepository.getRepository().getTitleAutocomplete(query)));
 
         includedAdapter = new IngredientFilterAdapter(included, R.layout.item);
         binding.rvInclude.setAdapter(includedAdapter);
@@ -114,6 +121,12 @@ public class SearchFragment extends Fragment {
         });
 
         binding.btnSearch.setOnClickListener(v -> searchListener());
+
+        binding.btnSearchUsername.setOnClickListener(v -> {
+            Intent i = new Intent(getContext(), UserProfileActivity.class);
+            i.putExtra(UserProfileActivity.USERNAME, binding.edUsername.getText().toString());
+            startActivity(i);
+        });
     }
 
     private void searchListener() {

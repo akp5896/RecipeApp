@@ -11,8 +11,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
-
+        android:padding="10dp"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/search_background"
+            android:layout_margin="5dp"
+            android:id="@+id/searchByApi"
+            android:padding="10dp"
+            >
         <TextView
             android:id="@+id/tvSearch"
             android:layout_width="wrap_content"
@@ -53,6 +62,7 @@
             app:layout_constraintTop_toTopOf="@+id/spinnerType" />
 
             <AutoCompleteTextView
+                android:layout_margin="5dp"
             android:id="@+id/edInclude"
             android:layout_width="0dp"
             android:minHeight="25dp"
@@ -64,11 +74,13 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnInclude"
-
+            android:background="@drawable/button_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stateListAnimator="@null"
+            android:layout_margin="5dp"
             android:text="Add"
+            android:textColor="@color/text_on_secondary"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edInclude" />
@@ -81,6 +93,7 @@
             app:layout_constraintTop_toBottomOf="@+id/edInclude" />
 
         <AutoCompleteTextView
+            android:layout_margin="5dp"
             android:id="@+id/edExclude"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -95,8 +108,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stateListAnimator="@null"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_background"
             android:text="Add"
             android:textAllCaps="false"
+            android:textColor="@color/text_on_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edExclude" />
 
@@ -105,18 +121,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/btnSearch"
-            app:layout_constraintTop_toBottomOf="@+id/edExclude" />
+            app:layout_constraintTop_toBottomOf="@+id/edExclude"
+            android:layout_marginBottom="15dp"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_background"
             android:text="Search"
             android:textAllCaps="false"
-
+            android:textColor="@color/text_on_secondary"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <com.example.recipeapp.CustomViews.SearchSpinnerView
+        <com.example.recipeapp.customviews.SearchSpinnerView
             android:id="@+id/spinnerType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -127,7 +147,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/checkboxExcludeCuisine" />
 
-        <com.example.recipeapp.CustomViews.SearchSpinnerView
+        <com.example.recipeapp.customviews.SearchSpinnerView
             app:hasIcon="true"
             android:id="@+id/spinnerCuisine"
             android:layout_width="0dp"
@@ -138,5 +158,44 @@
             app:layout_constraintTop_toBottomOf="@id/etTitle"
 
             />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/search_background"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchByName"
+            app:layout_constraintTop_toBottomOf="@id/searchByApi"
+            android:layout_margin="5dp"
+            >
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:text="@string/or_search_by_username"
+                android:id="@+id/tvByUsername"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvByUsername"
+                android:hint="Enter username"
+                android:id="@+id/edUsername"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:textColor="@color/text_on_secondary"
+                android:id="@+id/btnSearchUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toBottomOf="@id/edUsername"
+                android:background="@drawable/button_background"
+                android:layout_margin="5dp"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

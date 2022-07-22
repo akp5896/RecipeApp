@@ -1,7 +1,11 @@
 package com.example.recipeapp.Adapters;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +13,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.recipeapp.Activities.DetailsActivity;
+import com.example.recipeapp.Activities.MainActivity;
+import com.example.recipeapp.Models.Parse.Like;
+import com.example.recipeapp.Models.Parse.ParseRecipe;
 import com.example.recipeapp.BuildConfig;
-import com.example.recipeapp.DetailsActivity;
 import com.example.recipeapp.DiffUtil.RecipeDiffUtilCallback;
 import com.example.recipeapp.Models.Parse.Preferences;
 import com.example.recipeapp.Models.Parse.Taste;
@@ -25,7 +33,8 @@ import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.databinding.ItemBinding;
 import com.example.recipeapp.databinding.RecipeItemBinding;
-import com.parse.ParseException;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -83,7 +92,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
 
         public void bind(Recipe item) {
             binding.tvTitle.setText(item.getTitle());
-            Glide.with(context).load(item.getImage).into(binding.ivImage);
+            Glide.with(context).load(item.getImage()).error(R.drawable.ic_launcher_background).into(binding.ivImage);
             binding.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -97,10 +106,26 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, R.string.liked, Toast.LENGTH_SHORT).show();
+                    if(context instanceof MainActivity) {
+                        getLocation(new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                Like like = new Like();
+                                like.setLikeTo(item.getId());
+                                like.setTitle(item.getTitle());
+                                like.setLocation(new ParseGeoPoint(location.getLatitude(), location.getLongitude()));
+                                like.saveInBackground(e1 -> {
+                                    if (e1 != null) {
+                                        Log.w(TAG, "Like not saved" + e1);
+                                    }
+                                });
+                            }
+                        });
+                    }
                     RecipesRepository.getRepository().getTaste(item.getId(), new Callback<Taste>() {
                         @Override
                         public void onResponse(Call<Taste> call, Response<Taste> response) {
-                            Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
+                            Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.KEY_PREFERENCES);
                             preferences.updatePreferences(item, response.body());
                             preferences.saveInBackground();
                         }
@@ -112,6 +137,19 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
                     });
                 }
             });
+        }
+    }
+
+    private void getLocation(OnSuccessListener<? super Location> onSuccess) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    37);
+        }
+        if(context instanceof MainActivity) {
+            ((MainActivity) context).fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener((Activity) context, onSuccess)
+                    .addOnFailureListener(e -> Log.e(TAG, "error" + e));
         }
     }
 }

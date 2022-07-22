@@ -1,5 +1,6 @@
 package com.example.recipeapp.Retrofit;
 
+import com.example.recipeapp.Models.API.RecipeWidget;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.Models.Parse.Taste;
 import com.example.recipeapp.Models.Recipe;
@@ -27,9 +28,12 @@ public interface RecipeApi {
     String TYPE = "type";
     String MAX_READY_TIME = "maxReadyTime";
     String ADD_RECIPE_INFORMATION = "addRecipeInformation";
+    String INTOLERANCES = "intolerances";
     String RECIPE_INFORMATION_VALUE = "true";
     String SORT = "sort";
     String DIET = "diet";
+    String RANKING = "ranking";
+    String INGREDIENTS = "ingredients";
 
     @GET("/recipes/complexSearch")
     Call<Envelope<List<Recipe>>> getAllRecipes(@Query(API_KEY) String apiKey);
@@ -61,7 +65,10 @@ public interface RecipeApi {
                                              @Query(EXCLUDE_INGREDIENTS) String excludeIngredients,
                                              @Query(TYPE) String type,
                                              @Query(MAX_READY_TIME) String maxReadyTime,
+                                             @Query(INTOLERANCES) String intolerances,
+                                             @Query(DIET) String diet,
                                              @Query(ADD_RECIPE_INFORMATION) String addRecipeInformation
+
                                              );
 
     @GET("/recipes/{id}/tasteWidget.json")
@@ -73,8 +80,17 @@ public interface RecipeApi {
                                                   @Query(DIET) String diet,
                                                   @Query(SORT) String sortOrder,
                                                   @Query(MAX_READY_TIME) String maxReadyTime,
+                                                  @Query(INTOLERANCES) String intolerances,
                                                   @Query(NUMBER) int numberOfResults,
                                                   @Query(ADD_RECIPE_INFORMATION) String addRecipeInformation
     );
 
+    @GET("/recipes/findByIngredients")
+    Call<List<Recipe>> getRecipeByIngredients(@Query(API_KEY) String apiKey,
+                                              @Query(RANKING) int ranking,
+                                              @Query(INGREDIENTS) String ingredients);
+
+    @GET("/recipes/{id}/card")
+    Call<RecipeWidget<String>> getRecipeWidget(@Path(ID) Long id,
+                                               @Query(API_KEY) String apiKey);
 }

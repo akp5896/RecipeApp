@@ -9,6 +9,9 @@ import android.widget.Filterable;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.recipeapp.Retrofit.RetrofitAutocomplete;
@@ -25,16 +28,18 @@ public class AutoCompleteAdapter<T extends RetrofitAutocomplete> extends ArrayAd
     private static final String TAG = "AutoAdapter";
 
     public interface NetworkCall<T extends RetrofitAutocomplete> {
-        void makeCall(String query, Callback<List<T>> callback);
+        MutableLiveData<List<T>> makeCall(String query);
     }
 
     private ArrayList<String> data;
     private NetworkCall<T> call;
+    private Context context;
 
     public AutoCompleteAdapter(@NonNull Context context, @LayoutRes int resource, NetworkCall<T> call) {
         super(context, resource);
         this.data = new ArrayList<>();
         this.call = call;
+        this.context = context;
     }
 
     @Override
@@ -57,26 +62,18 @@ public class AutoCompleteAdapter<T extends RetrofitAutocomplete> extends ArrayAd
                 FilterResults results = new FilterResults();
                 if (constraint != null) {
                     try {
-                        call.makeCall(constraint.toString(), new Callback<List<T>>() {
-                            @Override
-                            public void onResponse(Call<List<T>> call, Response<List<T>> response) {
-                                ArrayList<String> suggestions = new ArrayList<>();
-                                List<T> body = response.body();
-                                for(int i = 0; i < body.size(); i++) {
-                                    suggestions.add(body.get(i).getName());
-                                }
-                                results.values = suggestions;
-                                results.count = suggestions.size();
-                                data = suggestions;
-                                notifyDataSetChanged();
+                        MutableLiveData<List<T>> listMutableLiveData = call.makeCall(constraint.toString());
+                        ((AppCompatActivity)context).runOnUiThread(
+                            () -> listMutableLiveData.observe((AppCompatActivity)context, body -> {
+                            ArrayList<String> suggestions = new ArrayList<>();
+                            for(int i = 0; i < body.size(); i++) {
+                                suggestions.add(body.get(i).getName());
                             }
-
-                            @Override
-                            public void onFailure(Call<List<T>> call, Throwable t) {
-                                Log.e(TAG, "query failed" + t);
-                            }
-                        });
-
+                            results.values = suggestions;
+                            results.count = suggestions.size();
+                            data = suggestions;
+                            notifyDataSetChanged();
+                        }));
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }

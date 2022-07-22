@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-@AutoValue
 @Parcel
 public class Step{
     @SerializedName("number")
@@ -17,6 +16,7 @@ public class Step{
     @SerializedName("step")
     String step;
 
+    public Step() {}
 
     public int getNumber() {
         return number;
@@ -31,6 +31,11 @@ public class Step{
     }
 
     public void setStep(String step) {
+        this.step = step;
+    }
+
+    public Step(int number, String step) {
+        this.number = number;
         this.step = step;
     }
 }

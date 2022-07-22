@@ -30,7 +30,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.BindableView
         );
         return new BindableViewHolder(binding);
     }
-
     @Override
     public void onBindViewHolder(@NonNull BindableViewHolder holder, int position) {
         holder.bind(data.get(position));
@@ -39,6 +38,11 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.BindableView
     public void updateItems(List<StepViewModel> items) {
         data.addAll(items);
         notifyDataSetChanged();
+    }
+
+    public void add(StepViewModel item) {
+        data.add(item);
+        notifyItemInserted(data.size() - 1);
     }
 
     @Override
