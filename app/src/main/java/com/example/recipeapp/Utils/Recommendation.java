@@ -46,6 +46,12 @@ public class Recommendation {
             Log.e(TAG, "Cannot find general preferences");
             return;
         }
+        try {
+            currentPreferences.fetchIfNeeded();
+            generalPreferences.fetchIfNeeded();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         int time = currentPreferences.getMaxTime().intValue();
         if(time == 0) {
             time = 180;

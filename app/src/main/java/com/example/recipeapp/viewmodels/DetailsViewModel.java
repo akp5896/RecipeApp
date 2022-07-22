@@ -28,6 +28,7 @@ import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Repositories.RecipesRepository;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -117,9 +118,14 @@ public class DetailsViewModel extends ViewModel {
         RecipesRepository.getRepository().getTaste(recipe.getId(), new Callback<Taste>() {
             @Override
             public void onResponse(Call<Taste> call, Response<Taste> response) {
-                Preferences preferences = (Preferences) ParseUser.getCurrentUser().getParseObject(Preferences.PREFERENCES);
-                preferences.updatePreferences(recipe, response.body());
-                preferences.saveInBackground();
+                try {
+                    Preferences preferences = (Preferences) ParseUser.getCurrentUser().fetchIfNeeded().getParseObject(Preferences.PREFERENCES);
+                    preferences.updatePreferences(recipe, response.body());
+                    preferences.saveInBackground();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
