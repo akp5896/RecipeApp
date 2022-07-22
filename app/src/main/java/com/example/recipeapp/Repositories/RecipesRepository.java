@@ -2,6 +2,7 @@ package com.example.recipeapp.Repositories;
 
 import android.content.Intent;
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -12,6 +13,7 @@ import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.API.RecipeTitle;
 import com.example.recipeapp.Models.Ingredient;
+import com.example.recipeapp.Models.Parse.Like;
 import com.example.recipeapp.Models.Parse.ParseRecipe;
 import com.example.recipeapp.Models.Parse.ParseRecipeData;
 import com.example.recipeapp.Models.Recipe;
@@ -21,13 +23,17 @@ import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import org.parceler.Parcels;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -137,6 +143,24 @@ public class RecipesRepository {
             }
         });
         return result;
+    }
+
+    public MutableLiveData<List<Pair<String, Long>>> getNearbyRecipes(ParseGeoPoint parseGeoPoint) {
+        ParseQuery<Like> query = ParseQuery.getQuery(Like.class);
+        query.whereNear(Like.KEY_LOCATION, parseGeoPoint);
+        MutableLiveData<List<Pair<String, Long>>> recipesNearby = new MutableLiveData<>();
+        query.findInBackground((likes, e) -> {
+            Map<Long, List<Like>> nearRecipes =
+                    likes.stream().collect(Collectors.groupingBy(w -> w.getLikeTo()));
+            List<Long> recipeIds = new ArrayList<>(nearRecipes.keySet());
+            Collections.sort(recipeIds, (o1, o2) -> Integer.compare(nearRecipes.get(o2).size(), nearRecipes.get(o1).size()));
+            List<Pair<String, Long>> recipes = new ArrayList<>();
+            for(Long item : recipeIds) {
+                recipes.add(new Pair<>(nearRecipes.get(item).get(0).getTitle(), item));
+            }
+            recipesNearby.postValue(recipes);
+        });
+        return recipesNearby;
     }
 
     public MutableLiveData<List<Recipe>> fetchParse(String username) {

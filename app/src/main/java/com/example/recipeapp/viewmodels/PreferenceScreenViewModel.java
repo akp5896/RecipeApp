@@ -3,10 +3,8 @@ package com.example.recipeapp.viewmodels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.recipeapp.CustomViews.MultipleSpinnerItem;
+import com.example.recipeapp.customviews.MultipleSpinnerItem;
 import com.example.recipeapp.Models.Settings;
-import com.example.recipeapp.R;
-import com.example.recipeapp.Utils.Executor;
 
 import java.util.ArrayList;
 import java.util.List;
