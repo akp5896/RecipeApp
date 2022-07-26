@@ -22,6 +22,9 @@ App that allows user to search recipes.
 - **Habit:** It can be used any time someone wants to cook, and pushes can make it more habit-forming
 - **Scope:** Feasible, with recommendations being the hardest part.
 
+## Demo
+<img src="https://github.com/akp5896/RecipeApp/blob/main/images/bookmarks.gif" width=200 alt="Bookmarks">
+
 ## Product Spec
 
 ### 1. User Stories (Required and Optional)
