@@ -23,8 +23,11 @@ App that allows user to search recipes.
 - **Scope:** Feasible, with recommendations being the hardest part.
 
 ## Demo
-<img src="https://github.com/akp5896/RecipeApp/blob/main/images/bookmarks.gif" width=200 alt="Bookmarks">
-
+<img src="https://github.com/akp5896/RecipeApp/blob/main/images/bookmarks.gif" width=200 alt="Bookmarks" title="Bookmarks"><img src="https://github.com/akp5896/RecipeApp/blob/main/images/preferences.gif" width=200 alt="Preferences" title="Preferences"><img src="https://github.com/akp5896/RecipeApp/blob/main/images/profile.gif" width=200 alt="Profile" title="Profile">
+<img src="https://github.com/akp5896/RecipeApp/blob/main/images/reviews.gif" width=200 alt="Reviews" title="Reviews">
+<img src="https://github.com/akp5896/RecipeApp/blob/main/images/sender-widget.gif" width=200 alt="Send widget" title="Send widget">
+<img src="https://github.com/akp5896/RecipeApp/blob/main/images/pushes.gif" width=200 alt="Pushes" title="Pushes">
+<img src="https://github.com/akp5896/RecipeApp/blob/main/images/receiver.gif" width=200 alt="Recipe receiver" title="Recipe receiver">
 ## Product Spec
 
 ### 1. User Stories (Required and Optional)
