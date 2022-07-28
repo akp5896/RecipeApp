@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DetailsActivity">
+    <!-- binding object of ViewModel to the XML layout -->
     <data>
         <variable
             name="viewModel"
@@ -11,8 +13,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
         android:padding="10dp"
-        android:background="@color/primary_orange"
-    tools:context=".Activities.DetailsActivity">
+        android:background="@color/primary_orange">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,12 +36,10 @@
             android:text="0"
             android:id="@+id/tvLikes"
             android:textSize="24sp"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+        />
         <TextView
-            android:textColor="@color/text_on_primary"
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +52,6 @@
             android:layout_margin="10dp"
             />
         <TextView
-            android:textColor="@color/text_on_primary"
             android:id="@+id/tvSteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +64,6 @@
 
         <TextView
             android:id="@+id/tvServings"
-            android:textColor="@color/text_on_primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBaseline_toBottomOf="@id/ivImage"
@@ -79,7 +76,6 @@
             tools:text="20\nServings"
             android:text="@{viewModel.servings}"
             />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSteps"
             android:layout_width="match_parent"

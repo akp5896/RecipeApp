@@ -30,7 +30,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.BindableView
         );
         return new BindableViewHolder(binding);
     }
-
     @Override
     public void onBindViewHolder(@NonNull BindableViewHolder holder, int position) {
         holder.bind(data.get(position));

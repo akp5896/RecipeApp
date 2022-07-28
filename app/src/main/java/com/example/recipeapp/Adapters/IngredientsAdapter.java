@@ -1,22 +1,27 @@
 package com.example.recipeapp.Adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Models.Ingredient;
 import com.example.recipeapp.R;
+import com.example.recipeapp.Repositories.IngredientsRepository;
 import com.example.recipeapp.Retrofit.RecipeApi;
 import com.example.recipeapp.Retrofit.RetrofitClientInstance;
 import com.example.recipeapp.Retrofit.SubEnvelope;
 import com.example.recipeapp.databinding.ItemIngredientsBinding;
 import com.roughike.swipeselector.SwipeItem;
 
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,9 +32,11 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     private static final String TAG = "INGR ADAPTER";
     List<Ingredient> ingredients;
+    Context context;
 
-    public IngredientsAdapter(List<Ingredient> ingredients) {
+    public IngredientsAdapter(List<Ingredient> ingredients, Context context) {
         this.ingredients = ingredients;
+        this.context = context;
     }
 
     @NonNull
@@ -58,29 +65,19 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         }
 
         public void bindIngredientsSubstitute(Ingredient s) {
-            RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
-            Call<SubEnvelope<List<String>>> call = service.getIngredientSubstitute(s.id, BuildConfig.API_KEY);
-            call.enqueue(new Callback<SubEnvelope<List<String>>>() {
-                @Override
-                public void onResponse(Call<SubEnvelope<List<String>>> call, Response<SubEnvelope<List<String>>> response) {
-                    SubEnvelope<List<String>> x = response.body();
-                    if(x.status.equals(RecipeApi.FAILURE)) {
-                        binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
-                        return;
-                    }
-                    List<String> subs = x.results;
-                    SwipeItem[] items = new SwipeItem[subs.size() + 1];
-                    items[0] = new SwipeItem(0, s.getName(), s.getName());
-                    for(int i = 0; i < subs.size(); i++) {
-                        items[i + 1] = new SwipeItem(i + 1, s.getName(), subs.get(i));
-                    }
-                    binding.swipeSelector.setItems(items);
+            binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
+            IngredientsRepository.getRepository().getIngredientSubstitutes(s.getId()).observe((AppCompatActivity)context, listSubEnvelope -> {
+                if(listSubEnvelope.status.equals(RecipeApi.FAILURE)) {
+                    binding.swipeSelector.setItems(new SwipeItem(0, s.getName(), s.getName()));
+                    return;
                 }
-
-                @Override
-                public void onFailure(Call<SubEnvelope<List<String>>> call, Throwable t) {
-                    Log.i(TAG, "Couldn't retrieve substitutes");
+                List<String> subs = listSubEnvelope.results;
+                SwipeItem[] items = new SwipeItem[subs.size() + 1];
+                items[0] = new SwipeItem(0, s.getName(), s.getName());
+                for(int i = 0; i < subs.size(); i++) {
+                    items[i + 1] = new SwipeItem(i + 1, s.getName(), subs.get(i));
                 }
+                binding.swipeSelector.setItems(items);
             });
         }
     }

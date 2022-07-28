@@ -14,6 +14,11 @@ import com.example.recipeapp.R;
 
 import java.util.List;
 
+/**
+ * This is an adapter used in the included/excluded adapter in the search  fragment,
+ * banned adapter in the Edit preferences and other similar cases.
+ * It's not separated from steps adapter
+ */
 public class IngredientFilterAdapter extends RecyclerView.Adapter<IngredientFilterAdapter.IngredientFilterViewHolder> {
 
     List<String> items;

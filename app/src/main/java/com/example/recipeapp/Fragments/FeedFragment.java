@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeedFragment extends LeftSwipeDrawerFragment {
+    private static final String TAG = "FEED FRAGMENT";
     FragmentFeedBinding binding;
     RecipesAdapter adapter;
     List<Recipe> recipes = new ArrayList<>();
@@ -35,13 +37,6 @@ public class FeedFragment extends LeftSwipeDrawerFragment {
 
     public FeedFragment() {
         // Required empty public constructor
-    }
-
-    public static FeedFragment newInstance() {
-        FeedFragment fragment = new FeedFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -66,4 +61,5 @@ public class FeedFragment extends LeftSwipeDrawerFragment {
         binding = FragmentFeedBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
+
 }

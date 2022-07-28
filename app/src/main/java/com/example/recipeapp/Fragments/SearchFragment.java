@@ -10,7 +10,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,10 +21,10 @@ import com.example.recipeapp.Activities.UserProfileActivity;
 import com.example.recipeapp.Adapters.AutoCompleteAdapter;
 import com.example.recipeapp.BuildConfig;
 import com.example.recipeapp.Adapters.IngredientFilterAdapter;
+import com.example.recipeapp.Models.API.SearchApiCallParams;
 import com.example.recipeapp.Activities.MainActivity;
 import com.example.recipeapp.Models.API.ApiCallParams;
 import com.example.recipeapp.Models.Ingredient;
-import com.example.recipeapp.Models.Recipe;
 import com.example.recipeapp.Models.API.RecipeTitle;
 import com.example.recipeapp.Models.Settings;
 import com.example.recipeapp.R;
@@ -45,8 +44,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +58,7 @@ public class SearchFragment extends LeftSwipeDrawerFragment {
     List<String> excluded = new ArrayList<>();
     IngredientFilterAdapter includedAdapter;
     IngredientFilterAdapter excludedAdapter;
+    SearchFeedFragment fragment;
 
     public SearchFragment() {
     }
@@ -85,8 +83,6 @@ public class SearchFragment extends LeftSwipeDrawerFragment {
         binding.spinnerCuisine.setOptions(Arrays.asList(getResources().getStringArray(R.array.cuisines)));
         binding.spinnerType.setOptions(Arrays.asList(getResources().getStringArray(R.array.types)));
 
-
-        RecipeApi service = RetrofitClientInstance.getRetrofitInstance().create(RecipeApi.class);
         binding.edExclude.setAdapter(
                 new AutoCompleteAdapter<Ingredient>(
                         getContext(),
@@ -142,11 +138,16 @@ public class SearchFragment extends LeftSwipeDrawerFragment {
             cuisine = putWithEmptyCheck(binding.spinnerCuisine.getSelectedItem());
         }
 
-        ApiCallParams params = new ApiCallParams(putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
+        SearchApiCallParams params = SearchApiCallParams.create(putWithEmptyCheck(binding.etTitle.getText()), cuisine, excludeCuisine,
                 putWithEmptyCheck(String.join(",", included)), putWithEmptyCheck(String.join(",", excluded)),
                 putWithEmptyCheck(binding.spinnerType.getSelectedItem()), putWithEmptyCheck(binding.edTime.getText().toString()));
-
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentPlaceholder, SearchFeedFragment.newInstance(params)).commit();
+        if(fragment == null) {
+            fragment = SearchFeedFragment.newInstance(params);
+        }
+        else {
+            fragment.updateRecipeFeed(params);
+        }
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
     }
 
     private String putWithEmptyCheck(CharSequence chars) {

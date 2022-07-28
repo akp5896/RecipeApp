@@ -4,6 +4,14 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
+import androidx.room.Room;
+
+import com.example.recipeapp.Models.Parse.Preferences;
+import com.example.recipeapp.Models.Parse.Taste;
+import com.example.recipeapp.Models.Parse.CuisineCounter;
+import com.example.recipeapp.Models.Parse.DietCounter;
+import com.example.recipeapp.Room.RecipeDao;
+import com.example.recipeapp.Room.RecipeDatabase;
 import com.example.recipeapp.Models.Parse.CuisineCounter;
 import com.example.recipeapp.Models.Parse.DietCounter;
 import com.example.recipeapp.Models.Parse.Like;
@@ -20,6 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ParseApplication extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -52,6 +61,7 @@ public class ParseApplication extends Application {
                 .server("https://parseapi.back4app.com").build());
 
         createNotificationChannel();
+        RecipeDatabase.createRecipeDatabase(this);
     }
 
     private void createNotificationChannel() {
@@ -63,6 +73,5 @@ public class ParseApplication extends Application {
         // or other notification behaviors after this
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
-
     }
 }
